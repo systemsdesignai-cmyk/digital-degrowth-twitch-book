@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .border-text {
+    -webkit-text-stroke: 1px #4ade80;
+  }
+}
+
+body {
+  @apply bg-black text-green-400;
+  margin: 0;
+}

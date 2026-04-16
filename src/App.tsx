@@ -1,5 +1,4 @@
-```react
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BookOpen, 
   ShoppingCart, 
@@ -15,7 +14,6 @@ import {
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -252,5 +250,3 @@ const App = () => {
 };
 
 export default App;
-
-```
