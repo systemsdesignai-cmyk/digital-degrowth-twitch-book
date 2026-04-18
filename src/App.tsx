@@ -18,11 +18,11 @@ const App = () => {
   const [citationIndex, setCitationIndex] = useState(0);
   
   const citations = [
-    '/assests/qoutes/A+ Strips Kwet.jpg',
-    '/assests/qoutes/A+ Strips Kwet2.jpg',
-    '/assests/qoutes/A+ Strips Kwet3.jpg',
-    '/assests/qoutes/A+ Strips Kwet4.jpg',
-    '/assests/qoutes/A+ Strips Kwet5.jpg'
+    '/assets/qoutes/A+ Strips Kwet.jpg',
+    '/assets/qoutes/A+ Strips Kwet2.jpg',
+    '/assets/qoutes/A+ Strips Kwet3.jpg',
+    '/assets/qoutes/A+ Strips Kwet4.jpg',
+    '/assets/qoutes/A+ Strips Kwet5.jpg'
   ];
 
   useEffect(() => {
