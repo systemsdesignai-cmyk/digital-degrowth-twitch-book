@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   BookOpen, 
   ShoppingCart, 
-  ChevronRight, 
+  ChevronRight,
+  ChevronLeft,
   Quote, 
   Newspaper, 
   User, 
@@ -14,6 +15,15 @@ import {
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [citationIndex, setCitationIndex] = useState(0);
+  
+  const citations = [
+    '/citations/A+ Strips Kwet.jpg',
+    '/citations/A+ Strips Kwet2.jpg',
+    '/citations/A+ Strips Kwet3.jpg',
+    '/citations/A+ Strips Kwet4.jpg',
+    '/citations/A+ Strips Kwet5.jpg'
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +32,21 @@ const App = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCitationIndex((prev) => (prev + 1) % citations.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [citations.length]);
+
+  const nextCitation = () => {
+    setCitationIndex((prev) => (prev + 1) % citations.length);
+  };
+
+  const prevCitation = () => {
+    setCitationIndex((prev) => (prev - 1 + citations.length) % citations.length);
+  };
 
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono selection:bg-green-900 selection:text-green-100">
@@ -83,30 +108,12 @@ const App = () => {
             </div>
           </div>
 
-          {/* Book Mockup Overlay */}
-          <div className="relative flex justify-center items-center perspective-1000">
-            <div className="w-64 h-96 md:w-80 md:h-[480px] bg-green-500 shadow-[20px_20px_60px_-15px_rgba(74,222,128,0.3)] rotate-12 hover:rotate-0 transition-transform duration-700 ease-out relative group overflow-hidden cursor-pointer">
-              {/* Spine edge */}
-              <div className="absolute left-0 top-0 bottom-0 w-4 bg-green-600"></div>
-              {/* Cover Content */}
-              <div className="absolute inset-0 p-8 flex flex-col justify-between items-center text-black">
-                <div className="w-full border-t-4 border-black pt-4">
-                  <p className="text-xs font-bold tracking-[0.3em]">A MANIFESTO</p>
-                </div>
-                <div className="text-center">
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-none mb-2">DIGITAL</h2>
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-none">DEGROWTH</h2>
-                </div>
-                <div className="w-full border-b-4 border-black pb-4 text-center">
-                  <p className="text-lg font-bold">MIKE KWET</p>
-                </div>
-              </div>
-              {/* Grain/Texture Overlay */}
-              <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstriped-dark.png')]"></div>
-            </div>
-            {/* Background elements for depth */}
-            <div className="absolute -z-10 w-full h-full bg-green-500/5 blur-3xl rounded-full"></div>
-          </div>
+          {/* Book Cover Image */}
+          <img 
+            src="/book_logo.png" 
+            alt="Digital Degrowth Book Cover" 
+            className="w-64 h-96 md:w-80 md:h-[480px] object-cover hover:scale-105 hover:rotate-2 transition-transform duration-300 cursor-pointer"
+          />
         </div>
       </section>
 
@@ -155,6 +162,33 @@ const App = () => {
                 </div>
               </div>
             ))}
+          </div>
+          
+          {/* Visual Citation Carousel */}
+          <div className="mt-16 pt-12 border-t border-green-900/30">
+            <div className="relative max-w-3xl mx-auto">
+              <div className="overflow-hidden rounded-lg">
+                <img 
+                  key={citationIndex}
+                  src={citations[citationIndex]} 
+                  alt={`Citation ${citationIndex + 1}`} 
+                  className="w-full h-auto object-cover animate-fade"
+                />
+              </div>
+              
+              {/* Indicator Dots */}
+              <div className="flex justify-center gap-2 mt-6">
+                {citations.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCitationIndex(i)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      i === citationIndex ? 'bg-green-500' : 'bg-green-900/50 hover:bg-green-700'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
