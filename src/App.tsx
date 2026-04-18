@@ -18,11 +18,11 @@ const App = () => {
   const [citationIndex, setCitationIndex] = useState(0);
   
   const citations = [
-    '/citations/A+ Strips Kwet.jpg',
-    '/citations/A+ Strips Kwet2.jpg',
-    '/citations/A+ Strips Kwet3.jpg',
-    '/citations/A+ Strips Kwet4.jpg',
-    '/citations/A+ Strips Kwet5.jpg'
+    '/assests/qoutes/A+ Strips Kwet.jpg',
+    '/assests/qoutes/A+ Strips Kwet2.jpg',
+    '/assests/qoutes/A+ Strips Kwet3.jpg',
+    '/assests/qoutes/A+ Strips Kwet4.jpg',
+    '/assests/qoutes/A+ Strips Kwet5.jpg'
   ];
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const App = () => {
 
           {/* Book Cover Image */}
           <img 
-            src="/book_logo.png" 
+            src="/assets/book_logo.png" 
             alt="Digital Degrowth Book Cover" 
             className="w-64 h-96 md:w-80 md:h-[480px] object-cover hover:scale-105 hover:rotate-2 transition-transform duration-300 cursor-pointer"
           />
