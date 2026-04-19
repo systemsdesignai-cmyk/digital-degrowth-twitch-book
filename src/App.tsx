@@ -146,7 +146,7 @@ const App = () => {
       <section id="quotes" className="py-24 bg-black">
         <div className="max-w-6xl mx-auto px-6">
           <h3 className="text-xs font-bold tracking-[0.5em] text-green-500 mb-12 uppercase text-center underline decoration-green-500 underline-offset-8">Critical Praise</h3>
-          <div className="grid md:grid-cols-2 gap-8">
+          {/* <div className="grid md:grid-cols-2 gap-8">
             {[
               { text: "This book is a vital corrective to the tech-optimist delusion. A roadmap for a habitable future.", author: "Shoshana Zuboff", role: "Author of The Age of Surveillance Capitalism" },
               { text: "Michael Kwet provides the most profound critique of digital colonialism I've ever read. Essential reading.", author: "Rudy Walker", role: "Tech Empire Correspondent" },
@@ -162,7 +162,7 @@ const App = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
           
           {/* Visual Citation Carousel */}
           <div className="mt-16 pt-12 border-t border-green-900/30">
