@@ -18,11 +18,11 @@ const App = () => {
   const [citationIndex, setCitationIndex] = useState(0);
   
   const citations = [
-    '/assets/qoutes/A+ Strips Kwet.jpg',
-    '/assets/qoutes/A+ Strips Kwet2.jpg',
-    '/assets/qoutes/A+ Strips Kwet3.jpg',
-    '/assets/qoutes/A+ Strips Kwet4.jpg',
-    '/assets/qoutes/A+ Strips Kwet5.jpg'
+    '/assets/qoutes/kwet.jpg',
+    '/assets/qoutes/kwet2.jpg',
+    '/assets/qoutes/kwet3.jpg',
+    '/assets/qoutes/kwet4.jpg',
+    '/assets/qoutes/kwet5.jpg'
   ];
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const App = () => {
           <div className="space-y-8 z-10">
             <div className="space-y-2">
               <span className="text-green-500 font-bold tracking-widest text-sm inline-block border-l-4 border-green-500 pl-4 mb-4">
-                NEW RELEASE BY MIKE KWET
+                NEW RELEASE BY MICHAEL KWET
               </span>
               <h1 className="text-5xl md:text-7xl font-black leading-none text-white">
                 RECLAIM THE <br />
@@ -149,7 +149,7 @@ const App = () => {
           <div className="grid md:grid-cols-2 gap-8">
             {[
               { text: "This book is a vital corrective to the tech-optimist delusion. A roadmap for a habitable future.", author: "Shoshana Zuboff", role: "Author of The Age of Surveillance Capitalism" },
-              { text: "Mike Kwet provides the most profound critique of digital colonialism I've ever read. Essential reading.", author: "Rudy Walker", role: "Tech Empire Correspondent" },
+              { text: "Michael Kwet provides the most profound critique of digital colonialism I've ever read. Essential reading.", author: "Rudy Walker", role: "Tech Empire Correspondent" },
               { text: "A provocative call to action that refuses to accept the status quo of Silicon Valley's empire.", author: "The People's Tech", role: "Editorial Board" },
               { text: "Kwet doesn't just identify the problem; he gives us the vocabulary for resistance.", author: "Digital Justice Lab", role: "Policy Group" }
             ].map((q, i) => (
@@ -234,10 +234,10 @@ const App = () => {
               The Author
             </h3>
             <p className="text-green-300/80 leading-relaxed text-lg">
-              Mike Kwet is a leading researcher and activist focused on digital colonialism and the political economy of the internet. His work spans journalism, academia, and grassroots organizing, consistently challenging the hegemony of global tech giants.
+              Michael Kwet is a leading researcher and activist focused on digital colonialism and the political economy of the internet. His work spans journalism, academia, and grassroots organizing, consistently challenging the hegemony of global tech giants.
             </p>
             <p className="text-green-300/80 leading-relaxed">
-              Based between the US and South Africa, Mike has been a vocal proponent of "People's Tech" — a vision for technology that empowers communities rather than exploiting them.
+              Based between the US and South Africa, Michael has been a vocal proponent of "People's Tech" — a vision for technology that empowers communities rather than exploiting them.
             </p>
             <div className="flex gap-4 pt-4">
               <Twitter className="text-green-500 hover:text-white cursor-pointer" />
@@ -252,7 +252,7 @@ const App = () => {
                  {/* Placeholder for author photo */}
                  <User size={120} className="text-green-500/40" />
                  <div className="absolute bottom-0 left-0 right-0 bg-green-500 p-2 text-center text-black text-xs font-bold uppercase tracking-widest">
-                   Mike Kwet
+                   Michael Kwet
                  </div>
               </div>
             </div>
@@ -269,7 +269,7 @@ const App = () => {
               <span>DEGROWTH</span>
             </div>
             <p className="text-xs text-green-300/40 uppercase tracking-[0.2em]">
-              © 2025 MIKE KWET • ALL TOOLS RECLAIMED • CC BY 4.0
+              © 2025 MICHAEL KWET • ALL TOOLS RECLAIMED • CC BY 4.0
             </p>
             <div className="flex gap-8 text-xs text-green-500 font-bold uppercase underline-offset-4 decoration-green-900">
                <a href="#" className="hover:underline">Manifesto</a>
