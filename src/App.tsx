@@ -12,6 +12,30 @@ import {
   Globe
 } from 'lucide-react';
 
+const latestArticles = [
+  {
+    date: 'June 20, 2024',
+    title: 'Digital Degrowth: Can we survive without the Cloud?',
+    outlet: 'The Guardian',
+    image: 'https://images.unsplash.com/photo-1629904853716-f07c29d3b01c',
+    caption: 'Cloud extraction rendered as a soft machine horizon.'
+  },
+  {
+    date: 'May 15, 2024',
+    title: 'Unmasking Digital Colonialism in Lebanon',
+    outlet: "People's Tech",
+    image: 'https://images.unsplash.com/photo-1509653805374-279092496a77',
+    caption: 'A fractured map and signal pathways mark imperial infrastructure.'
+  },
+  {
+    date: 'April 02, 2024',
+    title: 'Why the Silicon Valley Bank Run matters for Degrowth',
+    outlet: 'Tech Empire',
+    image: 'https://images.unsplash.com/photo-1621941655787-88e5d31f0e47',
+    caption: 'Market collapse translated into unstable data towers and slipping graphs.'
+  }
+];
+
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
   const [citationIndex, setCitationIndex] = useState(0);
@@ -203,7 +227,7 @@ const App = () => {
               <p className="section-kicker">Coverage</p>
               <h3 className="section-heading flex items-center gap-3 text-2xl md:text-3xl">
                 <Newspaper className="text-[color:var(--accent-deep)]" />
-                In The News
+                Latest Articles
               </h3>
             </div>
             <a href="#" className="news-link">
@@ -211,26 +235,12 @@ const App = () => {
             </a>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                date: 'June 20, 2024',
-                title: 'Digital Degrowth: Can we survive without the Cloud?',
-                outlet: 'The Guardian'
-              },
-              {
-                date: 'May 15, 2024',
-                title: 'Unmasking Digital Colonialism in Lebanon',
-                outlet: "People's Tech"
-              },
-              {
-                date: 'April 02, 2024',
-                title: 'Why the Silicon Valley Bank Run matters for Degrowth',
-                outlet: 'Tech Empire'
-              }
-            ].map((news, i) => (
+            {latestArticles.map((news, i) => (
               <div key={i} className="news-card">
                 <div className="news-card__media">
+                  <img src={news.image} alt={news.title} className="news-card__art" />
                   <div className="news-card__outlet">{news.outlet}</div>
+                  <p className="news-card__caption">{news.caption}</p>
                 </div>
                 <p className="news-meta">
                   {news.date} - {news.outlet}

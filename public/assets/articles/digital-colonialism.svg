@@ -1,0 +1,57 @@
+<svg width="320" height="220" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paper" x1="32" y1="20" x2="286" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fcf7ef" />
+      <stop offset="1" stop-color="#dcd2c1" />
+    </linearGradient>
+    <radialGradient id="shade" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 110) rotate(90) scale(108 150)">
+      <stop stop-color="#172436" stop-opacity="0" />
+      <stop offset="1" stop-color="#172436" stop-opacity="0.13" />
+    </radialGradient>
+    <linearGradient id="route" x1="66" y1="52" x2="236" y2="160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9be64f" />
+      <stop offset="1" stop-color="#6f8452" />
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="11" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.05" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="320" height="220" rx="24" fill="url(#paper)" />
+  <rect width="320" height="220" rx="24" fill="url(#shade)" />
+  <g opacity="0.16" stroke="#2d4718">
+    <path d="M28 44H292M28 84H292M28 124H292M28 164H292" />
+    <path d="M68 26V194M124 26V194M180 26V194M236 26V194" />
+  </g>
+
+  <path d="M34 176C88 148 138 148 180 164C228 182 252 174 286 150" stroke="#b99263" stroke-width="8" stroke-linecap="round" opacity="0.42" />
+  <path d="M52 78C82 64 104 56 128 58C154 60 172 54 198 42C216 33 240 38 266 58" stroke="#172436" stroke-opacity="0.16" stroke-width="3" stroke-linecap="round" />
+
+  <path d="M74 52L138 36L208 58L252 98L234 162L164 184L94 164L60 114Z" fill="#d7ddcf" stroke="#2d4718" stroke-width="2" />
+  <path d="M92 64L132 56L168 68L146 96L104 102L78 90Z" fill="#eef2e8" opacity="0.86" />
+  <path d="M170 82L212 92L228 122L200 146L162 138L150 108Z" fill="#c8d2c3" opacity="0.9" />
+  <path d="M118 58L96 92L114 138L154 156" stroke="url(#route)" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 11" />
+  <path d="M196 48L176 94L198 134L236 158" stroke="#172436" stroke-opacity="0.26" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 10" />
+  <path d="M136 48L130 82L126 110L164 146L162 180" stroke="#172436" stroke-width="6" stroke-linecap="round" />
+  <path d="M82 84L128 112L154 110L194 136" stroke="#172436" stroke-opacity="0.26" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M168 66L204 88L222 118L198 156" stroke="#9be64f" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 12" />
+
+  <g>
+    <circle cx="130" cy="108" r="12" fill="#172436" />
+    <circle cx="198" cy="156" r="10" fill="#2d4718" />
+    <circle cx="168" cy="66" r="9" fill="#9be64f" />
+    <circle cx="100" cy="74" r="4" fill="#fefcf8" opacity="0.8" />
+    <circle cx="224" cy="120" r="4" fill="#fefcf8" opacity="0.8" />
+  </g>
+  <g opacity="0.88">
+    <circle cx="130" cy="108" r="20" stroke="#172436" stroke-opacity="0.18" />
+    <circle cx="198" cy="156" r="18" stroke="#2d4718" stroke-opacity="0.2" />
+  </g>
+  <path d="M54 174C102 156 134 152 170 164C212 178 240 174 274 148" stroke="#6f8452" stroke-width="4" stroke-linecap="round" />
+
+  <rect width="320" height="220" rx="24" fill="url(#shade)" filter="url(#grain)" opacity="0.85" />
+</svg>
