@@ -17,11 +17,12 @@ const App = () => {
   const [citationIndex, setCitationIndex] = useState(0);
 
   const citations = [
-    '/assets/qoutes/kwet.jpg',
+    '/assets/qoutes/kwet1.png',
     '/assets/qoutes/kwet2.jpg',
     '/assets/qoutes/kwet3.jpg',
     '/assets/qoutes/kwet4.jpg',
-    '/assets/qoutes/kwet5.jpg'
+    '/assets/qoutes/kwet5.jpg',
+    '/assets/qoutes/kwet6.jpg'
   ];
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const App = () => {
 
   return (
     <div className="app-shell min-h-screen">
-      <div className="fixed inset-0 pointer-events-none">
+      <div className="fixed inset-0 pointer-events-none z-0">
         <div className="ambient-wash absolute inset-0" />
         <div className="paper-grain absolute inset-0" />
       </div>
@@ -167,7 +168,7 @@ const App = () => {
               <button
                 aria-label="Previous citation"
                 onClick={prevCitation}
-                className="absolute left-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(30,53,87,0.3)] hover:bg-white"
+                className="absolute left-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
                 <ChevronLeft size={18} className="mx-auto" />
               </button>
@@ -175,7 +176,7 @@ const App = () => {
               <button
                 aria-label="Next citation"
                 onClick={nextCitation}
-                className="absolute right-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(30,53,87,0.3)] hover:bg-white"
+                className="absolute right-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
                 <ChevronRight size={18} className="mx-auto" />
               </button>
@@ -201,7 +202,7 @@ const App = () => {
             <div className="space-y-3">
               <p className="section-kicker">Coverage</p>
               <h3 className="section-heading flex items-center gap-3 text-2xl md:text-3xl">
-                <Newspaper className="text-[color:var(--accent)]" />
+                <Newspaper className="text-[color:var(--accent-deep)]" />
                 In The News
               </h3>
             </div>
@@ -247,7 +248,7 @@ const App = () => {
             <div className="space-y-3">
               <p className="section-kicker">Profile</p>
               <h3 className="section-heading flex items-center gap-3 text-2xl md:text-3xl">
-                <User className="text-[color:var(--accent)]" />
+                <User className="text-[color:var(--accent-deep)]" />
                 The Author
               </h3>
             </div>
@@ -271,7 +272,7 @@ const App = () => {
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <div className="author-frame" />
               <div className="author-card flex items-center justify-center">
-                <User size={120} className="text-[rgba(30,53,87,0.28)]" />
+                <User size={120} className="text-[rgba(155,230,79,0.34)]" />
                 <div className="author-card__footer">Michael Kwet</div>
               </div>
             </div>
