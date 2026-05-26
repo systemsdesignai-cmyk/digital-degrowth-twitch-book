@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   BookOpen,
   ShoppingCart,
@@ -9,31 +9,33 @@ import {
   ExternalLink,
   Github,
   Twitter,
-  Globe
-} from 'lucide-react';
+  Globe,
+} from "lucide-react";
 
 const latestArticles = [
   {
-    date: 'June 20, 2024',
-    title: 'Digital Degrowth: Can we survive without the Cloud?',
-    outlet: 'The Guardian',
-    image: 'https://images.unsplash.com/photo-1629904853716-f07c29d3b01c',
-    caption: 'Cloud extraction rendered as a soft machine horizon.'
+    date: "June 20, 2024",
+    title: "Digital Degrowth: Can we survive without the Cloud?",
+    outlet: "The Guardian",
+    image: "https://images.unsplash.com/photo-1629904853716-f07c29d3b01c",
+    caption: "Cloud extraction rendered as a soft machine horizon.",
   },
   {
-    date: 'May 15, 2024',
-    title: 'Unmasking Digital Colonialism in Lebanon',
+    date: "May 15, 2024",
+    title: "Unmasking Digital Colonialism in Lebanon",
     outlet: "People's Tech",
-    image: 'https://images.unsplash.com/photo-1509653805374-279092496a77',
-    caption: 'A fractured map and signal pathways mark imperial infrastructure.'
+    image: "https://images.unsplash.com/photo-1509653805374-279092496a77",
+    caption:
+      "A fractured map and signal pathways mark imperial infrastructure.",
   },
   {
-    date: 'April 02, 2024',
-    title: 'Why the Silicon Valley Bank Run matters for Degrowth',
-    outlet: 'Tech Empire',
-    image: 'https://images.unsplash.com/photo-1621941655787-88e5d31f0e47',
-    caption: 'Market collapse translated into unstable data towers and slipping graphs.'
-  }
+    date: "April 02, 2024",
+    title: "Why the Silicon Valley Bank Run matters for Degrowth",
+    outlet: "Tech Empire",
+    image: "https://images.unsplash.com/photo-1621941655787-88e5d31f0e47",
+    caption:
+      "Market collapse translated into unstable data towers and slipping graphs.",
+  },
 ];
 
 const App = () => {
@@ -41,12 +43,11 @@ const App = () => {
   const [citationIndex, setCitationIndex] = useState(0);
 
   const citations = [
-    '/assets/qoutes/kwet1.png',
-    '/assets/qoutes/kwet2.jpg',
-    '/assets/qoutes/kwet3.jpg',
-    '/assets/qoutes/kwet4.jpg',
-    '/assets/qoutes/kwet5.jpg',
-    '/assets/qoutes/kwet6.jpg'
+    "/assets/qoutes/kwet1.jpg",
+    "/assets/qoutes/kwet2.jpg",
+    "/assets/qoutes/kwet3.jpg",
+    "/assets/qoutes/kwet4.jpg",
+    "/assets/qoutes/kwet5.jpg",
   ];
 
   useEffect(() => {
@@ -54,9 +55,9 @@ const App = () => {
       setScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -72,7 +73,45 @@ const App = () => {
   };
 
   const prevCitation = () => {
-    setCitationIndex((prev) => (prev - 1 + citations.length) % citations.length);
+    setCitationIndex(
+      (prev) => (prev - 1 + citations.length) % citations.length,
+    );
+  };
+
+  const BuySection = () => {
+    const editions = [
+      { label: "Amazon", url: "#", icon: <ShoppingCart size={16} /> },
+      { label: "Takealot", url: "#", icon: <ExternalLink size={16} /> },
+      { label: "Apple Books", url: "#", icon: <BookOpen size={16} /> },
+    ];
+
+    return (
+      <div
+        id="buy"
+        className="flex flex-col items-start space-y-6 pt-8 animate-fade"
+      >
+        <div className="space-y-1">
+          <h2 className="text-3xl md:text-4xl font-bold font-display text-[color:var(--ink)]">
+            Buy the book
+          </h2>
+          <p className="text-xs italic text-[color:var(--ink-soft)] font-medium">
+            Available now at these retailers
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-3 w-full max-w-lg">
+          {editions.map((edition) => (
+            <button
+              key={edition.label}
+              className="button-primary !py-3 !px-6 !rounded-xl shadow-sm hover:shadow-md transition-shadow flex items-center gap-2"
+            >
+              {edition.icon}
+              {edition.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -82,27 +121,35 @@ const App = () => {
         <div className="paper-grain absolute inset-0" />
       </div>
 
-      <nav className={`site-nav ${scrolled ? 'site-nav--scrolled' : 'site-nav--top'}`}>
+      <nav
+        className={`site-nav ${scrolled ? "site-nav--scrolled" : "site-nav--top"}`}
+      >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
           <div className="brand-mark">
             <span className="brand-mark__block">Digital</span>
             <span>Degrowth</span>
           </div>
           <div className="hidden md:flex gap-8 text-sm uppercase tracking-[0.28em]">
-            {['About', 'Quotes', 'News', 'Author'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="nav-link">
+            {["About", "Quotes", "News", "Author"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="nav-link"
+              >
                 {item}
               </a>
             ))}
           </div>
-          <button className="button-primary !px-4 !py-2 !text-[11px]">Buy Now</button>
+          <a href="#buy" className="button-primary !px-4 !py-2 !text-[11px]">
+            Buy Now
+          </a>
         </div>
       </nav>
 
-      <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8 z-10">
-            <div className="space-y-3">
+      <section id="home" className="relative py-16 md:py-24 flex items-center overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center pt-16">
+          <div className="space-y-6 z-10">
+            <div className="space-y-2">
               <span className="eyebrow">New release by Michael Kwet</span>
               <h1 className="hero-title text-5xl md:text-7xl">
                 Reclaim the <br />
@@ -113,17 +160,11 @@ const App = () => {
               A manifesto for dismantling digital colonialism and building a technology stack that
               serves the people, not the empire.
             </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <button className="button-primary">
-                <ShoppingCart size={20} />
-                Amazon
-              </button>
-              <button className="button-secondary">
-                Takealot
-                <ExternalLink size={18} />
-              </button>
+            <div className="scale-90 origin-left">
+              <BuySection />
             </div>
           </div>
+
 
           <img
             src="/assets/book_logo.png"
@@ -135,32 +176,47 @@ const App = () => {
 
       <section id="about" className="section-band py-24 border-y">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-12">
-          <div className="icon-chip mx-auto">
-            <BookOpen size={32} />
+          <div className="flex justify-center">
+            <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-[color:var(--accent)] shadow-xl z-10 bg-black">
+              <img
+                src="/assets/logo.png"
+                alt="Digital Degrowth Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
+
           <div className="space-y-5">
             <p className="section-kicker">Core thesis</p>
-            <h2 className="section-heading text-3xl md:text-5xl">The Core Thesis</h2>
+            <h2 className="section-heading text-3xl md:text-5xl">
+              The Core Thesis
+            </h2>
           </div>
-          <p className="font-display text-xl md:text-2xl text-[color:var(--ink)] leading-relaxed italic max-w-3xl mx-auto">
-            "We must unlearn the obsession with infinite digital expansion. True freedom lies in
-            decentralized, human-scale infrastructure that respects the ecology of our planet and
-            the sovereignty of our minds."
-          </p>
+          <div className="space-y-8">
+            <p className="font-display text-xl md:text-2xl text-[color:var(--ink)] leading-relaxed italic max-w-3xl mx-auto">
+              "We must unlearn the obsession with infinite digital expansion.
+              True freedom lies in decentralized, human-scale infrastructure
+              that respects the ecology of our planet and the sovereignty of our
+              minds."
+            </p>
+            <a href="#" className="news-link !text-sm">
+              Read more <ChevronRight size={16} />
+            </a>
+          </div>
           <div className="grid md:grid-cols-3 gap-8 text-left pt-12">
             {[
               {
-                title: 'Dismantle',
-                desc: 'Break the chains of Big Tech dominance and digital colonialism.'
+                title: "Dismantle",
+                desc: "Break the chains of Big Tech dominance and digital colonialism.",
               },
               {
-                title: 'Scale Down',
-                desc: 'Prioritize local, resilient networks over global surveillance grids.'
+                title: "Scale Down",
+                desc: "Prioritize local, resilient networks over global surveillance grids.",
               },
               {
-                title: 'Reclaim',
-                desc: 'Return the ownership of data and tools to the community.'
-              }
+                title: "Reclaim",
+                desc: "Return the ownership of data and tools to the community.",
+              },
             ].map((box, i) => (
               <div key={i} className="summary-card">
                 <h4 className="summary-card__title">{box.title}</h4>
@@ -175,7 +231,9 @@ const App = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center space-y-4">
             <p className="section-kicker">Critical praise</p>
-            <h3 className="section-heading text-3xl md:text-4xl">Press citations and response</h3>
+            <h3 className="section-heading text-3xl md:text-4xl">
+              Press citations and response
+            </h3>
           </div>
 
           <div className="quote-shell mt-16 pt-12">
@@ -210,7 +268,7 @@ const App = () => {
                   <button
                     key={i}
                     onClick={() => setCitationIndex(i)}
-                    className={`quote-dot ${i === citationIndex ? 'quote-dot--active' : ''}`}
+                    className={`quote-dot ${i === citationIndex ? "quote-dot--active" : ""}`}
                     aria-label={`Go to citation ${i + 1}`}
                   />
                 ))}
@@ -238,7 +296,11 @@ const App = () => {
             {latestArticles.map((news, i) => (
               <div key={i} className="news-card">
                 <div className="news-card__media">
-                  <img src={news.image} alt={news.title} className="news-card__art" />
+                  <img
+                    src={news.image}
+                    alt={news.title}
+                    className="news-card__art"
+                  />
                   <div className="news-card__outlet">{news.outlet}</div>
                   <p className="news-card__caption">{news.caption}</p>
                 </div>
@@ -252,7 +314,10 @@ const App = () => {
         </div>
       </section>
 
-      <section id="author" className="section-panel py-24 border-t border-[color:var(--line)]">
+      <section
+        id="author"
+        className="section-panel py-24 border-t border-[color:var(--line)]"
+      >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1 space-y-6">
             <div className="space-y-3">
@@ -263,14 +328,15 @@ const App = () => {
               </h3>
             </div>
             <p className="section-copy leading-relaxed text-lg">
-              Michael Kwet is a leading researcher and activist focused on digital colonialism and
-              the political economy of the internet. His work spans journalism, academia, and
-              grassroots organizing, consistently challenging the hegemony of global tech giants.
+              Michael Kwet is a leading researcher and activist focused on
+              digital colonialism and the political economy of the internet. His
+              work spans journalism, academia, and grassroots organizing,
+              consistently challenging the hegemony of global tech giants.
             </p>
             <p className="section-copy leading-relaxed">
-              Based between the US and South Africa, Michael has been a vocal proponent of
-              "People&apos;s Tech" - a vision for technology that empowers communities rather than
-              exploiting them.
+              Based between the US and South Africa, Michael has been a vocal
+              proponent of "People&apos;s Tech" - a vision for technology that
+              empowers communities rather than exploiting them.
             </p>
             <div className="flex gap-4 pt-4">
               <Twitter className="social-link" />
