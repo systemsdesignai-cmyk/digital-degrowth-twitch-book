@@ -130,7 +130,7 @@ const App = () => {
             <span>Degrowth</span>
           </div>
           <div className="hidden md:flex gap-8 text-sm uppercase tracking-[0.28em]">
-            {["About", "Quotes", "News", "Author"].map((item) => (
+            {["About", "Praise", "News", "Author"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -187,9 +187,9 @@ const App = () => {
           </div>
 
           <div className="space-y-5">
-            <p className="section-kicker">Core thesis</p>
+            <p className="section-kicker">Definition</p>
             <h2 className="section-heading text-3xl md:text-5xl">
-              The Core Thesis
+              What is Digital Degrowth?
             </h2>
           </div>
           <div className="space-y-8">
@@ -227,7 +227,7 @@ const App = () => {
         </div>
       </section>
 
-      <section id="quotes" className="py-24">
+      <section id="praise" className="py-24">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center space-y-4">
             <p className="section-kicker">Critical praise</p>
