@@ -17,14 +17,14 @@ const latestArticles = [
     date: "June 20, 2024",
     title: "Digital Degrowth: Can we survive without the Cloud?",
     outlet: "The Guardian",
-    image: "https://images.unsplash.com/photo-1629904853716-f07c29d3b01c",
+    image: "/assets/articles/cloud-degrowth-new.png",
     caption: "Cloud extraction rendered as a soft machine horizon.",
   },
   {
     date: "May 15, 2024",
     title: "Unmasking Digital Colonialism in Lebanon",
     outlet: "People's Tech",
-    image: "https://images.unsplash.com/photo-1509653805374-279092496a77",
+    image: "/assets/articles/digital-colonialism-new.png",
     caption:
       "A fractured map and signal pathways mark imperial infrastructure.",
   },
@@ -32,7 +32,7 @@ const latestArticles = [
     date: "April 02, 2024",
     title: "Why the Silicon Valley Bank Run matters for Degrowth",
     outlet: "Tech Empire",
-    image: "https://images.unsplash.com/photo-1621941655787-88e5d31f0e47",
+    image: "/assets/articles/svb-degrowth-new.png",
     caption:
       "Market collapse translated into unstable data towers and slipping graphs.",
   },
@@ -146,7 +146,10 @@ const App = () => {
         </div>
       </nav>
 
-      <section id="home" className="relative py-16 md:py-24 flex items-center overflow-hidden">
+      <section
+        id="home"
+        className="relative py-16 md:py-24 flex items-center overflow-hidden"
+      >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center pt-16">
           <div className="space-y-6 z-10">
             <div className="space-y-2">
@@ -157,14 +160,13 @@ const App = () => {
               </h1>
             </div>
             <p className="hero-copy max-w-xl">
-              A manifesto for dismantling digital colonialism and building a technology stack that
-              serves the people, not the empire.
+              A manifesto for dismantling digital colonialism and building a
+              technology stack that serves the people, not the empire.
             </p>
             <div className="scale-90 origin-left">
               <BuySection />
             </div>
           </div>
-
 
           <img
             src="/assets/book_logo.png"
@@ -179,7 +181,7 @@ const App = () => {
           <div className="flex justify-center">
             <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-[color:var(--accent)] shadow-xl z-10 bg-black">
               <img
-                src="/assets/logo.png"
+                src="/assets/image1.webp"
                 alt="Digital Degrowth Logo"
                 className="w-full h-full object-cover"
               />
@@ -237,8 +239,8 @@ const App = () => {
           </div>
 
           <div className="quote-shell mt-16 pt-12">
-            <div className="relative max-w-3xl mx-auto">
-              <div className="quote-frame">
+            <div className="relative max-w-4xl mx-auto px-4 md:px-16">
+              <div className="max-w-3xl mx-auto quote-frame">
                 <img
                   key={citationIndex}
                   src={citations[citationIndex]}
@@ -250,7 +252,7 @@ const App = () => {
               <button
                 aria-label="Previous citation"
                 onClick={prevCitation}
-                className="absolute left-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
+                className="absolute left-6 md:left-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
                 <ChevronLeft size={18} className="mx-auto" />
               </button>
@@ -258,7 +260,7 @@ const App = () => {
               <button
                 aria-label="Next citation"
                 onClick={nextCitation}
-                className="absolute right-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
+                className="absolute right-6 md:right-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
                 <ChevronRight size={18} className="mx-auto" />
               </button>
