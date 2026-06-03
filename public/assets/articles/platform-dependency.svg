@@ -1,0 +1,47 @@
+<svg width="1200" height="600" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.1" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="600" fill="#172436" />
+
+  <!-- The Monolith -->
+  <rect x="550" y="100" width="100" height="400" fill="#a4ff00" opacity="0.1" stroke="#a4ff00" stroke-width="1" />
+  
+  <g transform="translate(600, 300)">
+    <!-- Dependent Satellites -->
+    <g opacity="0.6">
+      <rect x="-300" y="-150" width="60" height="40" rx="4" stroke="#a4ff00" stroke-width="1" />
+      <rect x="-350" y="0" width="60" height="40" rx="4" stroke="#a4ff00" stroke-width="1" />
+      <rect x="-300" y="150" width="60" height="40" rx="4" stroke="#a4ff00" stroke-width="1" />
+      
+      <rect x="240" y="-150" width="60" height="40" rx="4" stroke="#a4ff00" stroke-width="1" />
+      <rect x="290" y="0" width="60" height="40" rx="4" stroke="#a4ff00" stroke-width="1" />
+      <rect x="240" y="150" width="60" height="40" rx="4" stroke="#a4ff00" stroke-width="1" />
+    </g>
+
+    <!-- The Strings -->
+    <g stroke="#a4ff00" stroke-width="0.5" opacity="0.3">
+      <path d="M-240 -130 L-50 0" />
+      <path d="M-290 20 L-50 0" />
+      <path d="M-240 170 L-50 0" />
+      <path d="M240 -130 L50 0" />
+      <path d="M290 20 L50 0" />
+      <path d="M240 170 L50 0" />
+    </g>
+
+    <!-- The Cut -->
+    <g transform="translate(-150, -60) rotate(-30)">
+       <path d="M-10 0 L10 0 M0 -10 L0 10" stroke="#a4ff00" stroke-width="2" />
+       <circle cx="0" cy="0" r="15" stroke="#a4ff00" stroke-width="1" fill="none" stroke-dasharray="2 2" />
+    </g>
+  </g>
+
+  <rect width="1200" height="600" filter="url(#grain)" opacity="0.2" pointer-events="none" />
+</svg>
