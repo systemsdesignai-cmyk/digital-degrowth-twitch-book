@@ -144,7 +144,7 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
       </div>
     </section>
 
-    <section id="praise" className="py-16">
+    <section id="praise" className="py-12">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center space-y-4">
           <p className="section-kicker">Critical praise</p>
@@ -251,49 +251,53 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
 
     <section
       id="author"
-      className="section-panel py-16 border-t border-[color:var(--line)]"
+      className="section-panel py-12 border-t border-[color:var(--line)]"
     >
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-        <div className="order-2 md:order-1 space-y-6">
-          <div className="space-y-3">
+      <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+        <div className="order-2 md:order-1 space-y-4">
+          <div className="space-y-2">
             <p className="section-kicker">Profile</p>
-            <h3 className="section-heading flex items-center gap-3 text-2xl md:text-3xl">
-              <User className="text-[color:var(--accent-deep)]" />
+            <h3 className="section-heading flex items-center gap-2 text-xl md:text-2xl">
+              <User className="text-[color:var(--accent-deep)]" size={20} />
               The Author
             </h3>
           </div>
-          <p className="section-copy leading-relaxed text-lg">
+          <p className="section-copy leading-relaxed text-base">
             Michael Kwet is a leading researcher and activist focused on
             digital colonialism and the political economy of the internet. His
             work spans journalism, academia, and grassroots organizing,
             consistently challenging the hegemony of global tech giants.
           </p>
-          <p className="section-copy leading-relaxed">
-            Based between the US and South Africa, Michael has been a vocal
-            proponent of "People&apos;s Tech" - a vision for technology that
-            empowers communities rather than exploiting them.
-          </p>
-          <div className="flex gap-4 pt-4">
-            <span className="social-link" aria-hidden="true">
-              <Twitter aria-hidden="true" />
-            </span>
-            <span className="social-link" aria-hidden="true">
-              <Github aria-hidden="true" />
-            </span>
-            <span className="social-link" aria-hidden="true">
-              <Globe aria-hidden="true" />
-            </span>
+          <div className="flex gap-3 pt-2">
+            <a
+              href="https://twitter.com/michaelkwet"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+              aria-label="Follow Michael Kwet on Twitter"
+            >
+              <Twitter size={18} aria-hidden="true" />
+            </a>
+            <a
+              href="https://michaelkwet.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+              aria-label="Visit Michael Kwet's website"
+            >
+              <Globe size={18} aria-hidden="true" />
+            </a>
           </div>
         </div>
         <div className="order-1 md:order-2 flex justify-center">
-          <div className="relative w-64 h-64 md:w-80 md:h-80">
+          <div className="relative w-48 h-48 md:w-56 md:h-56">
             <div className="author-frame" />
             <div className="author-card flex items-center justify-center">
               <User
-                size={120}
+                size={80}
                 className="text-[rgba(var(--accent-rgb),0.34)]"
               />
-              <div className="author-card__footer">Michael Kwet</div>
+              <div className="author-card__footer !py-2 !text-[10px]">Michael Kwet</div>
             </div>
           </div>
         </div>
