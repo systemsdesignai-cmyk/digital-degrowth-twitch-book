@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
+  ChevronLeft,
   ChevronLeft,
   ChevronRight,
   Github,
@@ -433,15 +435,15 @@ const App = () => {
         </Routes>
       </main>
 
-      <footer className="footer-shell py-12 text-center">
+      <footer className="footer-shell py-8 text-center">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col items-center gap-6">
             <div className="brand-mark">
-              <span className="brand-mark__block">Digital</span>
-              <span>Degrowth</span>
+              <span className="brand-mark__pulse" />
+              <span>Digital Degrowth</span>
             </div>
-            <p className="text-xs text-[color:var(--ink-soft)] uppercase tracking-[0.2em]">
-              © 2025 Michael Kwet - All tools reclaimed - CC BY 4.0
+            <p className="text-sm text-[color:var(--ink-soft)]">
+              © 2025 Michael Kwet — technology in the age of survival.
             </p>
             <div className="flex gap-8">
               <Link to="/#about" className="footer-link">
