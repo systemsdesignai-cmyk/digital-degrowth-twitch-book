@@ -148,7 +148,7 @@ const App = () => {
 
       <section
         id="home"
-        className="relative py-16 md:py-24 flex items-center overflow-hidden"
+        className="relative py-12 md:py-16 flex items-center overflow-hidden"
       >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center pt-16">
           <div className="space-y-6 z-10">
@@ -176,7 +176,7 @@ const App = () => {
         </div>
       </section>
 
-      <section id="about" className="section-band py-24 border-y">
+      <section id="about" className="section-band py-16 border-y">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-12">
           <div className="flex justify-center">
             <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-[color:var(--accent)] shadow-xl z-10 bg-black">
@@ -205,40 +205,16 @@ const App = () => {
               Read more <ChevronRight size={16} />
             </a>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 text-left pt-12">
-            {[
-              {
-                title: "Dismantle",
-                desc: "Break the chains of Big Tech dominance and digital colonialism.",
-              },
-              {
-                title: "Scale Down",
-                desc: "Prioritize local, resilient networks over global surveillance grids.",
-              },
-              {
-                title: "Reclaim",
-                desc: "Return the ownership of data and tools to the community.",
-              },
-            ].map((box, i) => (
-              <div key={i} className="summary-card">
-                <h4 className="summary-card__title">{box.title}</h4>
-                <p className="section-copy text-sm leading-7">{box.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      <section id="praise" className="py-24">
+      <section id="praise" className="py-16">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center space-y-4">
+          <div className="text-center">
             <p className="section-kicker">Critical praise</p>
-            <h3 className="section-heading text-3xl md:text-4xl">
-              Press citations and response
-            </h3>
           </div>
 
-          <div className="quote-shell mt-16 pt-12">
+          <div className="quote-shell mt-8">
             <div className="relative max-w-4xl mx-auto px-4 md:px-16">
               <div className="max-w-3xl mx-auto quote-frame">
                 <img
@@ -280,7 +256,7 @@ const App = () => {
         </div>
       </section>
 
-      <section id="news" className="py-24 border-t border-[color:var(--line)]">
+      <section id="news" className="py-16 border-t border-[color:var(--line)]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex justify-between items-end mb-12 gap-6">
             <div className="space-y-3">
@@ -318,7 +294,7 @@ const App = () => {
 
       <section
         id="author"
-        className="section-panel py-24 border-t border-[color:var(--line)]"
+        className="section-panel py-16 border-t border-[color:var(--line)]"
       >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1 space-y-6">
@@ -358,7 +334,7 @@ const App = () => {
         </div>
       </section>
 
-      <footer className="footer-shell py-12 text-center">
+      <footer className="footer-shell py-8 text-center">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col items-center gap-6">
             <div className="brand-mark">
