@@ -17,8 +17,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2024-06-20",
     title: "Digital Degrowth: Can we survive without the Cloud?",
     outlet: "The Guardian",
-    image: "/assets/articles/cloud-degrowth.svg",
-    caption: "A geometric abstraction of the cloud dissolving into grounded infrastructure.",
+    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=1200",
+    caption: "The weight of the intangible: Abstract data center architecture.",
     excerpt:
       "A lead feature designed for the top of the grid: big headline, atmospheric artwork, and enough space for a sharp thesis before the reader enters the archive.",
     content: `
@@ -35,9 +35,9 @@ export const blogArticles: BlogArticle[] = [
     date: "2024-05-15",
     title: "Unmasking Digital Colonialism in Lebanon",
     outlet: "People's Tech",
-    image: "/assets/articles/digital-colonialism.svg",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200",
     caption:
-      "Cedar tree abstraction standing resilient against imperial circuit grids.",
+      "Interconnected dependencies: Mapping the digital landscape.",
     excerpt:
       "A tall card for reportage and field dispatches, balancing image weight with an excerpt that still feels spacious on desktop.",
     content: `
@@ -53,9 +53,9 @@ export const blogArticles: BlogArticle[] = [
     date: "2024-04-02",
     title: "Why the Silicon Valley Bank Run matters for Degrowth",
     outlet: "Tech Empire",
-    image: "/assets/articles/svb-degrowth.svg",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=1200",
     caption:
-      "A digital grid melting under the weight of financial instability.",
+      "Systemic fragility: A visualization of digital financial markets.",
     excerpt:
       "A wider block for analysis pieces, where metadata, deck, and visual rhythm sit in a denser magazine-style composition.",
     content: `
@@ -71,8 +71,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2024-03-18",
     title: "How community-owned networks reshape digital sovereignty",
     outlet: "People's Tech",
-    image: "/assets/articles/community-networks.svg",
-    caption: "A decentralized mesh of nodes forming a resilient local network.",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
+    caption: "Distributed power: The architecture of community mesh networks.",
     excerpt:
       "Compact card styling for recurring essays, built to keep the archive browsable and scannable in a true grid view.",
     content: `
@@ -88,8 +88,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2024-02-10",
     title: "The politics of bandwidth scarcity and planned digital restraint",
     outlet: "The Guardian",
-    image: "/assets/articles/bandwidth-scarcity.svg",
-    caption: "A data flood being distilled into its most meaningful essence.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200",
+    caption: "Finite horizons: Visualizing the limits of digital expansion.",
     excerpt:
       "Short cards hold topical arguments and keep the visual cadence moving between larger anchor stories.",
     content: `
@@ -105,8 +105,8 @@ export const blogArticles: BlogArticle[] = [
     date: "2024-01-27",
     title: "Designing media systems beyond platform dependency",
     outlet: "Tech Empire",
-    image: "/assets/articles/platform-dependency.svg",
-    caption: "Breaking the strings of dependency on monolithic platforms.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200",
+    caption: "Beyond the interface: Reclaiming the physical protocols of media.",
     excerpt:
       "This slot is ideal for interviews, essays, or book excerpts that need a measured amount of context without taking over the full page.",
     content: `
