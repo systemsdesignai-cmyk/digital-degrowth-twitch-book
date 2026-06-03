@@ -28,14 +28,14 @@ type ArticleCard = {
 
 const latestArticles = [
   {
-    date: "June 20, 2024",
+    date: "2024-06-20",
     title: "Digital Degrowth: Can we survive without the Cloud?",
     outlet: "The Guardian",
     image: "/assets/articles/cloud-degrowth-new.png",
     caption: "Cloud extraction rendered as a soft machine horizon.",
   },
   {
-    date: "May 15, 2024",
+    date: "2024-05-15",
     title: "Unmasking Digital Colonialism in Lebanon",
     outlet: "People's Tech",
     image: "/assets/articles/digital-colonialism-new.png",
@@ -43,7 +43,7 @@ const latestArticles = [
       "A fractured map and signal pathways mark imperial infrastructure.",
   },
   {
-    date: "April 02, 2024",
+    date: "2024-04-02",
     title: "Why the Silicon Valley Bank Run matters for Degrowth",
     outlet: "Tech Empire",
     image: "/assets/articles/svb-degrowth-new.png",
@@ -54,7 +54,7 @@ const latestArticles = [
 
 const blogArticles: ArticleCard[] = [
   {
-    date: "June 20, 2024",
+    date: "2024-06-20",
     title: "Digital Degrowth: Can we survive without the Cloud?",
     outlet: "The Guardian",
     image: "/assets/articles/cloud-degrowth-new.png",
@@ -66,7 +66,7 @@ const blogArticles: ArticleCard[] = [
     variant: "feature",
   },
   {
-    date: "May 15, 2024",
+    date: "2024-05-15",
     title: "Unmasking Digital Colonialism in Lebanon",
     outlet: "People's Tech",
     image: "/assets/articles/digital-colonialism-new.png",
@@ -79,7 +79,7 @@ const blogArticles: ArticleCard[] = [
     variant: "tall",
   },
   {
-    date: "April 02, 2024",
+    date: "2024-04-02",
     title: "Why the Silicon Valley Bank Run matters for Degrowth",
     outlet: "Tech Empire",
     image: "/assets/articles/svb-degrowth-new.png",
@@ -92,7 +92,7 @@ const blogArticles: ArticleCard[] = [
     variant: "wide",
   },
   {
-    date: "March 18, 2024",
+    date: "2024-03-18",
     title: "How community-owned networks reshape digital sovereignty",
     outlet: "People's Tech",
     image: "/assets/articles/digital-colonialism-new.png",
@@ -104,7 +104,7 @@ const blogArticles: ArticleCard[] = [
     variant: "standard",
   },
   {
-    date: "February 10, 2024",
+    date: "2024-02-10",
     title: "The politics of bandwidth scarcity and planned digital restraint",
     outlet: "The Guardian",
     image: "/assets/articles/cloud-degrowth-new.png",
@@ -116,7 +116,7 @@ const blogArticles: ArticleCard[] = [
     variant: "standard",
   },
   {
-    date: "January 27, 2024",
+    date: "2024-01-27",
     title: "Designing media systems beyond platform dependency",
     outlet: "Tech Empire",
     image: "/assets/articles/svb-degrowth-new.png",
@@ -133,6 +133,12 @@ const getRouteFromHash = (): Route =>
   window.location.hash === "#blog" ? "blog" : "home";
 
 const BLOG_ARCHIVE_BATCH_SIZE = 2;
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(date));
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -194,24 +200,20 @@ const App = () => {
     );
   };
 
-  const navigateToBlog = () => {
-    if (window.location.hash !== "#blog") {
-      window.location.hash = "blog";
-      return;
-    }
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const navigateHome = (section = "home") => {
-    window.location.hash = section;
-  };
-
   const BuySection = () => {
     const editions = [
-      { label: "Amazon", icon: <ShoppingCart size={16} /> },
-      { label: "Takealot", icon: <ExternalLink size={16} /> },
-      { label: "Apple Books", icon: <BookOpen size={16} /> },
+      {
+        label: "Amazon",
+        icon: <ShoppingCart size={16} aria-hidden="true" />,
+      },
+      {
+        label: "Takealot",
+        icon: <ExternalLink size={16} aria-hidden="true" />,
+      },
+      {
+        label: "Apple Books",
+        icon: <BookOpen size={16} aria-hidden="true" />,
+      },
     ];
 
     return (
@@ -280,6 +282,9 @@ const App = () => {
               <img
                 src="/assets/image1.webp"
                 alt="Digital Degrowth Logo"
+                width="480"
+                height="480"
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -305,9 +310,9 @@ const App = () => {
               connection. This transition is essential for building a technology
               stack that serves the common good rather than imperial interests.
             </p>
-            <button type="button" onClick={navigateToBlog} className="news-link !text-sm">
-              Read more <ChevronRight size={16} />
-            </button>
+            <a href="#blog" className="news-link !text-sm">
+              Read more <ChevronRight size={16} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>
@@ -325,6 +330,8 @@ const App = () => {
                   key={citationIndex}
                   src={citations[citationIndex]}
                   alt={`Citation ${citationIndex + 1}`}
+                  width="1200"
+                  height="720"
                   className="w-full h-auto object-cover animate-fade"
                 />
               </div>
@@ -332,17 +339,17 @@ const App = () => {
               <button
                 aria-label="Previous citation"
                 onClick={prevCitation}
-                className="absolute left-6 md:left-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
+                className="absolute left-6 md:left-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
-                <ChevronLeft size={18} className="mx-auto" />
+                <ChevronLeft size={18} className="mx-auto" aria-hidden="true" />
               </button>
 
               <button
                 aria-label="Next citation"
                 onClick={nextCitation}
-                className="absolute right-6 md:right-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition-all duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
+                className="absolute right-6 md:right-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
-                <ChevronRight size={18} className="mx-auto" />
+                <ChevronRight size={18} className="mx-auto" aria-hidden="true" />
               </button>
 
               <div className="flex justify-center gap-3 mt-6">
@@ -370,32 +377,34 @@ const App = () => {
                 Latest Articles
               </h3>
             </div>
-            <button type="button" onClick={navigateToBlog} className="news-link">
-              All articles <ChevronRight size={14} />
-            </button>
+            <a href="#blog" className="news-link">
+              All articles <ChevronRight size={14} aria-hidden="true" />
+            </a>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {latestArticles.map((news) => (
-              <button
+              <a
                 key={news.title}
-                type="button"
-                onClick={navigateToBlog}
+                href="#blog"
                 className="news-card text-left"
               >
                 <div className="news-card__media">
                   <img
                     src={news.image}
                     alt={news.title}
+                    width="1200"
+                    height="760"
+                    loading="lazy"
                     className="news-card__art"
                   />
                   <div className="news-card__outlet">{news.outlet}</div>
                   <p className="news-card__caption">{news.caption}</p>
                 </div>
                 <p className="news-meta">
-                  {news.date} - {news.outlet}
+                  {formatDate(news.date)} - {news.outlet}
                 </p>
                 <h4 className="news-title">{news.title}</h4>
-              </button>
+              </a>
             ))}
           </div>
         </div>
@@ -426,9 +435,15 @@ const App = () => {
               empowers communities rather than exploiting them.
             </p>
             <div className="flex gap-4 pt-4">
-              <Twitter className="social-link" />
-              <Github className="social-link" />
-              <Globe className="social-link" />
+              <span className="social-link" aria-hidden="true">
+                <Twitter aria-hidden="true" />
+              </span>
+              <span className="social-link" aria-hidden="true">
+                <Github aria-hidden="true" />
+              </span>
+              <span className="social-link" aria-hidden="true">
+                <Globe aria-hidden="true" />
+              </span>
             </div>
           </div>
           <div className="order-1 md:order-2 flex justify-center">
@@ -482,12 +497,15 @@ const App = () => {
                   <img
                     src={featureArticle.image}
                     alt={featureArticle.title}
+                    width="1600"
+                    height="980"
+                    fetchPriority="high"
                     className="blog-feature-card__image"
                   />
                 </div>
                 <div className="blog-feature-card__overlay">
                   <p className="blog-feature-card__meta">
-                    <span>{featureArticle.date}</span>
+                    <span>{formatDate(featureArticle.date)}</span>
                     <span>{featureArticle.outlet}</span>
                   </p>
                   <h1 className="blog-feature-card__title">
@@ -509,11 +527,17 @@ const App = () => {
                     className="blog-side-story"
                   >
                     <div className="blog-side-story__thumb">
-                      <img src={article.image} alt={article.title} />
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        width="640"
+                        height="540"
+                        loading="lazy"
+                      />
                     </div>
                     <div className="blog-side-story__body">
                       <h3>{article.title}</h3>
-                      <p>{article.date}</p>
+                      <p>{formatDate(article.date)}</p>
                     </div>
                   </article>
                 ))}
@@ -539,12 +563,20 @@ const App = () => {
                   className="blog-archive-card"
                 >
                   <div className="blog-archive-card__media">
-                    <img src={article.image} alt={article.title} />
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      width="1200"
+                      height="760"
+                      loading="lazy"
+                    />
                   </div>
                   <div className="blog-archive-card__body">
                     <p className="blog-archive-card__author">{article.outlet}</p>
                     <h2>{article.title}</h2>
-                    <p className="blog-archive-card__date">{article.date}</p>
+                    <p className="blog-archive-card__date">
+                      {formatDate(article.date)}
+                    </p>
                     <p className="blog-archive-card__excerpt">
                       {article.excerpt}
                     </p>
@@ -590,18 +622,21 @@ const App = () => {
         <div className="paper-grain absolute inset-0" />
       </div>
 
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+
       <nav
         className={`site-nav ${scrolled ? "site-nav--scrolled" : "site-nav--top"} ${route === "blog" ? "site-nav--blog" : ""}`}
       >
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center gap-6">
-          <button
-            type="button"
-            onClick={() => navigateHome("home")}
+          <a
+            href="#home"
             className={`brand-mark text-left ${route === "blog" ? "brand-mark--blog" : ""}`}
           >
             <span className="brand-mark__block">Digital</span>
             <span>Degrowth</span>
-          </button>
+          </a>
 
           {route === "home" ? (
             <div className="hidden md:flex gap-8 text-sm uppercase tracking-[0.28em]">
@@ -617,22 +652,37 @@ const App = () => {
             </div>
           ) : (
             <div className="hidden md:flex items-center gap-3 blog-nav-note">
-              <Newspaper size={16} />
+              <Newspaper size={16} aria-hidden="true" />
               <span>Editorial archive</span>
             </div>
           )}
 
-          <button
-            type="button"
-            onClick={route === "home" ? navigateToBlog : () => navigateHome("home")}
+          <a
+            href={route === "home" ? "#blog" : "#home"}
             className="button-primary !px-4 !py-2 !text-[11px]"
           >
             {route === "home" ? "Blog" : "Back Home"}
-          </button>
+          </a>
         </div>
+
+        {route === "home" ? (
+          <div className="mobile-nav-strip md:hidden">
+            {["About", "Praise", "News", "Author"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="mobile-nav-chip"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+        ) : null}
       </nav>
 
-      {route === "blog" ? <BlogPage /> : <HomePage />}
+      <main id="main-content" className="main-shell">
+        {route === "blog" ? <BlogPage /> : <HomePage />}
+      </main>
 
       <footer className="footer-shell py-12 text-center">
         <div className="max-w-6xl mx-auto px-6">
@@ -645,27 +695,15 @@ const App = () => {
               © 2025 Michael Kwet - All tools reclaimed - CC BY 4.0
             </p>
             <div className="flex gap-8">
-              <button
-                type="button"
-                onClick={() => navigateHome("about")}
-                className="footer-link"
-              >
+              <a href="#about" className="footer-link">
                 Manifesto
-              </button>
-              <button
-                type="button"
-                onClick={navigateToBlog}
-                className="footer-link"
-              >
+              </a>
+              <a href="#blog" className="footer-link">
                 Blog
-              </button>
-              <button
-                type="button"
-                onClick={() => navigateHome("author")}
-                className="footer-link"
-              >
+              </a>
+              <a href="#author" className="footer-link">
                 Contact
-              </button>
+              </a>
             </div>
           </div>
         </div>
