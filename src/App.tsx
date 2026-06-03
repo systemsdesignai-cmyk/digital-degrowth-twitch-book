@@ -148,7 +148,7 @@ const App = () => {
 
       <section
         id="home"
-        className="relative py-16 md:py-24 flex items-center overflow-hidden"
+        className="relative py-16 md:py-16 flex items-center overflow-hidden"
       >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center pt-16">
           <div className="space-y-6 z-10">
@@ -176,8 +176,8 @@ const App = () => {
         </div>
       </section>
 
-      <section id="about" className="section-band py-24 border-y">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-12">
+      <section id="about" className="section-band py-16 border-y">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
           <div className="flex justify-center">
             <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-[color:var(--accent)] shadow-xl z-10 bg-black">
               <img
@@ -195,50 +195,33 @@ const App = () => {
             </h2>
           </div>
           <div className="space-y-8">
-            <p className="font-display text-xl md:text-2xl text-[color:var(--ink)] leading-relaxed italic max-w-3xl mx-auto">
-              "We must unlearn the obsession with infinite digital expansion.
-              True freedom lies in decentralized, human-scale infrastructure
-              that respects the ecology of our planet and the sovereignty of our
-              minds."
+            <p className="section-copy text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+              Digital degrowth is a movement to unlearn our obsession with
+              infinite digital expansion. True freedom lies in decentralized,
+              human-scale infrastructure that respects both the ecology of our
+              planet and the sovereignty of our minds. To achieve this, we must
+              dismantle the chains of Big Tech dominance and digital colonialism
+              that currently define our world. We should prioritize local,
+              resilient networks over global surveillance grids that prioritize
+              profit over people. By reclaiming the ownership of our data and
+              tools, we return power to the community and foster genuine
+              connection. This transition is essential for building a technology
+              stack that serves the common good rather than imperial interests.
             </p>
             <a href="#" className="news-link !text-sm">
               Read more <ChevronRight size={16} />
             </a>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 text-left pt-12">
-            {[
-              {
-                title: "Dismantle",
-                desc: "Break the chains of Big Tech dominance and digital colonialism.",
-              },
-              {
-                title: "Scale Down",
-                desc: "Prioritize local, resilient networks over global surveillance grids.",
-              },
-              {
-                title: "Reclaim",
-                desc: "Return the ownership of data and tools to the community.",
-              },
-            ].map((box, i) => (
-              <div key={i} className="summary-card">
-                <h4 className="summary-card__title">{box.title}</h4>
-                <p className="section-copy text-sm leading-7">{box.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      <section id="praise" className="py-24">
+      <section id="praise" className="py-16">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center space-y-4">
             <p className="section-kicker">Critical praise</p>
-            <h3 className="section-heading text-3xl md:text-4xl">
-              Press citations and response
-            </h3>
           </div>
 
-          <div className="quote-shell mt-16 pt-12">
+          <div className="quote-shell">
             <div className="relative max-w-4xl mx-auto px-4 md:px-16">
               <div className="max-w-3xl mx-auto quote-frame">
                 <img
@@ -280,9 +263,9 @@ const App = () => {
         </div>
       </section>
 
-      <section id="news" className="py-24 border-t border-[color:var(--line)]">
+      <section id="news" className="py-16 border-t border-[color:var(--line)]">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex justify-between items-end mb-12 gap-6">
+          <div className="flex justify-between items-end mb-8 gap-6">
             <div className="space-y-3">
               <p className="section-kicker">Coverage</p>
               <h3 className="section-heading flex items-center gap-3 text-2xl md:text-3xl">
@@ -318,7 +301,7 @@ const App = () => {
 
       <section
         id="author"
-        className="section-panel py-24 border-t border-[color:var(--line)]"
+        className="section-panel py-16 border-t border-[color:var(--line)]"
       >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1 space-y-6">
@@ -330,9 +313,12 @@ const App = () => {
               </h3>
             </div>
             <p className="section-copy leading-relaxed text-lg">
-              Michael Kwet is a leading researcher and activist focused on
-              digital colonialism and the political economy of the internet. His
-              work spans journalism, academia, and grassroots organizing,
+              <span className="brand-mark__block !inline-block !py-0.5 !px-1.5 !rounded-md">
+                Michael Kwet
+              </span>{" "}
+              is a leading researcher and activist focused on digital
+              colonialism and the political economy of the internet. His work
+              spans journalism, academia, and grassroots organizing,
               consistently challenging the hegemony of global tech giants.
             </p>
             <p className="section-copy leading-relaxed">
@@ -350,7 +336,10 @@ const App = () => {
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <div className="author-frame" />
               <div className="author-card flex items-center justify-center">
-                <User size={120} className="text-[rgba(155,230,79,0.34)]" />
+                <User
+                  size={120}
+                  className="text-[rgba(var(--accent-rgb),0.34)]"
+                />
                 <div className="author-card__footer">Michael Kwet</div>
               </div>
             </div>
