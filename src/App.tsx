@@ -1,16 +1,30 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
-  ShoppingCart,
-  ChevronRight,
   ChevronLeft,
-  Newspaper,
-  User,
-  ExternalLink,
+  ChevronRight,
   Github,
-  Twitter,
   Globe,
+  Newspaper,
+  ExternalLink,
+  ShoppingCart,
+  Twitter,
+  User,
 } from "lucide-react";
+
+type Route = "home" | "blog";
+
+type ArticleCard = {
+  date: string;
+  title: string;
+  outlet: string;
+  image: string;
+  caption: string;
+  excerpt: string;
+  tag: string;
+  readTime: string;
+  variant: "feature" | "wide" | "tall" | "standard";
+};
 
 const latestArticles = [
   {
@@ -38,9 +52,93 @@ const latestArticles = [
   },
 ];
 
+const blogArticles: ArticleCard[] = [
+  {
+    date: "June 20, 2024",
+    title: "Digital Degrowth: Can we survive without the Cloud?",
+    outlet: "The Guardian",
+    image: "/assets/articles/cloud-degrowth-new.png",
+    caption: "Cloud extraction rendered as a soft machine horizon.",
+    excerpt:
+      "A lead feature designed for the top of the grid: big headline, atmospheric artwork, and enough space for a sharp thesis before the reader enters the archive.",
+    tag: "Featured Essay",
+    readTime: "8 min read",
+    variant: "feature",
+  },
+  {
+    date: "May 15, 2024",
+    title: "Unmasking Digital Colonialism in Lebanon",
+    outlet: "People's Tech",
+    image: "/assets/articles/digital-colonialism-new.png",
+    caption:
+      "A fractured map and signal pathways mark imperial infrastructure.",
+    excerpt:
+      "A tall card for reportage and field dispatches, balancing image weight with an excerpt that still feels spacious on desktop.",
+    tag: "Field Report",
+    readTime: "6 min read",
+    variant: "tall",
+  },
+  {
+    date: "April 02, 2024",
+    title: "Why the Silicon Valley Bank Run matters for Degrowth",
+    outlet: "Tech Empire",
+    image: "/assets/articles/svb-degrowth-new.png",
+    caption:
+      "Market collapse translated into unstable data towers and slipping graphs.",
+    excerpt:
+      "A wider block for analysis pieces, where metadata, deck, and visual rhythm sit in a denser magazine-style composition.",
+    tag: "Analysis",
+    readTime: "5 min read",
+    variant: "wide",
+  },
+  {
+    date: "March 18, 2024",
+    title: "How community-owned networks reshape digital sovereignty",
+    outlet: "People's Tech",
+    image: "/assets/articles/digital-colonialism-new.png",
+    caption: "Signals rerouted toward local infrastructures and public power.",
+    excerpt:
+      "Compact card styling for recurring essays, built to keep the archive browsable and scannable in a true grid view.",
+    tag: "Infrastructure",
+    readTime: "4 min read",
+    variant: "standard",
+  },
+  {
+    date: "February 10, 2024",
+    title: "The politics of bandwidth scarcity and planned digital restraint",
+    outlet: "The Guardian",
+    image: "/assets/articles/cloud-degrowth-new.png",
+    caption: "Bandwidth shown as a finite resource rather than endless excess.",
+    excerpt:
+      "Short cards hold topical arguments and keep the visual cadence moving between larger anchor stories.",
+    tag: "Opinion",
+    readTime: "3 min read",
+    variant: "standard",
+  },
+  {
+    date: "January 27, 2024",
+    title: "Designing media systems beyond platform dependency",
+    outlet: "Tech Empire",
+    image: "/assets/articles/svb-degrowth-new.png",
+    caption: "Editorial systems laid out like civic infrastructure instead of apps.",
+    excerpt:
+      "This slot is ideal for interviews, essays, or book excerpts that need a measured amount of context without taking over the full page.",
+    tag: "Interview",
+    readTime: "7 min read",
+    variant: "tall",
+  },
+];
+
+const getRouteFromHash = (): Route =>
+  window.location.hash === "#blog" ? "blog" : "home";
+
+const BLOG_ARCHIVE_BATCH_SIZE = 2;
+
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
   const [citationIndex, setCitationIndex] = useState(0);
+  const [route, setRoute] = useState<Route>(getRouteFromHash);
+  const [archivePage, setArchivePage] = useState(0);
 
   const citations = [
     "/assets/qoutes/kwet1.jpg",
@@ -55,9 +153,20 @@ const App = () => {
       setScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const handleHashChange = () => {
+      setRoute(getRouteFromHash());
+    };
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    handleScroll();
+    handleHashChange();
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -67,6 +176,13 @@ const App = () => {
 
     return () => clearInterval(interval);
   }, [citations.length]);
+
+  useEffect(() => {
+    if (route === "blog") {
+      setArchivePage(0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [route]);
 
   const nextCitation = () => {
     setCitationIndex((prev) => (prev + 1) % citations.length);
@@ -78,18 +194,28 @@ const App = () => {
     );
   };
 
+  const navigateToBlog = () => {
+    if (window.location.hash !== "#blog") {
+      window.location.hash = "blog";
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const navigateHome = (section = "home") => {
+    window.location.hash = section;
+  };
+
   const BuySection = () => {
     const editions = [
-      { label: "Amazon", url: "#", icon: <ShoppingCart size={16} /> },
-      { label: "Takealot", url: "#", icon: <ExternalLink size={16} /> },
-      { label: "Apple Books", url: "#", icon: <BookOpen size={16} /> },
+      { label: "Amazon", icon: <ShoppingCart size={16} /> },
+      { label: "Takealot", icon: <ExternalLink size={16} /> },
+      { label: "Apple Books", icon: <BookOpen size={16} /> },
     ];
 
     return (
-      <div
-        id="buy"
-        className="flex flex-col items-start space-y-6 pt-8 animate-fade"
-      >
+      <div id="buy" className="flex flex-col items-start space-y-6 pt-8 animate-fade">
         <div className="space-y-1">
           <h2 className="text-3xl md:text-4xl font-bold font-display text-[color:var(--ink)]">
             Buy the book
@@ -103,6 +229,7 @@ const App = () => {
           {editions.map((edition) => (
             <button
               key={edition.label}
+              type="button"
               className="button-primary !py-3 !px-6 !rounded-xl shadow-sm hover:shadow-md transition-shadow flex items-center gap-2"
             >
               {edition.icon}
@@ -114,38 +241,8 @@ const App = () => {
     );
   };
 
-  return (
-    <div className="app-shell min-h-screen">
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="ambient-wash absolute inset-0" />
-        <div className="paper-grain absolute inset-0" />
-      </div>
-
-      <nav
-        className={`site-nav ${scrolled ? "site-nav--scrolled" : "site-nav--top"}`}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-          <div className="brand-mark">
-            <span className="brand-mark__block">Digital</span>
-            <span>Degrowth</span>
-          </div>
-          <div className="hidden md:flex gap-8 text-sm uppercase tracking-[0.28em]">
-            {["About", "Praise", "News", "Author"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="nav-link"
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-          <a href="#buy" className="button-primary !px-4 !py-2 !text-[11px]">
-            Buy Now
-          </a>
-        </div>
-      </nav>
-
+  const HomePage = () => (
+    <>
       <section
         id="home"
         className="relative py-16 md:py-16 flex items-center overflow-hidden"
@@ -208,9 +305,9 @@ const App = () => {
               connection. This transition is essential for building a technology
               stack that serves the common good rather than imperial interests.
             </p>
-            <a href="#" className="news-link !text-sm">
+            <button type="button" onClick={navigateToBlog} className="news-link !text-sm">
               Read more <ChevronRight size={16} />
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -273,13 +370,18 @@ const App = () => {
                 Latest Articles
               </h3>
             </div>
-            <a href="#" className="news-link">
+            <button type="button" onClick={navigateToBlog} className="news-link">
               All articles <ChevronRight size={14} />
-            </a>
+            </button>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {latestArticles.map((news, i) => (
-              <div key={i} className="news-card">
+            {latestArticles.map((news) => (
+              <button
+                key={news.title}
+                type="button"
+                onClick={navigateToBlog}
+                className="news-card text-left"
+              >
                 <div className="news-card__media">
                   <img
                     src={news.image}
@@ -293,7 +395,7 @@ const App = () => {
                   {news.date} - {news.outlet}
                 </p>
                 <h4 className="news-title">{news.title}</h4>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -343,6 +445,194 @@ const App = () => {
           </div>
         </div>
       </section>
+    </>
+  );
+
+  const BlogPage = () => {
+    const [featureArticle, ...archiveArticles] = blogArticles;
+    const topStories = archiveArticles.slice(0, 2);
+    const totalPages = Math.ceil(
+      archiveArticles.length / BLOG_ARCHIVE_BATCH_SIZE,
+    );
+    const archiveStartIndex = archivePage * BLOG_ARCHIVE_BATCH_SIZE;
+    const gridArticles = archiveArticles.slice(
+      archiveStartIndex,
+      archiveStartIndex + BLOG_ARCHIVE_BATCH_SIZE,
+    );
+    const archiveRangeStart = archiveStartIndex + 1;
+    const archiveRangeEnd = archiveStartIndex + gridArticles.length;
+    const hasPreviousPage = archivePage > 0;
+    const hasNextPage = archivePage < totalPages - 1;
+
+    return (
+      <section className="blog-page">
+        <div className="blog-dark-shell">
+          <div className="max-w-6xl mx-auto px-6 py-28 md:py-32">
+            <div className="blog-dark-shell__header">
+              <p className="blog-kicker">Articles</p>
+              <p className="blog-dark-shell__summary">
+                Dispatches, essays, and critiques on digital colonialism,
+                platform power, and resistance networks.
+              </p>
+            </div>
+
+            <div className="blog-feature-layout">
+              <article className="blog-feature-card">
+                <div className="blog-feature-card__image-wrap">
+                  <img
+                    src={featureArticle.image}
+                    alt={featureArticle.title}
+                    className="blog-feature-card__image"
+                  />
+                </div>
+                <div className="blog-feature-card__overlay">
+                  <p className="blog-feature-card__meta">
+                    <span>{featureArticle.date}</span>
+                    <span>{featureArticle.outlet}</span>
+                  </p>
+                  <h1 className="blog-feature-card__title">
+                    {featureArticle.title}
+                  </h1>
+                </div>
+              </article>
+
+              <div className="blog-feature-side">
+                <div className="blog-feature-side__lead">
+                  <p className="blog-feature-side__eyebrow">Lead story</p>
+                  <h2>{featureArticle.title}</h2>
+                  <p>{featureArticle.excerpt}</p>
+                </div>
+
+                {topStories.map((article) => (
+                  <article
+                    key={`${article.title}-${article.date}`}
+                    className="blog-side-story"
+                  >
+                    <div className="blog-side-story__thumb">
+                      <img src={article.image} alt={article.title} />
+                    </div>
+                    <div className="blog-side-story__body">
+                      <h3>{article.title}</h3>
+                      <p>{article.date}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="blog-archive-shell">
+          <div className="max-w-6xl mx-auto px-6 py-14 md:py-16 space-y-10">
+            <div className="blog-archive-toolbar">
+              <span>Total {archiveArticles.length}</span>
+              <span>
+                {archiveRangeStart}-{archiveRangeEnd} of {archiveArticles.length}
+              </span>
+              <span>Sort by newest</span>
+            </div>
+
+            <div className="blog-archive-grid">
+              {gridArticles.map((article) => (
+                <article
+                  key={`${article.title}-${article.date}`}
+                  className="blog-archive-card"
+                >
+                  <div className="blog-archive-card__media">
+                    <img src={article.image} alt={article.title} />
+                  </div>
+                  <div className="blog-archive-card__body">
+                    <p className="blog-archive-card__author">{article.outlet}</p>
+                    <h2>{article.title}</h2>
+                    <p className="blog-archive-card__date">{article.date}</p>
+                    <p className="blog-archive-card__excerpt">
+                      {article.excerpt}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="blog-archive-toolbar">
+              <span>Total {archiveArticles.length}</span>
+              <span>
+                Page {archivePage + 1} of {totalPages}
+              </span>
+              <div className="blog-archive-pagination">
+                <button
+                  type="button"
+                  onClick={() => setArchivePage((current) => current - 1)}
+                  disabled={!hasPreviousPage}
+                  className="blog-archive-pagination__button"
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setArchivePage((current) => current + 1)}
+                  disabled={!hasNextPage}
+                  className="blog-archive-pagination__button"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  return (
+    <div className="app-shell min-h-screen">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="ambient-wash absolute inset-0" />
+        <div className="paper-grain absolute inset-0" />
+      </div>
+
+      <nav
+        className={`site-nav ${scrolled ? "site-nav--scrolled" : "site-nav--top"} ${route === "blog" ? "site-nav--blog" : ""}`}
+      >
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center gap-6">
+          <button
+            type="button"
+            onClick={() => navigateHome("home")}
+            className={`brand-mark text-left ${route === "blog" ? "brand-mark--blog" : ""}`}
+          >
+            <span className="brand-mark__block">Digital</span>
+            <span>Degrowth</span>
+          </button>
+
+          {route === "home" ? (
+            <div className="hidden md:flex gap-8 text-sm uppercase tracking-[0.28em]">
+              {["About", "Praise", "News", "Author"].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="nav-link"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center gap-3 blog-nav-note">
+              <Newspaper size={16} />
+              <span>Editorial archive</span>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={route === "home" ? navigateToBlog : () => navigateHome("home")}
+            className="button-primary !px-4 !py-2 !text-[11px]"
+          >
+            {route === "home" ? "Blog" : "Back Home"}
+          </button>
+        </div>
+      </nav>
+
+      {route === "blog" ? <BlogPage /> : <HomePage />}
 
       <footer className="footer-shell py-12 text-center">
         <div className="max-w-6xl mx-auto px-6">
@@ -355,15 +645,27 @@ const App = () => {
               © 2025 Michael Kwet - All tools reclaimed - CC BY 4.0
             </p>
             <div className="flex gap-8">
-              <a href="#" className="footer-link">
+              <button
+                type="button"
+                onClick={() => navigateHome("about")}
+                className="footer-link"
+              >
                 Manifesto
-              </a>
-              <a href="#" className="footer-link">
-                People&apos;s Tech
-              </a>
-              <a href="#" className="footer-link">
+              </button>
+              <button
+                type="button"
+                onClick={navigateToBlog}
+                className="footer-link"
+              >
+                Blog
+              </button>
+              <button
+                type="button"
+                onClick={() => navigateHome("author")}
+                className="footer-link"
+              >
                 Contact
-              </a>
+              </button>
             </div>
           </div>
         </div>
