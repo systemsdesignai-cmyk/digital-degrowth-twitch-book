@@ -313,12 +313,9 @@ const App = () => {
               </h3>
             </div>
             <p className="section-copy leading-relaxed text-lg">
-              <span className="brand-mark__block !inline-block !py-0.5 !px-1.5 !rounded-md">
-                Michael Kwet
-              </span>{" "}
-              is a leading researcher and activist focused on digital
-              colonialism and the political economy of the internet. His work
-              spans journalism, academia, and grassroots organizing,
+              Michael Kwet is a leading researcher and activist focused on
+              digital colonialism and the political economy of the internet. His
+              work spans journalism, academia, and grassroots organizing,
               consistently challenging the hegemony of global tech giants.
             </p>
             <p className="section-copy leading-relaxed">
