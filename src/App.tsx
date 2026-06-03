@@ -205,27 +205,6 @@ const App = () => {
               Read more <ChevronRight size={16} />
             </a>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 text-left pt-12">
-            {[
-              {
-                title: "Dismantle",
-                desc: "Break the chains of Big Tech dominance and digital colonialism.",
-              },
-              {
-                title: "Scale Down",
-                desc: "Prioritize local, resilient networks over global surveillance grids.",
-              },
-              {
-                title: "Reclaim",
-                desc: "Return the ownership of data and tools to the community.",
-              },
-            ].map((box, i) => (
-              <div key={i} className="summary-card">
-                <h4 className="summary-card__title">{box.title}</h4>
-                <p className="section-copy text-sm leading-7">{box.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
