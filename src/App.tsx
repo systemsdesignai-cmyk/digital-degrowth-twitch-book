@@ -235,10 +235,24 @@ const App = () => {
                 className="h-full w-full object-cover"
               />
             </div>
-            <div className="hero-book__note">
-              <span className="hero-book__note-label">Book image</span>
-              <strong>Restored to the electric green cover treatment.</strong>
-            </div>
+          </div>
+
+          <div className="space-y-5">
+            <p className="section-kicker">Definition</p>
+            <h2 className="section-heading text-3xl md:text-5xl">
+              What is Digital Degrowth?
+            </h2>
+          </div>
+          <div className="space-y-8">
+            <p className="font-display text-xl md:text-2xl text-[color:var(--ink)] leading-relaxed italic max-w-3xl mx-auto">
+              "We must unlearn the obsession with infinite digital expansion.
+              True freedom lies in decentralized, human-scale infrastructure
+              that respects the ecology of our planet and the sovereignty of our
+              minds."
+            </p>
+            <a href="#" className="news-link !text-sm">
+              Read more <ChevronRight size={16} />
+            </a>
           </div>
         </div>
       </section>
