@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
 import {
   BookOpen,
-  ChevronLeft,
   ChevronLeft,
   ChevronRight,
   Github,
@@ -378,7 +376,7 @@ const App = () => {
           </Link>
 
           {!isBlog ? (
-            <div className="hidden md:flex gap-8 text-sm uppercase tracking-[0.28em]">
+            <div className="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-[0.4em]">
               {["About", "Praise", "News", "Author"].map((item) => (
                 <Link
                   key={item}
@@ -395,13 +393,6 @@ const App = () => {
               <span>Editorial archive</span>
             </div>
           )}
-
-          <Link
-            to={!isBlog ? "/blog" : "/"}
-            className="button-primary !px-4 !py-2 !text-[11px]"
-          >
-            {!isBlog ? "Blog" : "Back Home"}
-          </Link>
         </div>
 
         {!isBlog ? (
