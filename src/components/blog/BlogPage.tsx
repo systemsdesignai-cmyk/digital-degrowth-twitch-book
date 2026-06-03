@@ -32,7 +32,7 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-14 md:py-24">
           <div className="flex flex-col gap-4 border-b border-border pb-8">
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">Archive</p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-[color:var(--ink)] tracking-tight">Further Reading</h2>
+            <h2 className="text-4xl md:text-5xl tracking-tight">Further Reading</h2>
           </div>
           <BlogArchiveSection
             articles={paginatedArchiveArticles}

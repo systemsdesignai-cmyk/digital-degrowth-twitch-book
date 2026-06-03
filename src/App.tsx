@@ -46,7 +46,7 @@ const BuySection = () => {
   return (
     <div id="buy" className="flex flex-col items-start space-y-6 pt-8 animate-fade">
       <div className="space-y-1">
-        <h2 className="text-3xl md:text-4xl font-bold font-display text-[color:var(--ink)]">
+        <h2 className="text-3xl md:text-4xl">
           Buy the book
         </h2>
         <p className="text-xs italic text-[color:var(--ink-soft)] font-medium">
@@ -119,7 +119,7 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
 
         <div className="space-y-5">
           <p className="section-kicker">Definition</p>
-          <h2 className="section-heading text-3xl md:text-5xl">
+          <h2 className="text-3xl md:text-5xl">
             What is Digital Degrowth?
           </h2>
         </div>
@@ -199,7 +199,7 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
           <div className="space-y-4">
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">Dispatches</p>
-            <h3 className="font-display text-4xl md:text-6xl font-bold text-[color:var(--ink)] tracking-tight">
+            <h3 className="text-4xl md:text-6xl tracking-tight">
               Latest from the archive
             </h3>
           </div>
@@ -236,7 +236,7 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
                     {formatArticleDate(news.date)}
                   </span>
                 </div>
-                <h4 className="font-display text-2xl font-bold text-[color:var(--ink)] leading-tight group-hover:text-[color:var(--accent-warm)] transition-colors">
+                <h4 className="text-2xl leading-tight group-hover:text-[color:var(--accent-warm)] transition-colors">
                   {news.title}
                 </h4>
                 <p className="text-xs leading-relaxed text-[color:var(--ink-soft)] italic line-clamp-2">
@@ -257,7 +257,7 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
         <div className="order-2 md:order-1 space-y-4">
           <div className="space-y-2">
             <p className="section-kicker">Profile</p>
-            <h3 className="section-heading flex items-center gap-2 text-xl md:text-2xl">
+            <h3 className="flex items-center gap-2 text-xl md:text-2xl">
               <User className="text-[color:var(--accent-deep)]" size={20} />
               The Author
             </h3>
