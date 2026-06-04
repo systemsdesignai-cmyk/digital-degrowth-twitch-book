@@ -214,7 +214,7 @@ const HomePage = ({
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">
               Dispatches
             </p>
-            <h3 className="text-4xl md:text-6xl tracking-tight">
+            <h3 className="flex items-center gap-3 text-2xl md:text-3xl">
               <Newspaper className="text-[color:var(--accent-deep)]" />
               Latest articles
             </h3>
