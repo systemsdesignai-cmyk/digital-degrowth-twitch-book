@@ -7,8 +7,8 @@ export default defineConfig({
   name: "default",
   title: "Digital Degrowth Admin",
 
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || "netv30fx",
-  dataset: import.meta.env.VITE_SANITY_DATASET || "production",
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+  dataset: import.meta.env.VITE_SANITY_DATASET,
   basePath: "/studio",
 
   plugins: [
