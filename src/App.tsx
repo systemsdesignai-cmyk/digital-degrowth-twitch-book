@@ -14,6 +14,7 @@ import { BlogPage } from "@/pages/BlogPage";
 import { BlogPostPage } from "@/pages/BlogPostPage";
 import { StudioPage } from "@/pages/StudioPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
+import { ContactPopup } from "@/components/common/ContactPopup";
 import { useSiteSettings } from "@/hooks/useSettings";
 
 const BLOG_ARCHIVE_BATCH_SIZE = 2;
@@ -159,9 +160,7 @@ const App = () => {
                 <Link to="/blog" className="footer-link">
                   Blog
                 </Link>
-                <Link to="/#author" className="footer-link">
-                  Contact
-                </Link>
+                <ContactPopup />
               </div>
             </div>
           </div>

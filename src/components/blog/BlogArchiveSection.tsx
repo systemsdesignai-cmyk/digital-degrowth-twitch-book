@@ -11,7 +11,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/utils/utils";
+import { cn } from "@/lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 
 type BlogArchiveSectionProps = {
