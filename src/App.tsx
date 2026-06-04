@@ -13,6 +13,7 @@ import { HomePage } from "@/pages/HomePage";
 import { BlogPage } from "@/pages/BlogPage";
 import { BlogPostPage } from "@/pages/BlogPostPage";
 import { StudioPage } from "@/pages/StudioPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 import { useSiteSettings } from "@/hooks/useSettings";
 
 const BLOG_ARCHIVE_BATCH_SIZE = 2;
@@ -136,6 +137,7 @@ const App = () => {
           />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/studio/*" element={<StudioPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
 
