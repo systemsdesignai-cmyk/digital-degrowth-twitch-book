@@ -12,7 +12,13 @@ import {
   User,
   ArrowRight,
 } from "lucide-react";
-import { Routes, Route, Link, useLocation, useSearchParams } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { BlogPage } from "@/components/blog/BlogPage";
 import { BlogPostPage } from "@/components/blog/BlogPostPage";
 import { formatArticleDate, latestArticles } from "@/data/articles";
@@ -44,11 +50,12 @@ const BuySection = () => {
   ];
 
   return (
-    <div id="buy" className="flex flex-col items-start space-y-6 pt-8 animate-fade">
+    <div
+      id="buy"
+      className="flex flex-col items-start space-y-6 pt-8 animate-fade"
+    >
       <div className="space-y-1">
-        <h2 className="text-3xl md:text-4xl">
-          Buy the book
-        </h2>
+        <h2 className="text-3xl md:text-4xl">Buy the book</h2>
         <p className="text-xs italic text-[color:var(--ink-soft)] font-medium">
           Available now at these retailers
         </p>
@@ -70,7 +77,12 @@ const BuySection = () => {
   );
 };
 
-const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex }: any) => (
+const HomePage = ({
+  citationIndex,
+  nextCitation,
+  prevCitation,
+  setCitationIndex,
+}: any) => (
   <>
     <section
       id="home"
@@ -119,9 +131,7 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
 
         <div className="space-y-5">
           <p className="section-kicker">Definition</p>
-          <h2 className="text-3xl md:text-5xl">
-            What is Digital Degrowth?
-          </h2>
+          <h2 className="text-3xl md:text-5xl">What is Digital Degrowth?</h2>
         </div>
         <div className="space-y-8">
           <p className="section-copy text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
@@ -194,17 +204,29 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
       </div>
     </section>
 
-    <section id="news" className="py-24 border-t border-border bg-[color:var(--bg-soft)]">
+    <section
+      id="news"
+      className="py-24 border-t border-border bg-[color:var(--bg-soft)]"
+    >
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
           <div className="space-y-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">Dispatches</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">
+              Dispatches
+            </p>
             <h3 className="text-4xl md:text-6xl tracking-tight">
-              Latest from the archive
+              Latest articles
             </h3>
           </div>
-          <Link to="/blog" className="group flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--ink)] hover:text-[color:var(--accent-warm)] transition-colors">
-            View full archive <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          <Link
+            to="/blog"
+            className="group flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--ink)] hover:text-[color:var(--accent-warm)] transition-colors"
+          >
+            View full archive{" "}
+            <ArrowRight
+              size={14}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </Link>
         </div>
         <div className="grid md:grid-cols-3 gap-12">
@@ -263,10 +285,10 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
             </h3>
           </div>
           <p className="section-copy leading-relaxed text-base">
-            Michael Kwet is a leading researcher and activist focused on
-            digital colonialism and the political economy of the internet. His
-            work spans journalism, academia, and grassroots organizing,
-            consistently challenging the hegemony of global tech giants.
+            Michael Kwet is a leading researcher and activist focused on digital
+            colonialism and the political economy of the internet. His work
+            spans journalism, academia, and grassroots organizing, consistently
+            challenging the hegemony of global tech giants.
           </p>
           <div className="flex gap-3 pt-2">
             <a
@@ -293,11 +315,10 @@ const HomePage = ({ citationIndex, nextCitation, prevCitation, setCitationIndex 
           <div className="relative w-48 h-48 md:w-56 md:h-56">
             <div className="author-frame" />
             <div className="author-card flex items-center justify-center">
-              <User
-                size={80}
-                className="text-[rgba(var(--accent-rgb),0.34)]"
-              />
-              <div className="author-card__footer !py-2 !text-[10px]">Michael Kwet</div>
+              <User size={80} className="text-[rgba(var(--accent-rgb),0.34)]" />
+              <div className="author-card__footer !py-2 !text-[10px]">
+                Michael Kwet
+              </div>
             </div>
           </div>
         </div>
@@ -313,7 +334,10 @@ const App = () => {
   const [searchParams] = useSearchParams();
 
   const isBlog = location.pathname.startsWith("/blog");
-  const blogPage = Math.max(0, (Number(searchParams.get("page") ?? "1") || 1) - 1);
+  const blogPage = Math.max(
+    0,
+    (Number(searchParams.get("page") ?? "1") || 1) - 1,
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -416,15 +440,25 @@ const App = () => {
 
       <main id="main-content" className="main-shell">
         <Routes>
-          <Route path="/" element={<HomePage 
-            citationIndex={citationIndex} 
-            nextCitation={nextCitation} 
-            prevCitation={prevCitation} 
-            setCitationIndex={setCitationIndex} 
-          />} />
-          <Route 
-            path="/blog" 
-            element={<BlogPage currentPage={blogPage} pageSize={BLOG_ARCHIVE_BATCH_SIZE} />} 
+          <Route
+            path="/"
+            element={
+              <HomePage
+                citationIndex={citationIndex}
+                nextCitation={nextCitation}
+                prevCitation={prevCitation}
+                setCitationIndex={setCitationIndex}
+              />
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <BlogPage
+                currentPage={blogPage}
+                pageSize={BLOG_ARCHIVE_BATCH_SIZE}
+              />
+            }
           />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
         </Routes>
