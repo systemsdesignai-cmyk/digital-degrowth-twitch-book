@@ -2,27 +2,37 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { BlogArticle, formatArticleDate } from "@/data/articles";
-import { cn } from "@/lib/utils";
+import { urlFor } from "@/sanity/lib/image";
 
 type BlogFeatureSectionProps = {
-  featureArticle: BlogArticle;
-  topStories: BlogArticle[];
+  featureArticle: any; // Using any to handle both static and Sanity types for now
+  topStories: any[];
 };
 
 const revealTransition = {
   duration: 0.5,
   ease: "easeOut" as const,
 };
+
+const getArticleSlug = (article: any) => {
+  return typeof article.slug === 'string' ? article.slug : article.slug.current;
+};
+
+const getArticleImage = (article: any) => {
+  if (typeof article.image === 'string') return article.image;
+  return urlFor(article.image).url();
+};
+
+const formatArticleDate = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(date));
 
 export function BlogFeatureSection({
   featureArticle,
@@ -36,6 +46,8 @@ export function BlogFeatureSection({
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true, amount: 0.2 },
       };
+
+  if (!featureArticle) return null;
 
   return (
     <section className="flex flex-col gap-12">
@@ -54,12 +66,12 @@ export function BlogFeatureSection({
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1.6fr)_minmax(19rem,0.8fr)]">
         {/* Lead Feature */}
         <motion.article transition={revealTransition} {...revealProps}>
-          <Link to={`/blog/${featureArticle.slug}`} className="block h-full group relative">
+          <Link to={`/blog/${getArticleSlug(featureArticle)}`} className="block h-full group relative">
             <Card className="overflow-hidden border-white/10 bg-white/5 py-0 shadow-2xl group-hover:border-[color:var(--accent)] transition-all duration-500 h-full">
               <CardContent className="relative p-0 h-full">
                 <div className="aspect-[16/10] md:aspect-auto md:h-[36rem] overflow-hidden">
                   <img
-                    src={featureArticle.image}
+                    src={getArticleImage(featureArticle)}
                     alt={featureArticle.title}
                     width="1600"
                     height="980"
@@ -104,17 +116,17 @@ export function BlogFeatureSection({
           
           {topStories.map((article, index) => (
             <motion.article
-              key={`${article.slug}-${article.date}`}
+              key={`${getArticleSlug(article)}-${article.date}`}
               transition={{ ...revealTransition, delay: prefersReducedMotion ? 0 : 0.08 * (index + 1) }}
               {...revealProps}
               className="group"
             >
-              <Link to={`/blog/${article.slug}`} className="block">
+              <Link to={`/blog/${getArticleSlug(article)}`} className="block">
                 <Card className="border-white/10 bg-white/5 shadow-xl hover:border-[color:var(--accent)] transition-all duration-300">
                   <CardContent className="flex flex-col gap-4 p-5">
                     <div className="overflow-hidden rounded-lg border border-white/5 aspect-[21/9]">
                       <img
-                        src={article.image}
+                        src={getArticleImage(article)}
                         alt={article.title}
                         className="h-full w-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500"
                       />

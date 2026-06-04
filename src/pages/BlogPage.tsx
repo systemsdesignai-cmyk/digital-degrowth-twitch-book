@@ -1,6 +1,8 @@
 import { BlogArchiveSection } from "@/components/blog/BlogArchiveSection";
 import { BlogFeatureSection } from "@/components/blog/BlogFeatureSection";
-import { blogArticles } from "@/data/articles";
+import { SEO } from "@/components/common/SEO";
+import { useArticles } from "@/hooks/useArticles";
+import { Loader2 } from "lucide-react";
 
 type BlogPageProps = {
   currentPage: number;
@@ -8,12 +10,35 @@ type BlogPageProps = {
 };
 
 export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
-  const [featureArticle, ...archiveArticles] = blogArticles;
+  const { articles, loading } = useArticles();
+  
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[color:var(--ink)]">
+        <Loader2 className="h-12 w-12 animate-spin text-[color:var(--accent)]" />
+      </div>
+    );
+  }
+
+  if (!articles || articles.length === 0) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[color:var(--ink)] text-white gap-4">
+        <h1 className="text-2xl font-display">No dispatches found.</h1>
+        <p className="text-white/60">Check back later for new updates.</p>
+      </div>
+    );
+  }
+  
+  const [featureArticle, ...archiveArticles] = articles;
   const topStories = archiveArticles.slice(0, 2);
   const paginatedArchiveArticles = archiveArticles.slice(2);
 
   return (
     <section className="blog-page">
+      <SEO 
+        title="Editorial Archive" 
+        description="Further reading and dispatches on digital colonialism, degrowth, and sovereign technology."
+      />
       <div className="bg-[color:var(--ink)] pt-16 border-b border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(var(--accent-rgb),0.3),transparent_70%)]" />
@@ -22,8 +47,8 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
         
         <div className="mx-auto flex max-w-6xl flex-col gap-14 px-6 py-28 md:py-32 relative z-10">
           <BlogFeatureSection
-            featureArticle={featureArticle}
-            topStories={topStories}
+            featureArticle={featureArticle as any}
+            topStories={topStories as any}
           />
         </div>
       </div>
@@ -35,7 +60,7 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
             <h2 className="text-4xl md:text-5xl tracking-tight">Further Reading</h2>
           </div>
           <BlogArchiveSection
-            articles={paginatedArchiveArticles}
+            articles={paginatedArchiveArticles as any}
             currentPage={currentPage}
             pageSize={pageSize}
           />

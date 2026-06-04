@@ -1,13 +1,26 @@
 import { useParams, Link } from "react-router-dom";
-import { ChevronLeft, Calendar, Clock, Globe, Share2, ArrowRight } from "lucide-react";
-import { blogArticles, formatArticleDate } from "@/data/articles";
+import { ChevronLeft, Share2, ArrowRight, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useEffect, useState } from "react";
+import { SEO } from "@/components/common/SEO";
+import { useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
+import { useArticle, useArticles } from "@/hooks/useArticles";
+import { urlFor } from "@/sanity/lib/image";
+import { PortableText } from "@portabletext/react";
+
+export function formatArticleDate(date: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(date));
+}
 
 export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
-  const article = blogArticles.find((a) => a.slug === slug);
+  const { article, loading } = useArticle(slug || "");
+  const { articles: allArticles } = useArticles();
+  
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -18,6 +31,14 @@ export function BlogPostPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[color:var(--ink)]">
+        <Loader2 className="h-12 w-12 animate-spin text-[color:var(--accent)]" />
+      </div>
+    );
+  }
 
   if (!article) {
     return (
@@ -31,8 +52,24 @@ export function BlogPostPage() {
     );
   }
 
+  const getArticleImage = (art: any) => {
+    if (!art.image) return "";
+    return urlFor(art.image).url();
+  };
+
+  const getArticleCaption = (art: any) => {
+    return art.image?.caption;
+  };
+
   return (
     <div className="animate-fade">
+      <SEO 
+        title={article.title}
+        description={article.excerpt}
+        image={getArticleImage(article)}
+        type="article"
+        publishedDate={article.date}
+      />
       {/* Reading Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-[color:var(--accent)] z-[60] origin-left"
@@ -105,14 +142,14 @@ export function BlogPostPage() {
         >
           <div className="overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-[color:var(--ink)]">
             <img 
-              src={article.image} 
+              src={getArticleImage(article)} 
               alt={article.title}
               className="w-full aspect-[21/9] object-cover opacity-90 hover:opacity-100 transition-opacity duration-700"
             />
           </div>
           <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <p className="text-[11px] italic text-muted-foreground font-medium uppercase tracking-wider">
-              &mdash; {article.caption}
+              &mdash; {getArticleCaption(article)}
             </p>
             <div className="flex gap-2">
               <button className="p-2 rounded-full border border-border hover:bg-[color:var(--accent)] hover:border-transparent transition-all group">
@@ -139,8 +176,9 @@ export function BlogPostPage() {
             prose-p:text-[color:var(--ink-soft)] prose-p:leading-[1.8] prose-p:mb-8
             prose-a:text-[color:var(--accent-warm)] prose-a:font-bold prose-a:no-underline hover:prose-a:underline
             prose-strong:text-[color:var(--ink)] prose-strong:font-bold"
-            dangerouslySetInnerHTML={{ __html: article.content }}
-          />
+          >
+            <PortableText value={article.content} />
+          </div>
 
           <footer className="mt-24 pt-12 border-t border-border">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -178,8 +216,8 @@ export function BlogPostPage() {
             <div className="space-y-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">More Coverage</p>
               <div className="space-y-8">
-                {blogArticles.filter(a => a.slug !== slug).slice(0, 2).map(a => (
-                  <Link key={a.slug} to={`/blog/${a.slug}`} className="group block space-y-2">
+                {allArticles.filter(a => a.slug.current !== slug).slice(0, 2).map(a => (
+                  <Link key={a.slug.current} to={`/blog/${a.slug.current}`} className="block space-y-2 group">
                     <p className="text-[10px] uppercase tracking-widest text-[color:var(--accent-warm)] font-bold">{a.outlet}</p>
                     <h5 className="font-display text-lg font-bold group-hover:text-[color:var(--accent-warm)] transition-colors leading-tight">{a.title}</h5>
                   </Link>

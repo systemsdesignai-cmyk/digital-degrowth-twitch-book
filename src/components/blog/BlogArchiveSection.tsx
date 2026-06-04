@@ -2,15 +2,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -20,11 +11,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
-import { BlogArticle, formatArticleDate } from "@/data/articles";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
+import { urlFor } from "@/sanity/lib/image";
 
 type BlogArchiveSectionProps = {
-  articles: BlogArticle[];
+  articles: any[];
   currentPage: number;
   pageSize: number;
 };
@@ -33,6 +24,22 @@ const archiveCardTransition = {
   duration: 0.45,
   ease: "easeOut" as const,
 };
+
+const getArticleSlug = (article: any) => {
+  return typeof article.slug === 'string' ? article.slug : article.slug.current;
+};
+
+const getArticleImage = (article: any) => {
+  if (typeof article.image === 'string') return article.image;
+  return urlFor(article.image).url();
+};
+
+const formatArticleDate = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(date));
 
 export function BlogArchiveSection({
   articles,
@@ -72,7 +79,7 @@ export function BlogArchiveSection({
       <div className="grid gap-12 md:grid-cols-2">
         {visibleArticles.map((article, index) => (
           <motion.article
-            key={`${article.slug}-${article.date}`}
+            key={`${getArticleSlug(article)}-${article.date}`}
             transition={{
               ...archiveCardTransition,
               delay: prefersReducedMotion ? 0 : index * 0.08,
@@ -80,11 +87,11 @@ export function BlogArchiveSection({
             {...revealProps}
             className="group"
           >
-            <Link to={`/blog/${article.slug}`} className="block h-full">
+            <Link to={`/blog/${getArticleSlug(article)}`} className="block h-full">
               <div className="flex flex-col h-full space-y-6">
                 <div className="relative overflow-hidden rounded-xl border border-border bg-muted aspect-[16/9] shadow-md transition-shadow group-hover:shadow-xl">
                   <img
-                    src={article.image}
+                    src={getArticleImage(article)}
                     alt={article.title}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                   />

@@ -1,0 +1,21 @@
+# Digital Degrowth
+
+A manifesto for dismantling digital colonialism and building a technology stack that serves the people, not the empire.
+
+## Author
+Michael Kwet - Researcher and activist focused on digital colonialism and the political economy of the internet.
+
+## Key Concepts
+- **Digital Degrowth**: A movement to unlearn obsession with infinite digital expansion and prioritize human-scale infrastructure.
+- **Digital Colonialism**: The use of digital technology for political, economic, and social domination.
+- **Sovereign Infrastructure**: Decentralized, community-owned technology stacks.
+
+## Website Sections
+- /#about: Definition and core manifesto.
+- /#praise: Critical reception of the work.
+- /blog: Archive of articles and dispatches.
+- /#author: Michael Kwet's profile and contact.
+
+## External Links
+- Twitter: https://twitter.com/michaelkwet
+- Website: https://michaelkwet.com
