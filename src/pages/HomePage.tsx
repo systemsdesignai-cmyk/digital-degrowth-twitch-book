@@ -5,6 +5,10 @@ import {
   Globe,
   Newspaper,
   Twitter,
+  Linkedin,
+  Instagram,
+  Facebook,
+  MessageSquare,
   User,
   ArrowRight,
   Loader2,
@@ -29,10 +33,12 @@ export const HomePage = () => {
   const [citationIndex, setCitationIndex] = useState(0);
   const { articles, loading: articlesLoading } = useArticles();
   const { citations, loading: citationsLoading } = useCitations();
-  const { settings: homeSettings, loading: settingsLoading } = useHomeSettings();
+  const { settings: homeSettings, loading: settingsLoading } =
+    useHomeSettings();
   const { author, loading: authorLoading } = useAuthor();
 
-  const isLoading = articlesLoading || citationsLoading || settingsLoading || authorLoading;
+  const isLoading =
+    articlesLoading || citationsLoading || settingsLoading || authorLoading;
 
   useEffect(() => {
     if (!citations || citations.length === 0) return;
@@ -75,7 +81,9 @@ export const HomePage = () => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-[color:var(--ink)] text-white gap-4">
         <h1 className="text-2xl font-display">Site settings missing.</h1>
-        <p className="text-white/60">Please configure the Home Settings and Author in Sanity.</p>
+        <p className="text-white/60">
+          Please configure the Home Settings and Author in Sanity.
+        </p>
       </div>
     );
   }
@@ -93,15 +101,13 @@ export const HomePage = () => {
               <span className="eyebrow">New release by {author.name}</span>
               <h1 className="hero-title text-5xl md:text-7xl">
                 {homeSettings.heroTitle} <br />
-                <span className="hero-outline">{homeSettings.heroTitleOutline?.replace(/\.$/, "")}</span>
+                <span className="hero-outline">
+                  {homeSettings.heroTitleOutline?.replace(/\.$/, "")}
+                </span>
               </h1>
             </div>
-            <p className="hero-copy max-w-xl">
-              {homeSettings.heroCopy}
-            </p>
-            <div className="scale-90 origin-left">
-              <BuySection />
-            </div>
+            <p className="hero-copy max-w-xl">{homeSettings.heroCopy}</p>
+            <BuySection />
           </div>
 
           <img
@@ -128,7 +134,6 @@ export const HomePage = () => {
           </div>
 
           <div className="space-y-5">
-            <p className="section-kicker">{homeSettings.aboutKicker}</p>
             <h2 className="text-3xl md:text-5xl">{homeSettings.aboutTitle}</h2>
           </div>
           <div className="space-y-8">
@@ -136,7 +141,7 @@ export const HomePage = () => {
               {homeSettings.aboutCopy}
             </p>
             <Link to="/blog" className="news-link !text-sm">
-              Read more <ChevronRight size={16} aria-hidden="true" />
+              Read More <ChevronRight size={16} aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -161,7 +166,9 @@ export const HomePage = () => {
                     className="w-full h-auto object-cover animate-fade"
                   />
                 ) : (
-                  <p className="text-muted-foreground italic">No citations added yet.</p>
+                  <p className="text-muted-foreground italic">
+                    No citations added yet.
+                  </p>
                 )}
               </div>
 
@@ -178,7 +185,11 @@ export const HomePage = () => {
                 onClick={nextCitation}
                 className="absolute right-6 md:right-2 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full border border-[color:var(--line)] bg-[rgba(255,253,249,0.92)] text-[color:var(--accent-deep)] shadow-sm transition duration-300 hover:scale-105 hover:border-[rgba(155,230,79,0.45)] hover:bg-white"
               >
-                <ChevronRight size={18} className="mx-auto" aria-hidden="true" />
+                <ChevronRight
+                  size={18}
+                  className="mx-auto"
+                  aria-hidden="true"
+                />
               </button>
 
               <div className="flex justify-center gap-3 mt-6">
@@ -201,28 +212,12 @@ export const HomePage = () => {
         className="py-24 border-t border-border bg-[color:var(--bg-soft)]"
       >
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
-            <div className="space-y-4">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">
-                Dispatches
-              </p>
-              <h3 className="flex items-center gap-3 text-2xl md:text-3xl">
-                <Newspaper className="text-[color:var(--accent-deep)]" />
-                Latest articles
-              </h3>
-            </div>
-            <Link
-              to="/blog"
-              className="group flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--ink)] hover:text-[color:var(--accent-warm)] transition-colors"
-            >
-              View full archive{" "}
-              <ArrowRight
-                size={14}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </Link>
+          <div className="flex flex-col items-start mb-16 gap-4">
+            <h3 className="text-2xl md:text-4xl">
+              Latest articles
+            </h3>
           </div>
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-12 mb-16">
             {articles && articles.length > 0 ? (
               articles.slice(0, 3).map((news) => (
                 <Link
@@ -263,9 +258,26 @@ export const HomePage = () => {
               ))
             ) : (
               <div className="col-span-full py-12 text-center border border-dashed border-border rounded-xl">
-                 <p className="text-muted-foreground">No articles published yet.</p>
+                <p className="text-muted-foreground">
+                  No articles published yet.
+                </p>
               </div>
             )}
+          </div>
+
+          <div className="flex justify-center">
+            <Link
+              to="/blog"
+              className="button-primary group !px-10 !py-5 flex items-center gap-4 shadow-xl hover:shadow-2xl transition-all"
+            >
+              <span className="text-sm font-bold uppercase tracking-[0.25em]">
+                View Full Archive
+              </span>
+              <ArrowRight
+                size={18}
+                className="group-hover:translate-x-2 transition-transform"
+              />
+            </Link>
           </div>
         </div>
       </section>
@@ -275,18 +287,15 @@ export const HomePage = () => {
         className="section-panel py-12 border-t border-[color:var(--line)]"
       >
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
-          <div className="order-2 md:order-1 space-y-4">
-            <div className="space-y-2">
-              <p className="section-kicker">Profile</p>
-              <h3 className="flex items-center gap-2 text-xl md:text-2xl">
-                <User className="text-[color:var(--accent-deep)]" size={20} />
-                The Author
-              </h3>
-            </div>
+          <div className="order-2 md:order-1 space-y-6">
+            <h3 className="flex items-center gap-2 text-xl md:text-3xl">
+              <User className="text-[color:var(--accent-deep)]" size={24} />
+              The Author
+            </h3>
             <p className="section-copy leading-relaxed text-base">
               {author.bio}
             </p>
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-wrap gap-3 pt-2">
               {author.twitter && (
                 <a
                   href={author.twitter}
@@ -296,6 +305,50 @@ export const HomePage = () => {
                   aria-label={`Follow ${author.name} on Twitter`}
                 >
                   <Twitter size={18} aria-hidden="true" />
+                </a>
+              )}
+              {author.linkedin && (
+                <a
+                  href={author.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                  aria-label={`Connect with ${author.name} on LinkedIn`}
+                >
+                  <Linkedin size={18} aria-hidden="true" />
+                </a>
+              )}
+              {author.instagram && (
+                <a
+                  href={author.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                  aria-label={`Follow ${author.name} on Instagram`}
+                >
+                  <Instagram size={18} aria-hidden="true" />
+                </a>
+              )}
+              {author.facebook && (
+                <a
+                  href={author.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                  aria-label={`Follow ${author.name} on Facebook`}
+                >
+                  <Facebook size={18} aria-hidden="true" />
+                </a>
+              )}
+              {author.bluesky && (
+                <a
+                  href={author.bluesky}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                  aria-label={`Follow ${author.name} on Bluesky`}
+                >
+                  <MessageSquare size={18} aria-hidden="true" />
                 </a>
               )}
               {author.website && (
@@ -322,7 +375,10 @@ export const HomePage = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <User size={80} className="text-[rgba(var(--accent-rgb),0.34)]" />
+                  <User
+                    size={80}
+                    className="text-[rgba(var(--accent-rgb),0.34)]"
+                  />
                 )}
                 <div className="author-card__footer !py-2 !text-[10px]">
                   {author.name}

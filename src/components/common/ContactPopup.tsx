@@ -1,4 +1,4 @@
-import { Mail, Twitter, Globe, MessageSquare } from "lucide-react";
+import { Mail, Twitter, Globe, MessageSquare, Linkedin, Instagram, Facebook } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -58,7 +58,7 @@ export function ContactPopup() {
             </div>
           )}
 
-          <div className="flex justify-center gap-8 pt-4 border-t border-[color:var(--line)]">
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-6 pt-4 border-t border-[color:var(--line)]">
             {author.twitter && (
               <a 
                 href={author.twitter} 
@@ -68,6 +68,50 @@ export function ContactPopup() {
               >
                 <Twitter size={20} className="group-hover:scale-110 transition-transform" />
                 <span className="text-[9px] font-bold uppercase tracking-widest">Twitter</span>
+              </a>
+            )}
+            {author.linkedin && (
+              <a 
+                href={author.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group flex flex-col items-center gap-2 text-[color:var(--ink-soft)] hover:text-[color:var(--accent-warm)] transition-colors"
+              >
+                <Linkedin size={20} className="group-hover:scale-110 transition-transform" />
+                <span className="text-[9px] font-bold uppercase tracking-widest">LinkedIn</span>
+              </a>
+            )}
+            {author.instagram && (
+              <a 
+                href={author.instagram} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group flex flex-col items-center gap-2 text-[color:var(--ink-soft)] hover:text-[color:var(--accent-warm)] transition-colors"
+              >
+                <Instagram size={20} className="group-hover:scale-110 transition-transform" />
+                <span className="text-[9px] font-bold uppercase tracking-widest">Instagram</span>
+              </a>
+            )}
+            {author.facebook && (
+              <a 
+                href={author.facebook} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group flex flex-col items-center gap-2 text-[color:var(--ink-soft)] hover:text-[color:var(--accent-warm)] transition-colors"
+              >
+                <Facebook size={20} className="group-hover:scale-110 transition-transform" />
+                <span className="text-[9px] font-bold uppercase tracking-widest">Facebook</span>
+              </a>
+            )}
+            {author.bluesky && (
+              <a 
+                href={author.bluesky} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group flex flex-col items-center gap-2 text-[color:var(--ink-soft)] hover:text-[color:var(--accent-warm)] transition-colors"
+              >
+                <MessageSquare size={20} className="group-hover:scale-110 transition-transform" />
+                <span className="text-[9px] font-bold uppercase tracking-widest">Bluesky</span>
               </a>
             )}
             {author.website && (

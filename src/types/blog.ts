@@ -42,8 +42,12 @@ export type Author = {
   name: string;
   bio: string;
   image: any;
-  twitter: string;
-  website: string;
+  twitter?: string;
+  linkedin?: string;
+  instagram?: string;
+  facebook?: string;
+  bluesky?: string;
+  website?: string;
   email?: string;
   contactInfo?: string;
 };

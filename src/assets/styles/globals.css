@@ -570,12 +570,12 @@
 
   .news-link {
     @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] transition-colors;
-    color: var(--accent);
+    color: var(--accent-warm);
   }
 
   .news-link:hover,
   .footer-link:hover {
-    color: var(--accent-strong);
+    color: var(--accent-deep);
   }
 
   .news-grid {

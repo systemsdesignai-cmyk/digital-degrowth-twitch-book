@@ -29,6 +29,26 @@ export const author = defineType({
       type: "url",
     }),
     defineField({
+      name: "linkedin",
+      title: "LinkedIn URL",
+      type: "url",
+    }),
+    defineField({
+      name: "instagram",
+      title: "Instagram URL",
+      type: "url",
+    }),
+    defineField({
+      name: "facebook",
+      title: "Facebook URL",
+      type: "url",
+    }),
+    defineField({
+      name: "bluesky",
+      title: "Bluesky URL",
+      type: "url",
+    }),
+    defineField({
       name: "website",
       title: "Personal Website URL",
       type: "url",
