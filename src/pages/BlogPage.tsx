@@ -2,7 +2,8 @@ import { BlogArchiveSection } from "@/components/blog/BlogArchiveSection";
 import { BlogFeatureSection } from "@/components/blog/BlogFeatureSection";
 import { SEO } from "@/components/common/SEO";
 import { useArticles } from "@/hooks/useArticles";
-import { Loader2 } from "lucide-react";
+import { Loader2, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type BlogPageProps = {
   currentPage: number;
@@ -11,7 +12,7 @@ type BlogPageProps = {
 
 export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
   const { articles, loading } = useArticles();
-  
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[color:var(--ink)]">
@@ -28,15 +29,27 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
       </div>
     );
   }
-  
-  const [featureArticle, ...archiveArticles] = articles;
+
+  // Pin the manifesto article to the first position
+  const manifestoSlug = "what-is-digital-degrowth-a-manifesto";
+  const manifestoIndex = articles.findIndex(a => 
+    (typeof a.slug === 'string' ? a.slug : a.slug.current) === manifestoSlug
+  );
+
+  let sortedArticles = [...articles];
+  if (manifestoIndex !== -1) {
+    const [manifesto] = sortedArticles.splice(manifestoIndex, 1);
+    sortedArticles = [manifesto, ...sortedArticles];
+  }
+
+  const [featureArticle, ...archiveArticles] = sortedArticles;
   const topStories = archiveArticles.slice(0, 2);
   const paginatedArchiveArticles = archiveArticles.slice(2);
 
   return (
     <section className="blog-page">
-      <SEO 
-        title="Editorial Archive" 
+      <SEO
+        title="Editorial Archive"
         description="Further reading and dispatches on digital colonialism, degrowth, and sovereign technology."
       />
       <div className="bg-[color:var(--ink)] pt-16 border-b border-white/5 relative overflow-hidden">
@@ -44,7 +57,7 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(var(--accent-rgb),0.3),transparent_70%)]" />
           <div className="paper-grain absolute inset-0" />
         </div>
-        
+
         <div className="mx-auto flex max-w-6xl flex-col gap-14 px-6 py-28 md:py-32 relative z-10">
           <BlogFeatureSection
             featureArticle={featureArticle as any}
@@ -56,8 +69,12 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
       <div className="blog-archive-shell">
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-14 md:py-24">
           <div className="flex flex-col gap-4 border-b border-border pb-8">
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">Archive</p>
-            <h2 className="text-4xl md:text-5xl tracking-tight">Further Reading</h2>
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent-warm)]">
+              Archive
+            </p>
+            <h2 className="text-4xl md:text-5xl tracking-tight">
+              Further Reading
+            </h2>
           </div>
           <BlogArchiveSection
             articles={paginatedArchiveArticles as any}

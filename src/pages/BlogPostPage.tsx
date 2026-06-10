@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ChevronLeft, Share2, ArrowRight, Loader2 } from "lucide-react";
+import { ChevronLeft, Share2, ArrowRight, Loader2, Home } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/common/SEO";
 import { useEffect } from "react";
@@ -89,13 +89,23 @@ export function BlogPostPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Link 
-              to="/blog" 
-              className="group mb-12 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
-            >
-              <ChevronLeft size={14} className="transition-transform group-hover:-translate-x-1" />
-              Editorial Archive
-            </Link>
+            <div className="flex flex-wrap items-center gap-6 mb-12">
+              <Link 
+                to="/" 
+                className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
+              >
+                <Home size={14} className="transition-transform group-hover:-translate-y-0.5" />
+                Go Back Home
+              </Link>
+              <span className="text-white/20 hidden sm:block">|</span>
+              <Link 
+                to="/blog" 
+                className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
+              >
+                <ChevronLeft size={14} className="transition-transform group-hover:-translate-x-1" />
+                Editorial Archive
+              </Link>
+            </div>
             
             <div className="flex flex-wrap items-center gap-3 mb-8">
               <span className="px-3 py-1 bg-[color:var(--accent)] text-[color:var(--accent-deep)] text-[10px] font-bold uppercase tracking-widest rounded-sm">
@@ -204,12 +214,12 @@ export function BlogPostPage() {
           <div className="sticky top-32 space-y-12">
             <div className="space-y-4 p-6 bg-[color:var(--surface)] border border-border rounded-xl">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--accent-warm)]">The Manifesto</p>
-              <h4 className="font-display text-xl font-bold leading-tight">Dismantle the chains of Big Tech.</h4>
+              <h4 className="font-display text-xl font-bold leading-tight">What is Digital Degrowth? A Manifesto</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Explore the full manifesto for digital sovereignty and community-scale technology.
               </p>
-              <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[color:var(--ink)] hover:gap-3 transition-all">
-                Buy the book <ArrowRight size={12} />
+              <Link to="/blog/what-is-digital-degrowth-a-manifesto" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[color:var(--ink)] hover:gap-3 transition-all">
+                Read the Manifesto <ArrowRight size={12} />
               </Link>
             </div>
 

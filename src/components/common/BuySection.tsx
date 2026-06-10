@@ -19,7 +19,7 @@ const iconMap: Record<string, React.ReactNode> = {
   other: <Globe size={16} aria-hidden="true" />,
 };
 
-export const BuySection = () => {
+export const BuySection = ({ lightMode = true }: { lightMode?: boolean }) => {
   const { retailers } = useRetailers();
 
   const staticEditions = [
@@ -74,11 +74,13 @@ export const BuySection = () => {
       id="buy"
       className="flex flex-col items-start space-y-6 pt-4 animate-fade"
     >
-      <div className="space-y-1">
-        <h2 className="text-3xl md:text-4xl">Buy the book</h2>
-        <p className="text-xs italic text-[color:var(--ink-soft)] font-medium">
-          Available now at these retailers
-        </p>
+      <div className="space-y-2">
+        <h2
+          className={`text-2xl md:text-3xl font-display font-bold tracking-tight ${lightMode ? "text-[color:var(--ink)]" : "text-white"}`}
+        >
+          Purchase Options
+        </h2>
+        <div className="h-1 w-12 bg-[color:var(--accent)] rounded-full" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl">
@@ -88,9 +90,13 @@ export const BuySection = () => {
             href={edition.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="button-primary !py-4 !px-6 !rounded-xl flex items-center gap-4 shadow-sm hover:shadow-xl transition-all"
+            className={`button-primary group flex items-center gap-4 !rounded-xl !px-6 !py-4 shadow-sm transition-all hover:shadow-xl ${!lightMode ? "!border-white/10 !bg-white/5 !text-white hover:!bg-[color:var(--accent)] hover:!text-[color:var(--accent-deep)]" : ""}`}
           >
-            <div className="flex-shrink-0 opacity-70">{edition.icon}</div>
+            <div
+              className={`flex-shrink-0 ${lightMode ? "opacity-70" : "text-[color:var(--accent)] transition-colors group-hover:text-inherit"}`}
+            >
+              {edition.icon}
+            </div>
             <span className="text-[10px] font-bold uppercase tracking-[0.15em] leading-tight">
               {edition.label}
             </span>

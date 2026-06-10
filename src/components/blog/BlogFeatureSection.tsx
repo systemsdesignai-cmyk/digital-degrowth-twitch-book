@@ -7,6 +7,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { urlFor } from "@/sanity/lib/image";
+import { BuySection } from "@/components/common/BuySection";
 
 type BlogFeatureSectionProps = {
   featureArticle: any; // Using any to handle both static and Sanity types for now
@@ -51,16 +52,24 @@ export function BlogFeatureSection({
 
   return (
     <section className="flex flex-col gap-12">
-      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between border-b border-white/10 pb-12">
-        <div className="flex max-w-3xl flex-col gap-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent)]">Editorial Archive</p>
-          <h1 className="font-display text-5xl md:text-8xl font-bold text-white tracking-[-0.04em] leading-[0.9]">
-            Dispatches from the <span className="hero-outline text-[color:var(--accent)]">Resistance.</span>
-          </h1>
+      <div className="flex flex-col gap-12 xl:flex-row xl:items-start xl:justify-between border-b border-white/10 pb-16">
+        <div className="flex flex-col gap-8 flex-1">
+          <div className="flex flex-col gap-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent)]">Editorial Archive</p>
+            <h1 className="font-display text-5xl md:text-8xl font-bold text-white tracking-[-0.04em] leading-[0.9]">
+              Dispatches from the <span className="hero-outline text-[color:var(--accent)]">Resistance.</span>
+            </h1>
+          </div>
+          <p className="max-w-xl text-sm leading-8 text-white/60 md:text-lg italic">
+            Essays and critiques on digital colonialism and platform power—recomposed into a calmer, more tactile reading experience.
+          </p>
         </div>
-        <p className="max-w-md text-sm leading-8 text-white/60 md:text-base italic">
-          Essays and critiques on digital colonialism and platform power—recomposed into a calmer, more tactile reading experience.
-        </p>
+        
+        <div className="w-full xl:w-[420px] pt-4 xl:pt-0">
+          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <BuySection lightMode={false} />
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1.6fr)_minmax(19rem,0.8fr)]">
@@ -111,7 +120,7 @@ export function BlogFeatureSection({
         {/* Top Stories Sidebar */}
         <div className="flex flex-col gap-6">
           <div className="pb-2 border-b border-white/10">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Latest Analysis</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Latest Articles</p>
           </div>
           
           {topStories.map((article, index) => (
@@ -152,14 +161,6 @@ export function BlogFeatureSection({
               </Link>
             </motion.article>
           ))}
-
-          <div className="mt-auto p-8 rounded-xl border border-[color:var(--accent)]/20 bg-[color:var(--accent)]/5 space-y-4">
-             <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[color:var(--accent)]">The Print Edition</p>
-             <h4 className="font-display text-2xl font-bold text-white leading-tight">Reclaim the <br /> <span className="hero-outline">future</span></h4>
-             <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white hover:text-[color:var(--accent)] transition-colors">
-                Order the book <ArrowRight size={14} />
-             </Link>
-          </div>
         </div>
       </div>
     </section>

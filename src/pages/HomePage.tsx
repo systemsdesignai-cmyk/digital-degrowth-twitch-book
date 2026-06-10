@@ -140,7 +140,7 @@ export const HomePage = () => {
             <p className="section-copy text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
               {homeSettings.aboutCopy}
             </p>
-            <Link to="/blog" className="news-link !text-sm">
+            <Link to="/blog/what-is-digital-degrowth-a-manifesto" className="news-link !text-sm">
               Read More <ChevronRight size={16} aria-hidden="true" />
             </Link>
           </div>
