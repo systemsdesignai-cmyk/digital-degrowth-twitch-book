@@ -93,7 +93,7 @@ export const HomePage = () => {
               <span className="eyebrow">New release by {author.name}</span>
               <h1 className="hero-title text-5xl md:text-7xl">
                 {homeSettings.heroTitle} <br />
-                <span className="hero-outline">{homeSettings.heroTitleOutline}</span>
+                <span className="hero-outline">{homeSettings.heroTitleOutline?.replace(/\.$/, "")}</span>
               </h1>
             </div>
             <p className="hero-copy max-w-xl">

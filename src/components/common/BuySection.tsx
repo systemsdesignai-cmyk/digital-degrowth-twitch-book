@@ -1,10 +1,14 @@
-import { ShoppingCart, ExternalLink, BookOpen, Globe } from "lucide-react";
+import { ShoppingCart, ExternalLink, BookOpen, Globe, Book, Store } from "lucide-react";
 import { useRetailers } from "@/hooks/useSettings";
 
 const iconMap: Record<string, React.ReactNode> = {
-  amazon: <ShoppingCart size={16} aria-hidden="true" />,
+  pluto: <Book size={16} aria-hidden="true" />,
+  "amazon-us": <ShoppingCart size={16} aria-hidden="true" />,
+  "amazon-eu": <ShoppingCart size={16} aria-hidden="true" />,
+  barnes: <BookOpen size={16} aria-hidden="true" />,
   takealot: <ExternalLink size={16} aria-hidden="true" />,
   apple: <BookOpen size={16} aria-hidden="true" />,
+  bookshop: <Store size={16} aria-hidden="true" />,
   other: <Globe size={16} aria-hidden="true" />,
 };
 
@@ -13,18 +17,38 @@ export const BuySection = () => {
 
   const staticEditions = [
     {
-      label: "Amazon",
-      icon: <ShoppingCart size={16} aria-hidden="true" />,
+      label: "Pluto Press",
+      icon: iconMap.pluto,
+      url: "#",
+    },
+    {
+      label: "Amazon (US)",
+      icon: iconMap["amazon-us"],
+      url: "#",
+    },
+    {
+      label: "Amazon (Europe)",
+      icon: iconMap["amazon-eu"],
+      url: "#",
+    },
+    {
+      label: "Barnes & Noble",
+      icon: iconMap.barnes,
       url: "#",
     },
     {
       label: "Takealot",
-      icon: <ExternalLink size={16} aria-hidden="true" />,
+      icon: iconMap.takealot,
       url: "#",
     },
     {
       label: "Apple Books",
-      icon: <BookOpen size={16} aria-hidden="true" />,
+      icon: iconMap.apple,
+      url: "#",
+    },
+    {
+      label: "Bookshop.org",
+      icon: iconMap.bookshop,
       url: "#",
     },
   ];

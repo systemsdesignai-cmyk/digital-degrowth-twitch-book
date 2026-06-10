@@ -343,7 +343,7 @@
 
   .hero-outline {
     color: rgba(var(--accent-rgb), 0.24);
-    -webkit-text-stroke: 0.7px rgba(var(--accent-strong-rgb), 0.8);
+    -webkit-text-stroke: 1.2px #000000;
   }
 
   .hero-copy {

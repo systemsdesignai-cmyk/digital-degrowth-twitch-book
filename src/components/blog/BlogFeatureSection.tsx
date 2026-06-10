@@ -155,7 +155,7 @@ export function BlogFeatureSection({
 
           <div className="mt-auto p-8 rounded-xl border border-[color:var(--accent)]/20 bg-[color:var(--accent)]/5 space-y-4">
              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[color:var(--accent)]">The Print Edition</p>
-             <h4 className="font-display text-2xl font-bold text-white leading-tight">Reclaim your <br /> future today.</h4>
+             <h4 className="font-display text-2xl font-bold text-white leading-tight">Reclaim the <br /> <span className="hero-outline">future</span></h4>
              <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white hover:text-[color:var(--accent)] transition-colors">
                 Order the book <ArrowRight size={14} />
              </Link>
