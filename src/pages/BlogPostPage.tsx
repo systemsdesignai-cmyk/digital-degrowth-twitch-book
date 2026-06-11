@@ -76,34 +76,36 @@ export function BlogPostPage() {
         style={{ scaleX }}
       />
 
-      {/* Hero Section - Deep Ink for Contrast */}
-      <header className="relative bg-[color:var(--ink)] pt-32 pb-24 md:pt-48 md:pb-40 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(var(--accent-rgb),0.4),transparent_70%)]" />
+      {/* Split Hero Section */}
+      <header className="relative bg-[color:var(--ink)] min-h-[70vh] flex flex-col md:flex-row overflow-hidden border-b border-white/5">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(var(--accent-rgb),0.3),transparent_60%)]" />
           <div className="paper-grain absolute inset-0" />
         </div>
         
-        <div className="relative mx-auto max-w-5xl px-6">
+        {/* Left Side: Content */}
+        <div className="relative flex-1 flex flex-col justify-center px-6 py-20 md:py-32 md:px-12 lg:px-24 z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
+            className="max-w-3xl"
           >
             <div className="flex flex-wrap items-center gap-6 mb-12">
               <Link 
                 to="/" 
-                className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
+                className="group inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
               >
-                <Home size={14} className="transition-transform group-hover:-translate-y-0.5" />
-                Go Back Home
+                <Home size={12} className="transition-transform group-hover:-translate-y-0.5" />
+                Home
               </Link>
               <span className="text-white/20 hidden sm:block">|</span>
               <Link 
                 to="/blog" 
-                className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
+                className="group inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[color:var(--accent)] hover:text-white transition-colors"
               >
-                <ChevronLeft size={14} className="transition-transform group-hover:-translate-x-1" />
-                Editorial Archive
+                <ChevronLeft size={12} className="transition-transform group-hover:-translate-x-1" />
+                Archive
               </Link>
             </div>
             
@@ -117,58 +119,47 @@ export function BlogPostPage() {
               </span>
             </div>
             
-            <h1 className="font-display text-5xl md:text-8xl font-bold text-white mb-12 leading-[0.9] tracking-[-0.04em] text-wrap-balance">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-10 leading-[0.95] tracking-[-0.04em] text-wrap-balance">
               {article.title}
             </h1>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/10 max-w-xl">
               <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest text-white/40">Published</p>
-                <p className="text-sm text-white font-medium">{formatArticleDate(article.date)}</p>
+                <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Published</p>
+                <p className="text-xs text-white font-medium">{formatArticleDate(article.date)}</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest text-white/40">Read Time</p>
-                <p className="text-sm text-white font-medium">{article.readTime}</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest text-white/40">Author</p>
-                <p className="text-sm text-white font-medium">Michael Kwet</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest text-white/40">Source</p>
-                <p className="text-sm text-white font-medium">{article.outlet}</p>
+                <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Read Time</p>
+                <p className="text-xs text-white font-medium">{article.readTime}</p>
               </div>
             </div>
           </motion.div>
         </div>
-      </header>
 
-      {/* Main Image Section */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 -mt-20 md:-mt-32">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="overflow-hidden rounded-xl shadow-2xl border border-white/10 bg-[color:var(--ink)]">
+        {/* Right Side: Image */}
+        <div className="relative flex-1 md:h-auto h-[40vh]">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="h-full w-full"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--ink)] to-transparent z-10 hidden md:block w-32" />
             <img 
               src={getArticleImage(article)} 
               alt={article.title}
-              className="w-full aspect-[21/9] object-cover opacity-90 hover:opacity-100 transition-opacity duration-700"
+              className="w-full h-full object-cover opacity-80"
             />
-          </div>
-          <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <p className="text-[11px] italic text-muted-foreground font-medium uppercase tracking-wider">
-              &mdash; {getArticleCaption(article)}
-            </p>
-            <div className="flex gap-2">
-              <button className="p-2 rounded-full border border-border hover:bg-[color:var(--accent)] hover:border-transparent transition-all group">
-                <Share2 size={16} className="text-muted-foreground group-hover:text-[color:var(--accent-deep)]" />
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      </section>
+            {getArticleCaption(article) && (
+              <div className="absolute bottom-6 right-6 z-20 hidden md:block">
+                <p className="text-[9px] italic text-white/40 font-medium uppercase tracking-widest bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-sm">
+                  &mdash; {getArticleCaption(article)}
+                </p>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </header>
 
       {/* Content Section */}
       <section className="mx-auto max-w-5xl px-6 py-20 md:py-32 grid md:grid-cols-[1fr_240px] gap-16">
