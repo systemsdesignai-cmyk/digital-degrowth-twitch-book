@@ -37,7 +37,9 @@ export const Footer = () => {
             <Link to="/blog" className="footer-link">
               Blog
             </Link>
-            <ContactPopup />
+            <Link to="/contact" className="footer-link">
+              Contact
+            </Link>
           </div>
         </div>
       </div>
