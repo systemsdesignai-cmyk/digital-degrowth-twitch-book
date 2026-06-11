@@ -101,8 +101,8 @@ export const HomePage = () => {
               <span className="eyebrow">New release by {author.name}</span>
               <h1 className="hero-title text-5xl md:text-7xl">
                 {homeSettings.heroTitle} <br />
-                <span className="hero-outline">
-                  {homeSettings.heroTitleOutline?.replace(/\.$/, "")}
+                <span className="hero-title">
+                  {homeSettings.heroTitleOutline}
                 </span>
               </h1>
             </div>
@@ -123,7 +123,7 @@ export const HomePage = () => {
           <div className="flex justify-center">
             <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-[color:var(--accent)] shadow-xl z-10 bg-black">
               <img
-                src="/assets/image1.webp"
+                src="/assets/digital_degrowth.webp"
                 alt="Digital Degrowth Logo"
                 width="480"
                 height="480"
@@ -140,7 +140,10 @@ export const HomePage = () => {
             <p className="section-copy text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
               {homeSettings.aboutCopy}
             </p>
-            <Link to="/blog/what-is-digital-degrowth-a-manifesto" className="news-link !text-sm">
+            <Link
+              to="/blog/what-is-digital-degrowth-a-manifesto"
+              className="news-link !text-sm"
+            >
               Read More <ChevronRight size={16} aria-hidden="true" />
             </Link>
           </div>
@@ -213,9 +216,7 @@ export const HomePage = () => {
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col items-start mb-16 gap-4">
-            <h3 className="text-2xl md:text-4xl">
-              Latest articles
-            </h3>
+            <h3 className="text-2xl md:text-4xl">Latest articles</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             {articles && articles.length > 0 ? (
@@ -268,7 +269,7 @@ export const HomePage = () => {
           <div className="flex justify-center">
             <Link
               to="/blog"
-              className="button-primary group !px-10 !py-5 flex items-center gap-4 shadow-xl hover:shadow-2xl transition-all"
+              className="button-primary group !px-10 !py-5 flex items-center gap-4 shadow-xl hover:shadow-2xl transition-all !bg-black !text-[color:var(--accent)] hover:!bg-[color:var(--accent)] hover:!text-black"
             >
               <span className="text-sm font-bold uppercase tracking-[0.25em]">
                 View Full Archive
@@ -380,7 +381,7 @@ export const HomePage = () => {
                     className="text-[rgba(var(--accent-rgb),0.34)]"
                   />
                 )}
-                <div className="author-card__footer !py-2 !text-[10px]">
+                <div className="author-card__footer !py-2 !text-[10px] !bg-black !text-[color:var(--accent)]">
                   {author.name}
                 </div>
               </div>

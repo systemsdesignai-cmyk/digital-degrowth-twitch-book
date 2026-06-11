@@ -57,7 +57,7 @@ export function BlogFeatureSection({
           <div className="flex flex-col gap-4">
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent)]">Editorial Archive</p>
             <h1 className="font-display text-5xl md:text-8xl font-bold text-white tracking-[-0.04em] leading-[0.9]">
-              Dispatches from the <span className="hero-outline text-[color:var(--accent)]">Resistance.</span>
+              Dispatches from the <span className="text-[color:var(--accent)]">Resistance.</span>
             </h1>
           </div>
           <p className="max-w-xl text-sm leading-8 text-white/60 md:text-lg italic">

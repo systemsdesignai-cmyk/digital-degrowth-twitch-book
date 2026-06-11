@@ -90,10 +90,10 @@ export const BuySection = ({ lightMode = true }: { lightMode?: boolean }) => {
             href={edition.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`button-primary group flex items-center gap-4 !rounded-xl !px-6 !py-4 shadow-sm transition-all hover:shadow-xl ${!lightMode ? "!border-white/10 !bg-white/5 !text-white hover:!bg-[color:var(--accent)] hover:!text-[color:var(--accent-deep)]" : ""}`}
+            className={`button-primary group flex items-center gap-4 !rounded-xl !px-6 !py-4 shadow-sm transition-all hover:shadow-xl !bg-black !text-[color:var(--accent)] hover:!bg-[color:var(--accent)] hover:!text-black ${!lightMode ? "!border-white/10" : ""}`}
           >
             <div
-              className={`flex-shrink-0 ${lightMode ? "opacity-70" : "text-[color:var(--accent)] transition-colors group-hover:text-inherit"}`}
+              className="flex-shrink-0 text-[color:var(--accent)] transition-colors group-hover:text-inherit"
             >
               {edition.icon}
             </div>
