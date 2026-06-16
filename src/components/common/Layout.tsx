@@ -1,11 +1,36 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: 20,
+    rotateY: -5,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    rotateY: 0,
+  },
+  exit: {
+    opacity: 0,
+    x: -20,
+    rotateY: 5,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};
 
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
@@ -32,7 +57,7 @@ export const Layout = ({ children }: LayoutProps) => {
   }
 
   return (
-    <div className="app-shell min-h-screen">
+    <div className="app-shell min-h-screen" style={{ perspective: "1200px" }}>
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="ambient-wash absolute inset-0" />
         <div className="paper-grain absolute inset-0" />
@@ -44,8 +69,20 @@ export const Layout = ({ children }: LayoutProps) => {
 
       <Navbar />
 
-      <main id="main-content" className="main-shell">
-        {children}
+      <main id="main-content" className="main-shell overflow-x-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={location.pathname}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ transformOrigin: "center left" }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <Footer />

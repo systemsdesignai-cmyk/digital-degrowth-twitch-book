@@ -50,17 +50,19 @@ export const Navbar = () => {
       className={`site-nav ${scrolled ? "site-nav--scrolled" : "site-nav--top"} ${isBlog ? "site-nav--blog" : ""}`}
     >
               <div className="max-w-6xl mx-auto px-6 flex justify-between items-center gap-6">
-                <Link
-                  to="/"
-                  className={`brand-mark text-left ${isBlog ? "brand-mark--blog" : ""}`}
-                  title="Return to Home Page"
-                  aria-label="Digital Degrowth - Return to Home Page"
-                >
-                  <span className="brand-mark__block">Digital</span>
-                  <span>Degrowth</span>
-                </Link>
+                <div className="flex-1 flex justify-start">
+                  <Link
+                    to="/"
+                    className={`brand-mark text-left ${isBlog ? "brand-mark--blog" : ""}`}
+                    title="Return to Home Page"
+                    aria-label="Digital Degrowth - Return to Home Page"
+                  >
+                    <span className="brand-mark__block">Digital</span>
+                    <span>Degrowth</span>
+                  </Link>
+                </div>
       
-                <div className="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-[0.4em]">
+                <div className="hidden md:flex flex-1 justify-center gap-8 text-[11px] font-bold uppercase tracking-[0.4em]">
                   <Link
                     to="/blog"
                     className="nav-link"
@@ -75,14 +77,26 @@ export const Navbar = () => {
                   </Link>
                 </div>
       
-                <button
-                  className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[color:var(--accent)]"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                >
-                  {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-                      </div>
+                <div className="flex-1 flex justify-end items-center gap-4">
+                  {/* Desktop Buy Now Button */}
+                  <button
+                    className="hidden md:block px-6 py-2.5 rounded-xl text-[color:var(--accent)] font-bold text-[10px] bg-black hover:bg-[color:var(--accent)] hover:text-black transition-all shadow-md uppercase tracking-[0.15em]"
+                    onClick={() => {
+                      window.open("https://example.com/buy", "_blank");
+                    }}
+                  >
+                    Buy Now
+                  </button>
+
+                  <button
+                    className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[color:var(--accent)]"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  >
+                    {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                  </button>
+                </div>
+              </div>
               
                       <AnimatePresence>
                         {mobileMenuOpen && (
