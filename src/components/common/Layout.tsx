@@ -57,7 +57,7 @@ export const Layout = ({ children }: LayoutProps) => {
   }
 
   return (
-    <div className="app-shell min-h-screen" style={{ perspective: "1200px" }}>
+    <div className="app-shell min-h-screen">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="ambient-wash absolute inset-0" />
         <div className="paper-grain absolute inset-0" />
@@ -69,7 +69,7 @@ export const Layout = ({ children }: LayoutProps) => {
 
       <Navbar />
 
-      <main id="main-content" className="main-shell overflow-x-hidden">
+      <main id="main-content" className="main-shell overflow-x-hidden" style={{ perspective: "1200px" }}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={location.pathname}
