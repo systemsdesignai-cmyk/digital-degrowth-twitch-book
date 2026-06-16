@@ -107,14 +107,21 @@ export const HomePage = () => {
               </h1>
             </div>
             <p className="hero-copy max-w-xl">{homeSettings.heroCopy}</p>
-            <BuySection />
+            <div className="hidden md:block">
+              <BuySection />
+            </div>
           </div>
 
-          <img
-            src="/assets/book_logo.png"
-            alt="Digital Degrowth Book Cover"
-            className="book-cover w-64 h-96 md:w-80 md:h-[480px] justify-self-center"
-          />
+          <div className="flex flex-col items-center gap-8">
+            <img
+              src="/assets/book_logo.png"
+              alt="Digital Degrowth Book Cover"
+              className="book-cover w-64 h-96 md:w-80 md:h-[480px] justify-self-center"
+            />
+            <div className="md:hidden w-full">
+              <BuySection />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -158,16 +165,38 @@ export const HomePage = () => {
 
           <div className="quote-shell">
             <div className="relative max-w-4xl mx-auto px-4 md:px-16">
-              <div className="max-w-3xl mx-auto quote-frame min-h-[300px] flex items-center justify-center">
+              <div className="max-w-3xl mx-auto quote-frame h-auto md:min-h-[300px] flex items-center justify-center p-6 md:p-0">
                 {citations && citations.length > 0 ? (
-                  <img
-                    key={citationIndex}
-                    src={urlFor(citations[citationIndex].image).url()}
-                    alt={`Citation ${citationIndex + 1}`}
-                    width="1200"
-                    height="720"
-                    className="w-full h-auto object-cover animate-fade"
-                  />
+                  <>
+                    {/* Desktop View: 1 Image */}
+                    <div className="hidden md:block w-full">
+                      <img
+                        key={citationIndex}
+                        src={urlFor(citations[citationIndex].image).url()}
+                        alt={`Citation ${citationIndex + 1}`}
+                        width="1200"
+                        height="720"
+                        className="w-full h-auto object-cover animate-fade"
+                      />
+                    </div>
+                    {/* Mobile View: 3 Images Stacked */}
+                    <div className="md:hidden flex flex-col gap-8 w-full items-center justify-center">
+                      {Array.from({ length: Math.min(3, citations.length) }).map(
+                        (_, offset) => {
+                          const idx =
+                            (citationIndex + offset) % citations.length;
+                          return (
+                            <img
+                              key={`${idx}-${offset}`}
+                              src={urlFor(citations[idx].image).url()}
+                              alt={`Citation ${idx + 1}`}
+                              className="w-full h-auto object-contain animate-fade"
+                            />
+                          );
+                        },
+                      )}
+                    </div>
+                  </>
                 ) : (
                   <p className="text-muted-foreground italic">
                     No citations added yet.
@@ -216,7 +245,7 @@ export const HomePage = () => {
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col items-start mb-16 gap-4">
-            <h3 className="text-2xl md:text-4xl">Latest articles</h3>
+            <h3 className="text-3xl md:text-5xl">Latest Articles</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             {articles && articles.length > 0 ? (

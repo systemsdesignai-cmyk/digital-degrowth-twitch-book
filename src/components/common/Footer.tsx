@@ -12,7 +12,7 @@ export const Footer = () => {
   const siteSettings = sanitySiteSettings || staticSiteSettings;
 
   return (
-    <footer className="footer-shell py-8 text-center">
+    <footer className="footer-shell py-12 text-center bg-[color:var(--ink)] border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-4">
@@ -23,24 +23,13 @@ export const Footer = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="brand-mark !text-xl md:!text-3xl !tracking-[0.15em]">
+            <div className="brand-mark !text-xl md:!text-3xl !tracking-[0.15em] !text-white">
               <span>WWW.DIGITALDEGROWTH.COM</span>
             </div>
           </div>
-          <p className="text-sm text-[color:var(--ink-soft)]">
+          <p className="text-sm text-white/60">
             {siteSettings.footerText}
           </p>
-          <div className="flex gap-8">
-            <Link to="/blog/what-is-digital-degrowth-a-manifesto" className="footer-link">
-              Manifesto
-            </Link>
-            <Link to="/blog" className="footer-link">
-              Blog
-            </Link>
-            <Link to="/contact" className="footer-link">
-              Contact
-            </Link>
-          </div>
         </div>
       </div>
     </footer>
