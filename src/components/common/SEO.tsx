@@ -19,7 +19,11 @@ export const SEO = ({
   twitterHandle = "@michaelkwet",
   publishedDate,
 }: SEOProps) => {
-  const siteTitle = title.includes("Digital Degrowth") ? title : `${title} | Digital Degrowth`;
+  const siteTitle = title.includes("Digital Degrowth")
+    ? title
+    : title.includes("Home")
+      ? "Digital Degrowth"
+      : `${title} | Digital Degrowth`;
 
   return (
     <Helmet>
@@ -44,8 +48,10 @@ export const SEO = ({
 
       {/* Additional SEO Best Practices */}
       <link rel="canonical" href={url} />
-      {publishedDate && <meta property="article:published_time" content={publishedDate} />}
-      
+      {publishedDate && (
+        <meta property="article:published_time" content={publishedDate} />
+      )}
+
       {/* llm.txt link */}
       <link rel="help" href="/llm.txt" title="AI Search Engine Context" />
     </Helmet>
