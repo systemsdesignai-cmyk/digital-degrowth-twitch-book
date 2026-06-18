@@ -61,33 +61,35 @@ export const Navbar = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex flex-1 justify-center gap-8 text-[11px] font-bold uppercase tracking-[0.4em]">
-            <Link to="/blog" className="nav-link">
-              Blog
-            </Link>
-            <Link to="/contact" className="nav-link">
-              Contact
-            </Link>
-          </div>
+          <div className="flex-1 flex justify-end items-center gap-8">
+            <div className="hidden md:flex items-center gap-8 text-[13px] font-extrabold uppercase tracking-[0.4em]">
+              <Link to="/blog" className="nav-link">
+                Blog
+              </Link>
+              <Link to="/contact" className="nav-link">
+                Contact
+              </Link>
+            </div>
 
-          <div className="flex-1 flex justify-end items-center gap-4">
-            {/* Desktop Buy Now Button */}
-            <button
-              className="hidden md:block px-6 py-2.5 rounded-xl text-[color:var(--accent)] font-bold text-[10px] bg-black hover:bg-[color:var(--accent)] hover:text-black transition-all shadow-md uppercase tracking-[0.15em]"
-              onClick={() => {
-                window.open("https://example.com/buy", "_blank");
-              }}
-            >
-              Buy Now
-            </button>
+            {/* Desktop Buy Now Button & Mobile Menu Toggle */}
+            <div className="flex items-center gap-4">
+              <button
+                className="hidden md:block px-6 py-2.5 rounded-xl text-[color:var(--accent)] font-extrabold text-[12px] bg-black hover:bg-[color:var(--accent)] hover:text-black transition-all shadow-md uppercase tracking-[0.15em]"
+                onClick={() => {
+                  window.open("https://example.com/buy", "_blank");
+                }}
+              >
+                Buy Now
+              </button>
 
-            <button
-              className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[color:var(--accent)]"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              <button
+                className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[color:var(--accent)]"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -127,7 +129,7 @@ export const Navbar = () => {
             </div>
 
             {/* Main Navigation Links */}
-            <div className="flex-1 flex flex-col items-center justify-center gap-8 text-[#1a2416] font-bold text-3xl md:text-4xl py-8 font-display">
+            <div className="flex-1 flex flex-col items-center justify-center gap-8 text-[#1a2416] font-extrabold text-3xl md:text-4xl py-8 font-display">
               <Link
                 to="/blog"
                 className="hover:text-[color:var(--accent-strong)] transition-colors"
@@ -232,7 +234,7 @@ export const Navbar = () => {
             {/* Buy Now Button */}
             <div className="py-6 px-6">
               <button
-                className="w-full py-4 rounded-xl text-[color:var(--accent)] font-bold text-[10px] bg-black hover:bg-[color:var(--accent)] hover:text-black transition-all shadow-lg uppercase tracking-[0.15em]"
+                className="w-full py-4 rounded-xl text-[color:var(--accent)] font-extrabold text-[12px] bg-black hover:bg-[color:var(--accent)] hover:text-black transition-all shadow-lg uppercase tracking-[0.15em]"
                 onClick={() => {
                   window.open("https://example.com/buy", "_blank");
                   setMobileMenuOpen(false);

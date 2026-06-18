@@ -1,23 +1,13 @@
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 
 type BlogArchiveSectionProps = {
   articles: any[];
-  currentPage: number;
-  pageSize: number;
 };
 
 const archiveCardTransition = {
@@ -43,17 +33,19 @@ const formatArticleDate = (date: string) =>
 
 export function BlogArchiveSection({
   articles,
-  currentPage,
-  pageSize,
 }: BlogArchiveSectionProps) {
   const prefersReducedMotion = useReducedMotion();
-  const totalPages = Math.max(1, Math.ceil(articles.length / pageSize));
-  const safePage = Math.min(Math.max(currentPage, 0), totalPages - 1);
-  const pageStartIndex = safePage * pageSize;
-  const visibleArticles = articles.slice(pageStartIndex, pageStartIndex + pageSize);
-  const rangeStart = pageStartIndex + 1;
-  const rangeEnd = pageStartIndex + visibleArticles.length;
-  const pageLinks = Array.from({ length: totalPages }, (_, index) => index);
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const visibleArticles = articles.slice(0, visibleCount);
+  const rangeStart = articles.length > 0 ? 1 : 0;
+  const rangeEnd = visibleArticles.length;
+  const hasMore = visibleCount < articles.length;
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
   const revealProps = prefersReducedMotion
     ? {}
     : {
@@ -76,7 +68,7 @@ export function BlogArchiveSection({
         </div>
       </div>
 
-      <div className="grid gap-12 md:grid-cols-2">
+      <div className="grid gap-8 md:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {visibleArticles.map((article, index) => (
           <motion.article
             key={`${getArticleSlug(article)}-${article.date}`}
@@ -136,49 +128,17 @@ export function BlogArchiveSection({
         ))}
       </div>
 
-      <div className="mt-12 flex justify-center py-12 border-t border-border">
-        <div className="flex flex-col items-center gap-8">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground italic">
-            Navigating page {safePage + 1} of {totalPages}
-          </p>
-          <Pagination className="mx-0 w-auto">
-            <PaginationContent className="gap-2">
-              <PaginationItem>
-                <PaginationPrevious
-                  to={`/blog?page=${Math.max(1, safePage)}`}
-                  className={cn(
-                    "rounded-full border border-border px-6 hover:bg-[color:var(--accent)] hover:border-transparent transition-all",
-                    safePage === 0 && "pointer-events-none opacity-45"
-                  )}
-                />
-              </PaginationItem>
-              {pageLinks.map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    to={`/blog?page=${page + 1}`}
-                    isActive={page === safePage}
-                    className={cn(
-                      "rounded-full border border-border w-10 h-10 hover:bg-[color:var(--accent)] hover:border-transparent transition-all",
-                      page === safePage && "bg-[color:var(--ink)] text-white border-transparent"
-                    )}
-                  >
-                    {page + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  to={`/blog?page=${Math.min(totalPages, safePage + 2)}`}
-                  className={cn(
-                    "rounded-full border border-border px-6 hover:bg-[color:var(--accent)] hover:border-transparent transition-all",
-                    safePage === totalPages - 1 && "pointer-events-none opacity-45"
-                  )}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+      {hasMore && (
+        <div className="mt-12 flex justify-center py-12 border-t border-border">
+          <button
+            onClick={handleLoadMore}
+            className="button-primary group/btn flex items-center gap-2"
+          >
+            <span>Load More Dispatches</span>
+            <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+          </button>
         </div>
-      </div>
+      )}
     </section>
   );
 }

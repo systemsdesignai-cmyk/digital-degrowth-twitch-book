@@ -2,15 +2,9 @@ import { BlogArchiveSection } from "@/components/blog/BlogArchiveSection";
 import { BlogFeatureSection } from "@/components/blog/BlogFeatureSection";
 import { SEO } from "@/components/common/SEO";
 import { useArticles } from "@/hooks/useArticles";
-import { Loader2, Home } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
-type BlogPageProps = {
-  currentPage: number;
-  pageSize: number;
-};
-
-export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
+export function BlogPage() {
   const { articles, loading } = useArticles();
 
   if (loading) {
@@ -60,8 +54,8 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
 
         <div className="mx-auto flex max-w-6xl flex-col gap-14 px-6 py-28 md:py-32 relative z-10">
           <BlogFeatureSection
-            featureArticle={featureArticle as any}
-            topStories={topStories as any}
+             featureArticle={featureArticle as any}
+             topStories={topStories as any}
           />
         </div>
       </div>
@@ -78,8 +72,6 @@ export function BlogPage({ currentPage, pageSize }: BlogPageProps) {
           </div>
           <BlogArchiveSection
             articles={paginatedArchiveArticles as any}
-            currentPage={currentPage}
-            pageSize={pageSize}
           />
         </div>
       </div>
