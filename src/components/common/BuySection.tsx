@@ -81,8 +81,35 @@ export const BuySection = ({ lightMode = true }: { lightMode?: boolean }) => {
           label: r.label,
           icon: iconMap[r.type] || iconMap.other,
           url: r.url,
+          type: r.type,
         }))
-      : staticEditions;
+      : staticEditions.map((edition) => ({
+          ...edition,
+          type:
+            edition.label === "Pluto Press"
+              ? "pluto"
+              : edition.label.startsWith("Amazon")
+                ? "amazon"
+                : edition.label === "Takealot"
+                  ? "takealot"
+                  : "other",
+        }));
+
+  const mobilePriority = ["amazon", "pluto", "takealot"];
+  const primaryMobileEditions = mobilePriority
+    .map((type) =>
+      allEditions.find((edition) =>
+        type === "amazon"
+          ? edition.type?.startsWith("amazon") || edition.label.toLowerCase().includes("amazon")
+          : edition.type === type || edition.label.toLowerCase().includes(type)
+      )
+    )
+    .filter((edition): edition is (typeof allEditions)[number] => Boolean(edition));
+  const prioritizedMobileEditions = [
+    ...primaryMobileEditions,
+    ...allEditions.filter((edition) => !primaryMobileEditions.includes(edition)),
+  ];
+  const editionsToDisplay = isMobile ? prioritizedMobileEditions : allEditions;
 
   return (
     <div
@@ -100,14 +127,14 @@ export const BuySection = ({ lightMode = true }: { lightMode?: boolean }) => {
 
       <div className="flex flex-col w-full gap-3 max-w-2xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
-          {allEditions.map((edition, index) => {
-            const isVisible = !isMobile || index === 0 || isExpanded;
+          {editionsToDisplay.map((edition, index) => {
+            const isVisible = !isMobile || index < 3 || isExpanded;
             
             return (
               <AnimatePresence key={edition.label} initial={false}>
                 {isVisible && (
                   <motion.div
-                    initial={isMobile && index > 0 ? { height: 0, opacity: 0 } : false}
+                    initial={isMobile && index >= 3 ? { height: 0, opacity: 0 } : false}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -135,7 +162,7 @@ export const BuySection = ({ lightMode = true }: { lightMode?: boolean }) => {
           })}
         </div>
 
-        {allEditions.length > 1 && (
+        {editionsToDisplay.length > 3 && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className={`sm:hidden flex items-center justify-center gap-2 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${lightMode ? "text-[color:var(--ink-soft)] hover:text-[color:var(--ink)]" : "text-white/60 hover:text-white"}`}
@@ -146,7 +173,7 @@ export const BuySection = ({ lightMode = true }: { lightMode?: boolean }) => {
               </>
             ) : (
               <>
-                Show All Options ({allEditions.length}) <ChevronDown size={14} />
+                Show All Options ({editionsToDisplay.length}) <ChevronDown size={14} />
               </>
             )}
           </button>
