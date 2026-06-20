@@ -238,7 +238,7 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 0.32rem 1.05rem 1.05rem 0.32rem;
   background:
-    linear-gradient(90deg, rgba(232, 226, 216, 0.96), rgba(255, 253, 249, 0.98) 10%, rgba(255, 253, 249, 0.98) 90%, rgba(230, 224, 214, 0.95)),
+    linear-gradient(90deg, rgb(232, 226, 216), rgb(255, 253, 249) 10%, rgb(255, 253, 249) 90%, rgb(230, 224, 214)),
     var(--surface-strong);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.75),
@@ -263,8 +263,8 @@ h3 {
   min-width: 0;
   padding: clamp(1.45rem, 4vw, 3.2rem);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(250, 246, 239, 0.62)),
-    rgba(255, 253, 249, 0.72);
+    linear-gradient(180deg, rgb(255, 255, 255), rgb(250, 246, 239)),
+    rgb(255, 253, 249);
 }
 
 .page-left {
@@ -325,11 +325,13 @@ h3 {
   width: calc(50% - var(--book-pad));
   opacity: 0;
   pointer-events: none;
-  background: transparent;
+  background: rgb(255, 253, 249);
   border: 1px solid rgba(23, 36, 54, 0.1);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.72),
     0 18px 32px -22px rgba(18, 31, 48, 0.42);
+  isolation: isolate;
+  overflow: hidden;
   transform-style: preserve-3d;
 }
 
@@ -339,8 +341,16 @@ h3 {
   min-height: 0;
   border-radius: inherit;
   border: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.flip-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
   transform-style: preserve-3d;
 }
 
@@ -360,15 +370,31 @@ h3 {
 
 .flip-front {
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.62), rgba(230, 224, 214, 0.42)),
-    rgba(255, 253, 249, 0.72);
+    linear-gradient(90deg, rgb(255, 255, 255), rgb(230, 224, 214)),
+    rgb(255, 253, 249);
+  transform: translateZ(1px);
 }
 
 .flip-back {
   background:
-    linear-gradient(90deg, rgba(220, 213, 202, 0.58), rgba(255, 255, 255, 0.72)),
-    rgba(255, 253, 249, 0.72);
+    linear-gradient(90deg, rgb(220, 213, 202), rgb(255, 255, 255)),
+    rgb(255, 253, 249);
+  transform: rotateY(180deg) translateZ(1px);
+  opacity: 0;
+}
+
+.flip-back .flip-content {
   transform: rotateY(180deg);
+}
+
+.book[data-state="turning-forward"] .flip-front,
+.book[data-state="turning-back"] .flip-front {
+  animation: hideAfterHalf var(--page-turn-duration) steps(1, end) both;
+}
+
+.book[data-state="turning-forward"] .flip-back,
+.book[data-state="turning-back"] .flip-back {
+  animation: showAfterHalf var(--page-turn-duration) steps(1, end) both;
 }
 
 .book[data-state="turning-forward"] .flip-sheet {
@@ -383,6 +409,30 @@ h3 {
   border-radius: 0.32rem 0 0 0.32rem;
   transform-origin: right center;
   animation: flipBack var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+@keyframes hideAfterHalf {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes showAfterHalf {
+  0%,
+  49% {
+    opacity: 0;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes flipForward {
