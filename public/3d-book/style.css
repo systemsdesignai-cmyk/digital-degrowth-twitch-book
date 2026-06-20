@@ -387,6 +387,8 @@ h3 {
   border: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .flip-face::before {
@@ -459,7 +461,7 @@ h3 {
 }
 
 .flip-back .flip-content {
-  transform: rotateY(180deg);
+  transform: none;
 }
 
 .book[data-state="turning-forward"] .flip-front,
