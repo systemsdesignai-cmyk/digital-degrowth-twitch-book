@@ -308,13 +308,57 @@ h3 {
 
 .book-spine {
   position: absolute;
-  top: 1rem;
-  bottom: 1rem;
-  left: calc(50% + 0.2rem);
-  z-index: 3;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(23, 36, 54, 0.22), transparent);
+  top: var(--book-pad);
+  bottom: var(--book-pad);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 16px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.16) 0%,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(0, 0, 0, 0) 70%,
+    rgba(0, 0, 0, 0.16) 100%
+  );
   pointer-events: none;
+}
+
+/* Static Pages Shadows */
+.page-left::before,
+.page-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+
+.page-left::before {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0) 50%);
+}
+
+.page-right::before {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0) 50%);
+}
+
+.book[data-state="turning-forward"] .page-left::before {
+  animation: shadowFadeIn var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+.book[data-state="turning-forward"] .page-right::before {
+  animation: shadowFadeOut var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+.book[data-state="turning-back"] .page-left::before {
+  animation: shadowFadeOut var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+.book[data-state="turning-back"] .page-right::before {
+  animation: shadowFadeIn var(--page-turn-duration) var(--page-turn-easing) both;
 }
 
 .flip-sheet {
@@ -343,6 +387,37 @@ h3 {
   border: 0;
   overflow: hidden;
   transform-style: preserve-3d;
+}
+
+.flip-face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+
+/* Turn-specific dynamic shadows on flip faces */
+.flip-sheet[data-turn="forward"] .flip-front::before {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0) 50%);
+  animation: flipFrontShadow var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+.flip-sheet[data-turn="forward"] .flip-back::before {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0) 50%);
+  animation: flipBackShadow var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+.flip-sheet[data-turn="back"] .flip-front::before {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0) 50%);
+  animation: flipFrontShadow var(--page-turn-duration) var(--page-turn-easing) both;
+}
+
+.flip-sheet[data-turn="back"] .flip-back::before {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0) 50%);
+  animation: flipBackShadow var(--page-turn-duration) var(--page-turn-easing) both;
 }
 
 .flip-content {
@@ -435,55 +510,97 @@ h3 {
   }
 }
 
+@keyframes shadowFadeIn {
+  0%, 50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes shadowFadeOut {
+  0% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes flipFrontShadow {
+  0% {
+    opacity: 0;
+  }
+  49%, 100% {
+    opacity: 1;
+  }
+}
+
+@keyframes flipBackShadow {
+  0%, 50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes flipForward {
   0% {
     opacity: 1;
-    transform: rotateY(0deg);
+    transform: rotateY(0deg) skewY(0deg) scaleX(1);
+    box-shadow: 0 4px 10px rgba(18, 31, 48, 0.1);
   }
 
-  35% {
-    transform: rotateY(-72deg);
+  30% {
+    transform: rotateY(-54deg) skewY(-2deg) scaleX(0.96);
+    box-shadow: 0 18px 30px -10px rgba(18, 31, 48, 0.24);
   }
 
-  52% {
-    opacity: 1;
-    transform: rotateY(-104deg);
-    box-shadow: 0 26px 38px -20px rgba(18, 31, 48, 0.5);
+  50% {
+    transform: rotateY(-90deg) skewY(0deg) scaleX(0.92);
+    box-shadow: 0 32px 50px -15px rgba(18, 31, 48, 0.35);
   }
 
-  74% {
-    transform: rotateY(-148deg);
+  70% {
+    transform: rotateY(-126deg) skewY(2deg) scaleX(0.96);
+    box-shadow: 0 18px 30px -10px rgba(18, 31, 48, 0.24);
   }
 
   100% {
     opacity: 1;
-    transform: rotateY(-180deg);
+    transform: rotateY(-180deg) skewY(0deg) scaleX(1);
+    box-shadow: 0 4px 10px rgba(18, 31, 48, 0.1);
   }
 }
 
 @keyframes flipBack {
   0% {
     opacity: 1;
-    transform: rotateY(0deg);
+    transform: rotateY(0deg) skewY(0deg) scaleX(1);
+    box-shadow: 0 4px 10px rgba(18, 31, 48, 0.1);
   }
 
-  35% {
-    transform: rotateY(72deg);
+  30% {
+    transform: rotateY(54deg) skewY(2deg) scaleX(0.96);
+    box-shadow: 0 18px 30px -10px rgba(18, 31, 48, 0.24);
   }
 
-  52% {
-    opacity: 1;
-    transform: rotateY(104deg);
-    box-shadow: 0 26px 38px -20px rgba(18, 31, 48, 0.5);
+  50% {
+    transform: rotateY(90deg) skewY(0deg) scaleX(0.92);
+    box-shadow: 0 32px 50px -15px rgba(18, 31, 48, 0.35);
   }
 
-  74% {
-    transform: rotateY(148deg);
+  70% {
+    transform: rotateY(126deg) skewY(-2deg) scaleX(0.96);
+    box-shadow: 0 18px 30px -10px rgba(18, 31, 48, 0.24);
   }
 
   100% {
     opacity: 1;
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) skewY(0deg) scaleX(1);
+    box-shadow: 0 4px 10px rgba(18, 31, 48, 0.1);
   }
 }
 
