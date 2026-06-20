@@ -240,8 +240,8 @@ export const HomePage = () => {
       </section>
 
       <section
-        id="news"
-        className="py-24 border-t border-border bg-[color:var(--bg-soft)]"
+       id="news"
+       className="py-24 border-t border-border bg-[color:var(--bg-soft)]"
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col items-start mb-16 gap-4">

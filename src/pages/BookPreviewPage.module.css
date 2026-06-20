@@ -392,6 +392,11 @@ h3 {
   isolation: isolate;
   overflow: hidden;
   transform-style: preserve-3d;
+  transition: opacity var(--page-turn-duration) var(--page-turn-easing);
+}
+
+.book[data-state^="turning"] .flip-sheet {
+  opacity: 1;
 }
 
 .flip-face {
