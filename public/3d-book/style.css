@@ -147,7 +147,7 @@ img {
 .page-kicker {
   margin: 0;
   color: var(--accent-warm);
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -261,10 +261,43 @@ h3 {
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  padding: clamp(1.45rem, 4vw, 3.2rem);
+  padding: clamp(1.2rem, 3.5vw, 2.6rem);
   background:
     linear-gradient(180deg, rgb(255, 255, 255), rgb(250, 246, 239)),
     rgb(255, 253, 249);
+}
+
+.page-header {
+  position: absolute;
+  top: clamp(0.8rem, 2vw, 1.2rem);
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.page-footer {
+  position: absolute;
+  bottom: clamp(0.8rem, 2vw, 1.2rem);
+  color: var(--ink-soft);
+  font-size: 0.65rem;
+  font-weight: 600;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.page-left .page-footer {
+  left: clamp(1.2rem, 3.5vw, 2.6rem);
+}
+
+.page-right .page-footer {
+  right: clamp(1.2rem, 3.5vw, 2.6rem);
 }
 
 .page-left {
@@ -276,34 +309,16 @@ h3 {
   box-shadow: inset 1.2rem 0 2rem rgba(30, 25, 18, 0.045);
 }
 
-.paper::after {
-  position: absolute;
-  bottom: 1.35rem;
-  color: rgba(74, 84, 70, 0.62);
-  font-size: 0.74rem;
-  font-weight: 700;
-}
-
-.page-left::after {
-  content: attr(data-page);
-  left: 1.5rem;
-}
-
-.page-right::after {
-  content: attr(data-page);
-  right: 1.5rem;
-}
-
 .paper h2 {
   margin-top: 0.7rem;
-  font-size: clamp(2rem, 4vw, 3.45rem);
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
 }
 
 .paper p:not(.page-kicker) {
   margin: 1rem 0 0;
   color: var(--ink-soft);
-  font-size: clamp(0.98rem, 0.6vw + 0.9rem, 1.16rem);
-  line-height: 1.82;
+  font-size: clamp(0.85rem, 0.5vw + 0.78rem, 0.95rem);
+  line-height: 1.72;
 }
 
 .book-spine {
@@ -432,7 +447,7 @@ h3 {
 }
 
 .flip-face::after {
-  content: attr(data-page);
+  content: "";
 }
 
 .flip-sheet[data-turn="forward"] .flip-front::after,
