@@ -10,6 +10,11 @@ import { StudioPage } from "@/pages/StudioPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { Layout } from "@/components/common/Layout";
 
+const StaticPreviewRedirect = () => {
+  window.location.replace("/3d-book/index.html");
+  return null;
+};
+
 const App = () => {
   return (
     <Layout>
@@ -18,6 +23,7 @@ const App = () => {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/3d-book" element={<StaticPreviewRedirect />} />
         <Route path="/studio/*" element={<StudioPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

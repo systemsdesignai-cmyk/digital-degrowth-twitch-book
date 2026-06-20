@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Digital Degrowth book preview experience." />
+  <title>Digital Degrowth | Book Preview</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="preview-shell">
+    <header class="preview-nav" aria-label="Preview navigation">
+      <a class="brand-mark" href="/" aria-label="Digital Degrowth home">
+        <span>Digital</span>
+        <span>Degrowth</span>
+      </a>
+      <nav class="nav-actions" aria-label="Site links">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero-grid" aria-labelledby="preview-title">
+      <div class="book-stage" aria-label="Digital Degrowth book preview">
+        <div class="book-meta" aria-live="polite">
+          <span id="page-label">Spread 1 of 4</span>
+          <span id="chapter-label">Introduction</span>
+        </div>
+
+        <div class="book" data-state="idle">
+          <div class="book-cover" aria-hidden="true">
+            <img src="/assets/book_logo.png" alt="" />
+          </div>
+          <article class="spread" aria-live="polite">
+            <section class="paper page-left">
+              <p class="page-kicker" id="left-kicker">Preview note</p>
+              <h2 id="left-title">PDF content placeholder</h2>
+              <p id="left-body">
+                The final manuscript pages can be inserted here as text, images, or rendered PDF canvases once supplied.
+              </p>
+            </section>
+            <section class="paper page-right">
+              <p class="page-kicker" id="right-kicker">Reader mode</p>
+              <h2 id="right-title">Built for sample spreads</h2>
+              <p id="right-body">
+                The layout keeps generous margins, clear page numbering, and a simple interaction model for a future PDF.
+              </p>
+            </section>
+          </article>
+          <div class="flip-sheet" aria-hidden="true">
+            <section class="paper flip-face flip-front">
+              <p class="page-kicker"></p>
+              <h2></h2>
+              <p></p>
+            </section>
+            <section class="paper flip-face flip-back">
+              <p class="page-kicker"></p>
+              <h2></h2>
+              <p></p>
+            </section>
+          </div>
+          <div class="book-spine" aria-hidden="true"></div>
+        </div>
+
+        <div class="reader-controls" aria-label="Preview controls">
+          <button type="button" class="icon-button" data-action="prev" aria-label="Previous spread">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15.5 5 8.5 12l7 7" />
+            </svg>
+          </button>
+          <div class="progress-track" aria-hidden="true">
+            <span id="progress-bar"></span>
+          </div>
+          <button type="button" class="icon-button" data-action="next" aria-label="Next spread">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m8.5 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

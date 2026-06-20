@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/3d-book",
+      "destination": "/3d-book/index.html"
+    },
+    {
+      "source": "/3d-book/",
+      "destination": "/3d-book/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
