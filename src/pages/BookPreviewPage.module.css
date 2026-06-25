@@ -411,6 +411,16 @@ h3 {
   -webkit-backface-visibility: hidden;
 }
 
+.flip-left {
+  inset: 0;
+  right: 50%;
+}
+
+.flip-right {
+  inset: 0;
+  left: 50%;
+}
+
 .flip-face::before {
   content: "";
   position: absolute;

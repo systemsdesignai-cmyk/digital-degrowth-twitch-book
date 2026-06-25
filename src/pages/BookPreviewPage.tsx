@@ -8,27 +8,42 @@ export const BookPreviewPage = () => {
   const [activeSpread, setActiveSpread] = useState(0);
   const [state, setState] = useState<"idle" | "turning-forward" | "turning-back">("idle");
   const turnTimerRef = useRef<NodeJS.Timeout>();
+  const directionRef = useRef<number>(0);
 
   const currentSpread = spreads[activeSpread];
   const totalSpreads = spreads.length;
   const progressPercent = ((activeSpread + 1) / totalSpreads) * 100;
+
+  // Get the display spreads for flip animation based on direction
+  const displaySpread = state !== "idle"
+    ? spreads[(activeSpread - directionRef.current + spreads.length) % spreads.length]
+    : currentSpread;
+  
+  const nextDisplaySpread = state !== "idle"
+    ? currentSpread
+    : spreads[(activeSpread + directionRef.current + spreads.length) % spreads.length];
 
   const goToSpread = useCallback((direction: number) => {
     setState((currentState) => {
       if (currentState !== "idle") return currentState;
       
       const nextState = direction > 0 ? "turning-forward" : "turning-back";
+      directionRef.current = direction;
       
       if (turnTimerRef.current) {
         clearTimeout(turnTimerRef.current);
       }
 
+      // Update content immediately so it's visible during the animation
+      setActiveSpread((currentSpread) => {
+        const nextSpread = (currentSpread + direction + spreads.length) % spreads.length;
+        return nextSpread;
+      });
+      
+      // Reset animation state after animation completes
       turnTimerRef.current = setTimeout(() => {
-        setActiveSpread((currentSpread) => {
-          const nextSpread = (currentSpread + direction + spreads.length) % spreads.length;
-          return nextSpread;
-        });
         setState("idle");
+        directionRef.current = 0;
       }, PAGE_TURN_DURATION + 40);
       
       return nextState;
@@ -110,18 +125,30 @@ export const BookPreviewPage = () => {
             </article>
 
             <div className={styles["flip-sheet"]} aria-hidden="true">
-              <section className={`${styles["paper"]} ${styles["flip-face"]} ${styles["flip-front"]}`}>
-                <div className={styles["flip-content"]}>
-                  <p className={styles["page-kicker"]}></p>
-                  <h2></h2>
-                  <p></p>
+              <section className={`${styles["paper"]} ${styles["flip-face"]} ${styles["flip-left"]}`}>
+                <div className={styles["page-header"]}>
+                  {displaySpread.right.header}
+                </div>
+                <p className={styles["page-kicker"]}>
+                  {displaySpread.right.kicker}
+                </p>
+                <h2>{displaySpread.right.title}</h2>
+                <p dangerouslySetInnerHTML={renderHTML(displaySpread.right.body)} />
+                <div className={styles["page-footer"]}>
+                  {displaySpread.right.page}
                 </div>
               </section>
-              <section className={`${styles["paper"]} ${styles["flip-face"]} ${styles["flip-back"]}`}>
-                <div className={styles["flip-content"]}>
-                  <p className={styles["page-kicker"]}></p>
-                  <h2></h2>
-                  <p></p>
+              <section className={`${styles["paper"]} ${styles["flip-face"]} ${styles["flip-right"]}`}>
+                <div className={styles["page-header"]}>
+                  {nextDisplaySpread.left.header}
+                </div>
+                <p className={styles["page-kicker"]}>
+                  {nextDisplaySpread.left.kicker}
+                </p>
+                <h2>{nextDisplaySpread.left.title}</h2>
+                <p dangerouslySetInnerHTML={renderHTML(nextDisplaySpread.left.body)} />
+                <div className={styles["page-footer"]}>
+                  {nextDisplaySpread.left.page}
                 </div>
               </section>
             </div>
