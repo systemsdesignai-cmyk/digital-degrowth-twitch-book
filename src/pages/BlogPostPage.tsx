@@ -199,11 +199,11 @@ export function BlogPostPage() {
       </header>
 
       {/* Content Section */}
-      <section className="mx-auto max-w-5xl px-6 py-20 md:py-32 grid md:grid-cols-[1fr_240px] gap-16">
+      <section className="mx-auto max-w-5xl px-6 py-20 md:py-32 grid md:grid-cols-[1fr_240px] gap-10 md:gap-16">
         {/* Left: Article Body */}
         <article>
           <div className="mb-12">
-            <p className="font-display text-2xl md:text-3xl text-[color:var(--ink)] leading-relaxed italic border-l-4 border-[color:var(--accent)] pl-8 py-2">
+            <p className="font-display text-xl md:text-3xl text-[color:var(--ink)] leading-relaxed italic border-l-4 border-[color:var(--accent)] pl-4 md:pl-8 py-2">
               {article.excerpt}
             </p>
           </div>

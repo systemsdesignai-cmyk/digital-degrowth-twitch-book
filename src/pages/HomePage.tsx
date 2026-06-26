@@ -99,7 +99,7 @@ export const HomePage = () => {
           <div className="space-y-6 z-10">
             <div className="space-y-2">
               <span className="eyebrow">New release by {author.name}</span>
-              <h1 className="hero-title text-5xl md:text-7xl">
+              <h1 className="hero-title text-4xl sm:text-5xl md:text-7xl">
                 {homeSettings.heroTitle} <br />
                 <span className="hero-title">
                   {homeSettings.heroTitleOutline}
@@ -141,7 +141,7 @@ export const HomePage = () => {
           </div>
 
           <div className="space-y-5">
-            <h2 className="text-3xl md:text-5xl">{homeSettings.aboutTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl">{homeSettings.aboutTitle}</h2>
           </div>
           <div className="space-y-8">
             <p className="section-copy text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
@@ -179,22 +179,14 @@ export const HomePage = () => {
                         className="w-full h-auto object-cover animate-fade"
                       />
                     </div>
-                    {/* Mobile View: 3 Images Stacked */}
-                    <div className="md:hidden flex flex-col gap-8 w-full items-center justify-center">
-                      {Array.from({ length: Math.min(3, citations.length) }).map(
-                        (_, offset) => {
-                          const idx =
-                            (citationIndex + offset) % citations.length;
-                          return (
-                            <img
-                              key={`${idx}-${offset}`}
-                              src={urlFor(citations[idx].image).url()}
-                              alt={`Citation ${idx + 1}`}
-                              className="w-full h-auto object-contain animate-fade"
-                            />
-                          );
-                        },
-                      )}
+                    {/* Mobile View: 1 Image at a time for better fit and space saving */}
+                    <div className="md:hidden w-full">
+                      <img
+                        key={citationIndex}
+                        src={urlFor(citations[citationIndex].image).url()}
+                        alt={`Citation ${citationIndex + 1}`}
+                        className="w-full h-auto object-contain animate-fade"
+                      />
                     </div>
                   </>
                 ) : (
@@ -245,7 +237,7 @@ export const HomePage = () => {
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col items-start mb-16 gap-4">
-            <h3 className="text-3xl md:text-5xl">Latest Articles</h3>
+            <h3 className="text-2xl sm:text-3xl md:text-5xl">Latest Articles</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-12 mb-16">
             {articles && articles.length > 0 ? (
@@ -318,7 +310,7 @@ export const HomePage = () => {
       >
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
           <div className="order-2 md:order-1 space-y-6">
-            <h3 className="flex items-center gap-2 text-xl md:text-3xl">
+            <h3 className="flex items-center gap-2 text-lg sm:text-xl md:text-3xl">
               <User className="text-[color:var(--accent-deep)]" size={24} />
               The Author
             </h3>

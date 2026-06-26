@@ -48,8 +48,8 @@ export const Navbar = () => {
       <nav
         className={`site-nav ${scrolled ? "site-nav--scrolled" : "site-nav--top"} ${isBlog ? "site-nav--blog" : ""}`}
       >
-        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center gap-6">
-          <div className="flex-1 flex justify-start">
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center gap-4">
+          <div className="flex-shrink-0 flex justify-start">
             <Link
               to="/"
               className={`brand-mark text-left ${isBlog ? "brand-mark--blog" : ""}`}

@@ -105,7 +105,7 @@ export function BlogArchiveSection({
                     </span>
                   </div>
                   
-                  <h3 className="font-display text-3xl font-bold text-[color:var(--ink)] leading-[1.1] tracking-tight group-hover:text-[color:var(--accent-warm)] transition-colors">
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-[color:var(--ink)] leading-[1.1] tracking-tight group-hover:text-[color:var(--accent-warm)] transition-colors">
                     {article.title}
                   </h3>
                   

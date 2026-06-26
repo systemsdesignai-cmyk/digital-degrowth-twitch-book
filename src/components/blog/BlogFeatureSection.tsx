@@ -56,7 +56,7 @@ export function BlogFeatureSection({
         <div className="flex flex-col gap-8 flex-1">
           <div className="flex flex-col gap-4">
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[color:var(--accent)]">Editorial Archive</p>
-            <h1 className="font-display text-5xl md:text-8xl font-bold text-white tracking-[-0.04em] leading-[0.9]">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-8xl font-bold text-white tracking-[-0.04em] leading-[0.9]">
               Dispatches from the <span className="text-[color:var(--accent)]">Resistance.</span>
             </h1>
           </div>
@@ -101,7 +101,7 @@ export function BlogFeatureSection({
                   </div>
                   
                   <div className="flex max-w-3xl flex-col gap-4">
-                    <h2 className="font-display text-4xl md:text-6xl font-bold text-white leading-[0.95] tracking-[-0.03em] group-hover:text-[color:var(--accent)] transition-colors">
+                    <h2 className="font-display text-2xl sm:text-4xl md:text-6xl font-bold text-white leading-[0.95] tracking-[-0.03em] group-hover:text-[color:var(--accent)] transition-colors">
                       {featureArticle.title}
                     </h2>
                     <p className="max-w-2xl text-sm md:text-lg leading-relaxed text-white/70 line-clamp-2 italic">

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { spreads, type Spread } from "@/data/spreads";
 import styles from "./BookPreviewPage.module.css";
 
@@ -10,7 +11,7 @@ export const BookPreviewPage = () => {
   const turnTimerRef = useRef<NodeJS.Timeout>();
   const directionRef = useRef<number>(0);
 
-  // Lock body/html scroll and set height to 100% while preview is active
+  // Lock body/html scroll and set height to 100% while preview is active, only on desktop screens
   useEffect(() => {
     const htmlEl = document.documentElement;
     const bodyEl = document.body;
@@ -21,11 +22,25 @@ export const BookPreviewPage = () => {
     const originalBodyHeight = bodyEl.style.height;
     const originalBodyOverscroll = bodyEl.style.overscrollBehavior;
 
-    htmlEl.style.overflow = "hidden";
-    htmlEl.style.height = "100%";
-    bodyEl.style.overflow = "hidden";
-    bodyEl.style.height = "100%";
-    bodyEl.style.overscrollBehavior = "none";
+    const checkAndLockScroll = () => {
+      const isMobileSize = window.innerWidth <= 720;
+      if (isMobileSize) {
+        htmlEl.style.overflow = "";
+        htmlEl.style.height = "";
+        bodyEl.style.overflow = "";
+        bodyEl.style.height = "";
+        bodyEl.style.overscrollBehavior = "";
+      } else {
+        htmlEl.style.overflow = "hidden";
+        htmlEl.style.height = "100%";
+        bodyEl.style.overflow = "hidden";
+        bodyEl.style.height = "100%";
+        bodyEl.style.overscrollBehavior = "none";
+      }
+    };
+
+    checkAndLockScroll();
+    window.addEventListener("resize", checkAndLockScroll);
 
     return () => {
       htmlEl.style.overflow = originalHtmlOverflow;
@@ -33,12 +48,53 @@ export const BookPreviewPage = () => {
       bodyEl.style.overflow = originalBodyOverflow;
       bodyEl.style.height = originalBodyHeight;
       bodyEl.style.overscrollBehavior = originalBodyOverscroll;
+      window.removeEventListener("resize", checkAndLockScroll);
     };
   }, []);
 
   const currentSpread = spreads[activeSpread];
   const totalSpreads = spreads.length;
   const progressPercent = ((activeSpread + 1) / totalSpreads) * 100;
+
+  // Scroll to top on page/spread change, only on mobile sizes
+  useEffect(() => {
+    if (window.innerWidth <= 720) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      const shell = document.querySelector(`.${styles["preview-shell"]}`);
+      if (shell) {
+        shell.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  }, [activeSpread]);
+
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+
+    const diffX = e.changedTouches[0].clientX - touchStartX.current;
+    const diffY = e.changedTouches[0].clientY - touchStartY.current;
+
+    // Trigger swipe if horizontal diff is larger than vertical diff and exceeds 50px
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        // Swipe Right -> Previous Page
+        goToSpread(-1);
+      } else {
+        // Swipe Left -> Next Page
+        goToSpread(1);
+      }
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   // Get the display spreads for flip animation based on direction
   const displaySpread = state !== "idle"
@@ -98,7 +154,20 @@ export const BookPreviewPage = () => {
   };
 
   return (
-    <main className={styles["preview-shell"]}>
+    <main
+      className={styles["preview-shell"]}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <nav className={styles["preview-nav"]}>
+        <Link to="/" className={styles["brand-mark"]}>
+          <span>Digital</span>
+          <span>Degrowth</span>
+        </Link>
+        <div className={styles["nav-actions"]}>
+          <Link to="/">Exit Preview</Link>
+        </div>
+      </nav>
       <section className={styles["hero-grid"]} aria-labelledby="preview-title">
         <div className={styles["book-stage"]} aria-label="Digital Degrowth book preview">
           <div className={styles["book-meta"]} aria-live="polite">

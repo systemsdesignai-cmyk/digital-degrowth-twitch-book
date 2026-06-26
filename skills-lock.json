@@ -7,11 +7,23 @@
       "skillPath": "ai-image-generation/SKILL.md",
       "computedHash": "765f5ce859b1943e948d4f747b768389d7a9f0c563d4e93f2a3231bc1a617944"
     },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "781bd6d3f9b19f8c9af6b53d8d0e4876d0183841b565db34ca7092ffa412d111"
+    },
     "react-vite-expert": {
       "source": "questfortech-investments/claude-code-skills",
       "sourceType": "github",
       "skillPath": "react-vite-expert/SKILL.md",
       "computedHash": "d8c575facdc8b9a6d55baa7eb35aad79ff50eb5dc1c6b8e15d36fc34e0f43ef5"
+    },
+    "tailwind-design-system": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/frontend-mobile-development/skills/tailwind-design-system/SKILL.md",
+      "computedHash": "cd61afd28f594e8b6712b61749209cbb4466e3eec4e4223793bbd97fc85c1b63"
     }
   }
 }

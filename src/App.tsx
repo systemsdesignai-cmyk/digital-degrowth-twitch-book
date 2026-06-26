@@ -14,7 +14,7 @@ import { Layout } from "@/components/common/Layout";
 const App = () => {
   return (
     <Routes>
-      <Route path="/3d-book" element={<BookPreviewPage />} />
+      <Route path="/preview" element={<BookPreviewPage />} />
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />

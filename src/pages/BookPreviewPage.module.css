@@ -62,8 +62,8 @@
   justify-content: center;
   width: min(100% - 3rem, 72rem);
   min-height: 0;
-  height: calc(100vh - 5.3rem);
-  height: calc(100dvh - 5.3rem);
+  height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
   padding: clamp(1rem, 2.5vw, 2rem) 0 clamp(1.4rem, 3vw, 2.2rem);
 }
@@ -126,6 +126,7 @@
   min-height: clamp(27rem, 52vw, 38rem);
   padding: var(--book-pad);
   perspective: 90rem;
+  transform-style: preserve-3d;
   filter: drop-shadow(var(--shadow-book));
 }
 
@@ -634,8 +635,22 @@
 }
 
 @media (max-width: 720px) {
+  .preview-shell {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hero-grid {
+    height: auto;
+    min-height: calc(100dvh - 6rem);
+    padding: 2rem 0;
+  }
+
   .preview-nav {
     align-items: flex-start;
+    padding: 1.4rem 1rem;
   }
 
   .nav-actions {
