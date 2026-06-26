@@ -10,6 +10,32 @@ export const BookPreviewPage = () => {
   const turnTimerRef = useRef<NodeJS.Timeout>();
   const directionRef = useRef<number>(0);
 
+  // Lock body/html scroll and set height to 100% while preview is active
+  useEffect(() => {
+    const htmlEl = document.documentElement;
+    const bodyEl = document.body;
+
+    const originalHtmlOverflow = htmlEl.style.overflow;
+    const originalHtmlHeight = htmlEl.style.height;
+    const originalBodyOverflow = bodyEl.style.overflow;
+    const originalBodyHeight = bodyEl.style.height;
+    const originalBodyOverscroll = bodyEl.style.overscrollBehavior;
+
+    htmlEl.style.overflow = "hidden";
+    htmlEl.style.height = "100%";
+    bodyEl.style.overflow = "hidden";
+    bodyEl.style.height = "100%";
+    bodyEl.style.overscrollBehavior = "none";
+
+    return () => {
+      htmlEl.style.overflow = originalHtmlOverflow;
+      htmlEl.style.height = originalHtmlHeight;
+      bodyEl.style.overflow = originalBodyOverflow;
+      bodyEl.style.height = originalBodyHeight;
+      bodyEl.style.overscrollBehavior = originalBodyOverscroll;
+    };
+  }, []);
+
   const currentSpread = spreads[activeSpread];
   const totalSpreads = spreads.length;
   const progressPercent = ((activeSpread + 1) / totalSpreads) * 100;

@@ -1,86 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap");
 
-:root {
-  --bg: #f4efe7;
-  --bg-soft: #fbf8f2;
-  --surface: rgba(252, 249, 244, 0.86);
-  --surface-strong: rgba(255, 253, 249, 0.95);
-  --surface-muted: rgba(240, 235, 227, 0.78);
-  --ink: #1a2416;
-  --ink-soft: #4a5446;
-  --accent: #a4ff00;
-  --accent-rgb: 164, 255, 0;
-  --accent-strong: #91df00;
-  --accent-deep: #244000;
-  --accent-warm: #5c7a33;
-  --line: rgba(23, 36, 54, 0.12);
-  --line-strong: rgba(23, 36, 54, 0.22);
-  --shadow-soft: 0 18px 28px -24px rgba(18, 31, 48, 0.18);
+.preview-shell {
   --shadow-book: 0 42px 80px -58px rgba(18, 31, 48, 0.58);
   --page-turn-duration: 920ms;
   --page-turn-easing: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", serif;
-  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
-}
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  overscroll-behavior: none;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(var(--accent-rgb), 0.12), transparent 24%),
-    radial-gradient(circle at 84% 12%, rgba(var(--accent-rgb), 0.08), transparent 20%),
-    linear-gradient(180deg, #050805 0%, #090d0a 100%);
-  color: var(--ink);
-  font-family: var(--font-body);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-button,
-a {
-  color: inherit;
-  font: inherit;
-  -webkit-tap-highlight-color: rgba(var(--accent-rgb), 0.16);
-}
-
-button {
-  border: 0;
-  cursor: pointer;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid rgba(145, 223, 0, 0.84);
-  outline-offset: 4px;
-  box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.18);
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-.preview-shell {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -153,9 +77,9 @@ img {
   text-transform: uppercase;
 }
 
-h1,
-h2,
-h3 {
+.preview-shell h1,
+.preview-shell h2,
+.preview-shell h3 {
   margin: 0;
   color: var(--ink);
   font-family: var(--font-display);

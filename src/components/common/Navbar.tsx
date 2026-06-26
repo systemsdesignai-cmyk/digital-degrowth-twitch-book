@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   Menu,
   X,
@@ -63,12 +63,18 @@ export const Navbar = () => {
 
           <div className="flex-1 flex justify-end items-center gap-8">
             <div className="hidden md:flex items-center gap-8 text-[13px] font-extrabold uppercase tracking-[0.4em]">
-              <Link to="/blog" className="nav-link">
+              <NavLink
+                to="/blog"
+                className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""}`}
+              >
                 Blog
-              </Link>
-              <Link to="/contact" className="nav-link">
+              </NavLink>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""}`}
+              >
                 Contact
-              </Link>
+              </NavLink>
             </div>
 
             {/* Desktop Buy Now Button & Mobile Menu Toggle */}
@@ -128,22 +134,47 @@ export const Navbar = () => {
               </button>
             </div>
 
-            {/* Main Navigation Links */}
             <div className="flex-1 flex flex-col items-center justify-center gap-8 text-[#1a2416] font-extrabold text-3xl md:text-4xl py-8 font-display">
-              <Link
+              <NavLink
                 to="/blog"
-                className="hover:text-[color:var(--accent-strong)] transition-colors"
+                className={({ isActive }) =>
+                  `transition-colors ${isActive ? "text-[color:var(--accent-warm)]" : "hover:text-[color:var(--accent-strong)]"}`
+                }
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Blog
-              </Link>
-              <Link
+                {({ isActive }) => (
+                  <span className="flex items-center gap-2.5">
+                    <span
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-[color:var(--accent-warm)] scale-100 opacity-100"
+                          : "bg-transparent scale-0 opacity-0"
+                      }`}
+                    />
+                    Blog
+                  </span>
+                )}
+              </NavLink>
+              <NavLink
                 to="/contact"
-                className="hover:text-[color:var(--accent-strong)] transition-colors"
+                className={({ isActive }) =>
+                  `transition-colors ${isActive ? "text-[color:var(--accent-warm)]" : "hover:text-[color:var(--accent-strong)]"}`
+                }
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Contact
-              </Link>
+                {({ isActive }) => (
+                  <span className="flex items-center gap-2.5">
+                    <span
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-[color:var(--accent-warm)] scale-100 opacity-100"
+                          : "bg-transparent scale-0 opacity-0"
+                      }`}
+                    />
+                    Contact
+                  </span>
+                )}
+              </NavLink>
             </div>
 
             {/* Separator */}

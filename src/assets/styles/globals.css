@@ -184,7 +184,6 @@
 @layer components {
   .app-shell {
     position: relative;
-    overflow: clip;
     background:
       linear-gradient(180deg, rgba(251, 248, 242, 0.98), rgba(244, 239, 231, 0.98)),
       linear-gradient(90deg, rgba(var(--accent-rgb), 0.028), transparent 18%, transparent 82%, rgba(var(--accent-rgb), 0.028));
@@ -314,6 +313,11 @@
 
   .nav-link:hover::after {
     transform: scaleX(1);
+  }
+
+  .nav-link--active::after {
+    transform: scaleX(1);
+    background: var(--ink);
   }
 
   .button-primary,

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const pageVariants = {
@@ -35,6 +35,7 @@ const pageTransition = {
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const isStudio = location.pathname.startsWith("/studio");
+  const content = children ?? <Outlet />;
 
   // Handle scroll to hash on route change or scroll to top
   useEffect(() => {
@@ -53,7 +54,7 @@ export const Layout = ({ children }: LayoutProps) => {
   }, [location.pathname, location.hash]);
 
   if (isStudio) {
-    return <main className="!p-0 !m-0">{children}</main>;
+    return <main className="!p-0 !m-0">{content}</main>;
   }
 
   return (
@@ -80,7 +81,7 @@ export const Layout = ({ children }: LayoutProps) => {
             transition={pageTransition}
             style={{ transformOrigin: "center left" }}
           >
-            {children}
+            {content}
           </motion.div>
         </AnimatePresence>
       </main>
