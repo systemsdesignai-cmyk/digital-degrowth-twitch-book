@@ -70,6 +70,12 @@ export const Navbar = () => {
                 Blog
               </NavLink>
               <NavLink
+                to="/preview"
+                className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""}`}
+              >
+                Preview
+              </NavLink>
+              <NavLink
                 to="/contact"
                 className={({ isActive }) => `nav-link ${isActive ? "nav-link--active" : ""}`}
               >
@@ -152,6 +158,26 @@ export const Navbar = () => {
                       }`}
                     />
                     Blog
+                  </span>
+                )}
+              </NavLink>
+              <NavLink
+                to="/preview"
+                className={({ isActive }) =>
+                  `transition-colors ${isActive ? "text-[color:var(--accent-warm)]" : "hover:text-[color:var(--accent-strong)]"}`
+                }
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {({ isActive }) => (
+                  <span className="flex items-center gap-2.5">
+                    <span
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-[color:var(--accent-warm)] scale-100 opacity-100"
+                          : "bg-transparent scale-0 opacity-0"
+                      }`}
+                    />
+                    Preview
                   </span>
                 )}
               </NavLink>
