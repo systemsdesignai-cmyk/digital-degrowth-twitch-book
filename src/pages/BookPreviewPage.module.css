@@ -53,18 +53,6 @@
   pointer-events: auto;
 }
 
-.brand-mark {
-  display: inline-flex;
-  flex-direction: column;
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  line-height: 0.82;
-  text-transform: uppercase;
-}
-
 .nav-actions {
   display: flex;
   align-items: center;

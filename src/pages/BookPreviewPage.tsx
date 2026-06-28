@@ -146,8 +146,13 @@ export const BookPreviewPage = () => {
       <div className={styles["preview-overlay"]}>
         <div className={styles["preview-header"]}>
           <nav className={styles["preview-nav"]}>
-            <Link to="/" className={styles["brand-mark"]}>
-              <span>Digital</span>
+            <Link
+              to="/"
+              className="brand-mark text-left"
+              title="Return to Home Page"
+              aria-label="Digital Degrowth - Return to Home Page"
+            >
+              <span className="brand-mark__block">Digital</span>
               <span>Degrowth</span>
             </Link>
             <div className={styles["nav-actions"]}>
