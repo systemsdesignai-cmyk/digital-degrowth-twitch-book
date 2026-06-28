@@ -76,13 +76,13 @@ const emissiveColor = new Color("#8a6a43");
 const pageEdgeColor = new Color("#f3efe6");
 const spineEdgeColor = new Color("#090d0a");
 
-const createPageEdgeMaterials = () => [
+const createPageEdgeMaterials = (isCoverPage: boolean) => [
   new MeshStandardMaterial({ color: pageEdgeColor, roughness: 0.35 }),
   new MeshStandardMaterial({
     color: spineEdgeColor,
-    transparent: true,
-    opacity: 0,
-    depthWrite: false,
+    transparent: isCoverPage,
+    opacity: isCoverPage ? 0 : 1,
+    depthWrite: !isCoverPage,
     roughness: 0.35,
   }),
   new MeshStandardMaterial({ color: "#ebe6dc", roughness: 0.35 }),
@@ -143,7 +143,7 @@ const Page = ({
     const skeleton = new Skeleton(bones);
 
     const materials = [
-      ...createPageEdgeMaterials(),
+      ...createPageEdgeMaterials(number === 0 || number === bookPages.length - 1),
       new MeshStandardMaterial({
         color: whiteColor,
         map: picture,
@@ -278,24 +278,32 @@ const BookSpine = ({ activePage }: { activePage: number }) => {
   const stackCenterZ =
     -((bookPages.length - 1) * PAGE_DEPTH) / 2 + (activePage * PAGE_DEPTH) / 2;
 
-  const spineMaterial = useMemo(() => {
+  const spineMaterials = useMemo(() => {
     const map = sideTexture.clone();
     map.colorSpace = SRGBColorSpace;
     map.anisotropy = 8;
     map.wrapS = ClampToEdgeWrapping;
     map.wrapT = ClampToEdgeWrapping;
 
-    return new MeshBasicMaterial({ map, toneMapped: true });
+    return [
+      new MeshStandardMaterial({ color: spineEdgeColor, roughness: 0.45 }),
+      new MeshBasicMaterial({ map, toneMapped: true }),
+      new MeshStandardMaterial({ color: spineEdgeColor, roughness: 0.45 }),
+      new MeshStandardMaterial({ color: spineEdgeColor, roughness: 0.45 }),
+      new MeshStandardMaterial({ color: spineEdgeColor, roughness: 0.45 }),
+      new MeshStandardMaterial({ color: spineEdgeColor, roughness: 0.45 }),
+    ];
   }, [sideTexture]);
 
   return (
     <mesh
-      position={[-0.004, 0, stackCenterZ]}
-      rotation={[0, -Math.PI / 2, 0]}
-      renderOrder={20}
-      material={spineMaterial}
+      position={[-BOOK_SPINE_THICKNESS / 2, 0, stackCenterZ]}
+      castShadow
+      receiveShadow
+      renderOrder={10}
+      material={spineMaterials}
     >
-      <planeGeometry args={[STACK_DEPTH, PAGE_HEIGHT]} />
+      <boxGeometry args={[BOOK_SPINE_THICKNESS, PAGE_HEIGHT, STACK_DEPTH]} />
     </mesh>
   );
 };
@@ -336,7 +344,7 @@ export const Book = (props: JSX.IntrinsicElements["group"]) => {
   }, [page]);
 
   return (
-    <group {...props} rotation-y={Math.PI / 2}>
+    <group {...props} rotation-y={-Math.PI / 2}>
       {bookPages.map((pageData, index) => (
         <Page
           key={index}
