@@ -131,7 +131,7 @@ export const BookPreviewPage = () => {
           shadows
           gl={{ alpha: true, antialias: true }}
           camera={{
-            position: [-0.5, 1, window.innerWidth > 800 ? 4 : 7],
+            position: [window.innerWidth > 800 ? 4 : 7, 1, 0.5],
             fov: 45,
           }}
         >

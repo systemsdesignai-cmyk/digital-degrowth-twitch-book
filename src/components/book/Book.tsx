@@ -13,6 +13,7 @@ import {
   Float32BufferAttribute,
   Group,
   MathUtils,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   Skeleton,
   SkinnedMesh,
@@ -30,12 +31,9 @@ const turningCurveStrength = 0.09;
 
 const PAGE_WIDTH = 1.28;
 const PAGE_HEIGHT = 1.71;
-const SIDE_TEXTURE_WIDTH = 843;
-const SIDE_TEXTURE_HEIGHT = 1866;
-const SIDE_TEXTURE_ASPECT = SIDE_TEXTURE_WIDTH / SIDE_TEXTURE_HEIGHT;
-const SPINE_ART_WIDTH = PAGE_HEIGHT * SIDE_TEXTURE_ASPECT;
-const BOOK_SPINE_THICKNESS = PAGE_WIDTH * 0.1;
+const BOOK_SPINE_THICKNESS = PAGE_WIDTH * 0.055;
 const PAGE_DEPTH = BOOK_SPINE_THICKNESS / bookPages.length;
+const STACK_DEPTH = (bookPages.length - 1) * PAGE_DEPTH + PAGE_DEPTH;
 const PAGE_SEGMENTS = 30;
 const SEGMENT_WIDTH = PAGE_WIDTH / PAGE_SEGMENTS;
 
@@ -76,10 +74,17 @@ pageGeometry.setAttribute(
 const whiteColor = new Color("white");
 const emissiveColor = new Color("#8a6a43");
 const pageEdgeColor = new Color("#f3efe6");
+const spineEdgeColor = new Color("#090d0a");
 
-const pageEdgeMaterials = [
+const createPageEdgeMaterials = () => [
   new MeshStandardMaterial({ color: pageEdgeColor, roughness: 0.35 }),
-  new MeshStandardMaterial({ color: pageEdgeColor, roughness: 0.35 }),
+  new MeshStandardMaterial({
+    color: spineEdgeColor,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    roughness: 0.35,
+  }),
   new MeshStandardMaterial({ color: "#ebe6dc", roughness: 0.35 }),
   new MeshStandardMaterial({ color: "#ebe6dc", roughness: 0.35 }),
 ];
@@ -138,7 +143,7 @@ const Page = ({
     const skeleton = new Skeleton(bones);
 
     const materials = [
-      ...pageEdgeMaterials,
+      ...createPageEdgeMaterials(),
       new MeshStandardMaterial({
         color: whiteColor,
         map: picture,
@@ -280,28 +285,17 @@ const BookSpine = ({ activePage }: { activePage: number }) => {
     map.wrapS = ClampToEdgeWrapping;
     map.wrapT = ClampToEdgeWrapping;
 
-    const cropFraction = Math.min(1, BOOK_SPINE_THICKNESS / SPINE_ART_WIDTH);
-    map.repeat.set(cropFraction, 1);
-    map.offset.set((1 - cropFraction) / 2, 0);
-
-    return new MeshStandardMaterial({
-      map,
-      roughness: 0.35,
-      polygonOffset: true,
-      polygonOffsetFactor: -1,
-    });
+    return new MeshBasicMaterial({ map, toneMapped: true });
   }, [sideTexture]);
 
   return (
     <mesh
-      position={[0, 0, stackCenterZ]}
-      rotation={[0, Math.PI / 2, 0]}
-      castShadow
-      receiveShadow
-      renderOrder={1}
+      position={[-0.004, 0, stackCenterZ]}
+      rotation={[0, -Math.PI / 2, 0]}
+      renderOrder={20}
       material={spineMaterial}
     >
-      <planeGeometry args={[BOOK_SPINE_THICKNESS, PAGE_HEIGHT]} />
+      <planeGeometry args={[STACK_DEPTH, PAGE_HEIGHT]} />
     </mesh>
   );
 };
@@ -342,8 +336,7 @@ export const Book = (props: JSX.IntrinsicElements["group"]) => {
   }, [page]);
 
   return (
-    <group {...props} rotation-y={-Math.PI / 2}>
-      <BookSpine activePage={delayedPage} />
+    <group {...props} rotation-y={Math.PI / 2}>
       {bookPages.map((pageData, index) => (
         <Page
           key={index}
@@ -354,6 +347,7 @@ export const Book = (props: JSX.IntrinsicElements["group"]) => {
           {...pageData}
         />
       ))}
+      <BookSpine activePage={delayedPage} />
     </group>
   );
 };
