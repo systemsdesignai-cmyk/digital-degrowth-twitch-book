@@ -1,17 +1,31 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
-import { spreads, type Spread } from "@/data/spreads";
+import { Loader } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
+import { useAtom } from "jotai";
+import { spreads } from "@/data/spreads";
+import { bookPages } from "@/components/book/bookPages";
+import { BookExperience } from "@/components/book/Experience";
+import { pageAtom } from "@/components/book/bookState";
 import styles from "./BookPreviewPage.module.css";
 
-const PAGE_TURN_DURATION = 920;
+const getSpreadIndex = (page: number) => {
+  if (page <= 0) return 0;
+  if (page >= bookPages.length) return spreads.length - 1;
+  return page - 1;
+};
 
 export const BookPreviewPage = () => {
-  const [activeSpread, setActiveSpread] = useState(0);
-  const [state, setState] = useState<"idle" | "turning-forward" | "turning-back">("idle");
-  const turnTimerRef = useRef<NodeJS.Timeout>();
-  const directionRef = useRef<number>(0);
+  const [page, setPage] = useAtom(pageAtom);
 
-  // Lock body/html scroll and set height to 100% while preview is active, only on desktop screens
+  useEffect(() => {
+    setPage(0);
+    return () => {
+      setPage(0);
+    };
+  }, [setPage]);
+
   useEffect(() => {
     const htmlEl = document.documentElement;
     const bodyEl = document.body;
@@ -22,25 +36,11 @@ export const BookPreviewPage = () => {
     const originalBodyHeight = bodyEl.style.height;
     const originalBodyOverscroll = bodyEl.style.overscrollBehavior;
 
-    const checkAndLockScroll = () => {
-      const isMobileSize = window.innerWidth <= 720;
-      if (isMobileSize) {
-        htmlEl.style.overflow = "";
-        htmlEl.style.height = "";
-        bodyEl.style.overflow = "";
-        bodyEl.style.height = "";
-        bodyEl.style.overscrollBehavior = "";
-      } else {
-        htmlEl.style.overflow = "hidden";
-        htmlEl.style.height = "100%";
-        bodyEl.style.overflow = "hidden";
-        bodyEl.style.height = "100%";
-        bodyEl.style.overscrollBehavior = "none";
-      }
-    };
-
-    checkAndLockScroll();
-    window.addEventListener("resize", checkAndLockScroll);
+    htmlEl.style.overflow = "hidden";
+    htmlEl.style.height = "100%";
+    bodyEl.style.overflow = "hidden";
+    bodyEl.style.height = "100%";
+    bodyEl.style.overscrollBehavior = "none";
 
     return () => {
       htmlEl.style.overflow = originalHtmlOverflow;
@@ -48,89 +48,26 @@ export const BookPreviewPage = () => {
       bodyEl.style.overflow = originalBodyOverflow;
       bodyEl.style.height = originalBodyHeight;
       bodyEl.style.overscrollBehavior = originalBodyOverscroll;
-      window.removeEventListener("resize", checkAndLockScroll);
     };
   }, []);
 
+  const activeSpread = getSpreadIndex(page);
   const currentSpread = spreads[activeSpread];
   const totalSpreads = spreads.length;
   const progressPercent = ((activeSpread + 1) / totalSpreads) * 100;
 
-  // Scroll to top on page/spread change, only on mobile sizes
-  useEffect(() => {
-    if (window.innerWidth <= 720) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      const shell = document.querySelector(`.${styles["preview-shell"]}`);
-      if (shell) {
-        shell.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }
-  }, [activeSpread]);
-
-  const touchStartX = useRef<number | null>(null);
-  const touchStartY = useRef<number | null>(null);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null || touchStartY.current === null) return;
-
-    const diffX = e.changedTouches[0].clientX - touchStartX.current;
-    const diffY = e.changedTouches[0].clientY - touchStartY.current;
-
-    // Trigger swipe if horizontal diff is larger than vertical diff and exceeds 50px
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-      if (diffX > 0) {
-        // Swipe Right -> Previous Page
-        goToSpread(-1);
-      } else {
-        // Swipe Left -> Next Page
-        goToSpread(1);
-      }
-    }
-
-    touchStartX.current = null;
-    touchStartY.current = null;
-  };
-
-  // Get the display spreads for flip animation based on direction
-  const displaySpread = state !== "idle"
-    ? spreads[(activeSpread - directionRef.current + spreads.length) % spreads.length]
-    : currentSpread;
-  
-  const nextDisplaySpread = state !== "idle"
-    ? currentSpread
-    : spreads[(activeSpread + directionRef.current + spreads.length) % spreads.length];
-
-  const goToSpread = useCallback((direction: number) => {
-    setState((currentState) => {
-      if (currentState !== "idle") return currentState;
-      
-      const nextState = direction > 0 ? "turning-forward" : "turning-back";
-      directionRef.current = direction;
-      
-      if (turnTimerRef.current) {
-        clearTimeout(turnTimerRef.current);
-      }
-
-      // Update content immediately so it's visible during the animation
-      setActiveSpread((currentSpread) => {
-        const nextSpread = (currentSpread + direction + spreads.length) % spreads.length;
-        return nextSpread;
+  const goToSpread = useCallback(
+    (direction: number) => {
+      setPage((currentPage) => {
+        const nextPage = Math.min(
+          bookPages.length,
+          Math.max(0, currentPage + direction)
+        );
+        return nextPage;
       });
-      
-      // Reset animation state after animation completes
-      turnTimerRef.current = setTimeout(() => {
-        setState("idle");
-        directionRef.current = 0;
-      }, PAGE_TURN_DURATION + 40);
-      
-      return nextState;
-    });
-  }, []);
+    },
+    [setPage]
+  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -145,148 +82,126 @@ export const BookPreviewPage = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      if (turnTimerRef.current) clearTimeout(turnTimerRef.current);
     };
   }, [goToSpread]);
 
-  const renderHTML = (html: string) => {
-    return { __html: html };
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (event: React.TouchEvent) => {
+    touchStartX.current = event.touches[0].clientX;
+    touchStartY.current = event.touches[0].clientY;
   };
+
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+
+    const diffX = event.changedTouches[0].clientX - touchStartX.current;
+    const diffY = event.changedTouches[0].clientY - touchStartY.current;
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      goToSpread(diffX > 0 ? -1 : 1);
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  const chapterLabel =
+    page === 0
+      ? "Cover"
+      : page >= bookPages.length
+        ? "Back Cover"
+        : currentSpread.chapter;
 
   return (
     <main
-      className={styles["preview-shell"]}
+      className={`${styles["preview-shell"]} app-shell`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <nav className={styles["preview-nav"]}>
-        <Link to="/" className={styles["brand-mark"]}>
-          <span>Digital</span>
-          <span>Degrowth</span>
-        </Link>
-        <div className={styles["nav-actions"]}>
-          <Link to="/">Exit Preview</Link>
-        </div>
-      </nav>
-      <section className={styles["hero-grid"]} aria-labelledby="preview-title">
-        <div className={styles["book-stage"]} aria-label="Digital Degrowth book preview">
+      <div className={styles["preview-background"]} aria-hidden="true">
+        <div className="ambient-wash absolute inset-0" />
+        <div className="paper-grain absolute inset-0" />
+      </div>
+
+      <div className={styles["canvas-shell"]} aria-label="Digital Degrowth book preview">
+        <Loader />
+        <Canvas
+          shadows
+          gl={{ alpha: true, antialias: true }}
+          camera={{
+            position: [-0.5, 1, window.innerWidth > 800 ? 4 : 7],
+            fov: 45,
+          }}
+        >
+          <group position-y={0}>
+            <Suspense fallback={null}>
+              <BookExperience />
+            </Suspense>
+          </group>
+        </Canvas>
+      </div>
+
+      <div className={styles["preview-overlay"]}>
+        <div className={styles["preview-header"]}>
+          <nav className={styles["preview-nav"]}>
+            <Link to="/" className={styles["brand-mark"]}>
+              <span>Digital</span>
+              <span>Degrowth</span>
+            </Link>
+            <div className={styles["nav-actions"]}>
+              <Link to="/">Exit Preview</Link>
+            </div>
+          </nav>
+
           <div className={styles["book-meta"]} aria-live="polite">
             <span id="page-label">
-              Spread {activeSpread + 1} of {totalSpreads}
+              {page === 0
+                ? "Cover"
+                : page >= bookPages.length
+                  ? "Back Cover"
+                  : `Spread ${activeSpread + 1} of ${totalSpreads}`}
             </span>
-            <span id="chapter-label">{currentSpread.chapter}</span>
-          </div>
-
-          <div 
-            className={styles["book"]}
-            data-state={state}
-          >
-            <div className={styles["book-cover"]} aria-hidden="true">
-              <img src="/assets/book_logo.png" alt="" />
-            </div>
-
-            <article className={styles["spread"]} aria-live="polite">
-              <section className={`${styles["paper"]} ${styles["page-left"]}`}>
-                <div className={styles["page-header"]}>
-                  {currentSpread.left.header}
-                </div>
-                <p className={styles["page-kicker"]}>
-                  {currentSpread.left.kicker}
-                </p>
-                <h2>{currentSpread.left.title}</h2>
-                <p
-                  dangerouslySetInnerHTML={renderHTML(currentSpread.left.body)}
-                />
-                <div className={styles["page-footer"]}>
-                  {currentSpread.left.page}
-                </div>
-              </section>
-
-              <section className={`${styles["paper"]} ${styles["page-right"]}`}>
-                <div className={styles["page-header"]}>
-                  {currentSpread.right.header}
-                </div>
-                <p className={styles["page-kicker"]}>
-                  {currentSpread.right.kicker}
-                </p>
-                <h2>{currentSpread.right.title}</h2>
-                <p
-                  dangerouslySetInnerHTML={renderHTML(currentSpread.right.body)}
-                />
-                <div className={styles["page-footer"]}>
-                  {currentSpread.right.page}
-                </div>
-              </section>
-            </article>
-
-            <div className={styles["flip-sheet"]} aria-hidden="true">
-              <section className={`${styles["paper"]} ${styles["flip-face"]} ${styles["flip-left"]}`}>
-                <div className={styles["page-header"]}>
-                  {displaySpread.right.header}
-                </div>
-                <p className={styles["page-kicker"]}>
-                  {displaySpread.right.kicker}
-                </p>
-                <h2>{displaySpread.right.title}</h2>
-                <p dangerouslySetInnerHTML={renderHTML(displaySpread.right.body)} />
-                <div className={styles["page-footer"]}>
-                  {displaySpread.right.page}
-                </div>
-              </section>
-              <section className={`${styles["paper"]} ${styles["flip-face"]} ${styles["flip-right"]}`}>
-                <div className={styles["page-header"]}>
-                  {nextDisplaySpread.left.header}
-                </div>
-                <p className={styles["page-kicker"]}>
-                  {nextDisplaySpread.left.kicker}
-                </p>
-                <h2>{nextDisplaySpread.left.title}</h2>
-                <p dangerouslySetInnerHTML={renderHTML(nextDisplaySpread.left.body)} />
-                <div className={styles["page-footer"]}>
-                  {nextDisplaySpread.left.page}
-                </div>
-              </section>
-            </div>
-
-            <div className={styles["book-spine"]} aria-hidden="true" />
-          </div>
-
-          <div className={styles["reader-controls"]} aria-label="Preview controls">
-            <button
-              type="button"
-              className={styles["icon-button"]}
-              data-action="prev"
-              onClick={() => goToSpread(-1)}
-              aria-label="Previous spread"
-              disabled={state !== "idle"}
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15.5 5 8.5 12l7 7" />
-              </svg>
-            </button>
-
-            <div className={styles["progress-track"]} aria-hidden="true">
-              <span
-                className={styles["progress-bar"]}
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-
-            <button
-              type="button"
-              className={styles["icon-button"]}
-              data-action="next"
-              onClick={() => goToSpread(1)}
-              aria-label="Next spread"
-              disabled={state !== "idle"}
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="m8.5 5 7 7-7 7" />
-              </svg>
-            </button>
+            <span id="chapter-label">{chapterLabel}</span>
           </div>
         </div>
-      </section>
+
+        <div className={styles["reader-controls"]} aria-label="Preview controls">
+          <button
+            type="button"
+            className={styles["icon-button"]}
+            data-action="prev"
+            onClick={() => goToSpread(-1)}
+            aria-label="Previous spread"
+            disabled={page <= 0}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15.5 5 8.5 12l7 7" />
+            </svg>
+          </button>
+
+          <div className={styles["progress-track"]} aria-hidden="true">
+            <span
+              className={styles["progress-bar"]}
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+
+          <button
+            type="button"
+            className={styles["icon-button"]}
+            data-action="next"
+            onClick={() => goToSpread(1)}
+            aria-label="Next spread"
+            disabled={page >= bookPages.length}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m8.5 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
     </main>
   );
 };
