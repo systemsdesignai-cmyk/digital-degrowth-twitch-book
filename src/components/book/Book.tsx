@@ -73,10 +73,23 @@ pageGeometry.setAttribute(
   new Float32BufferAttribute(skinWeights, 4)
 );
 
-const whiteColor = new Color("white");
-const emissiveColor = new Color("#8a6a43");
 const pageEdgeColor = new Color("#f3efe6");
 const spineEdgeColor = new Color("#090d0a");
+const pagePaperColor = new Color("#ffffff");
+const pageHighlightEmissive = new Color("#8a6a43");
+
+const createPageFaceMaterial = (texture: Texture) => {
+  texture.anisotropy = 8;
+  return new MeshStandardMaterial({
+    map: texture,
+    color: pagePaperColor,
+    roughness: 0.92,
+    metalness: 0,
+    envMapIntensity: 0.08,
+    emissive: pageHighlightEmissive,
+    emissiveIntensity: 0,
+  });
+};
 
 const createPageEdgeMaterials = (isCoverPage: boolean) => [
   new MeshStandardMaterial({ color: pageEdgeColor, roughness: 0.35 }),
@@ -91,7 +104,6 @@ const createPageEdgeMaterials = (isCoverPage: boolean) => [
   new MeshStandardMaterial({ color: "#ebe6dc", roughness: 0.35 }),
 ];
 
-useTexture.preload("/textures/book-cover-roughness.webp");
 useTexture.preload(BOOK_COVER_SIDE);
 useLoader.preload(PageTextureLoader, ALL_PAGE_URLS);
 
@@ -115,7 +127,6 @@ const Page = ({
 }: PageProps) => {
   const picture = frontTexture;
   const picture2 = backTexture;
-  const [pictureRoughness] = useTexture(["/textures/book-cover-roughness.webp"]);
 
   const group = useRef<Group>(null);
   const turnedAt = useRef(0);
@@ -140,24 +151,8 @@ const Page = ({
 
     const materials = [
       ...createPageEdgeMaterials(number === 0 || number === bookPages.length - 1),
-      new MeshStandardMaterial({
-        color: whiteColor,
-        map: picture,
-        ...(number === 0
-          ? { roughnessMap: pictureRoughness }
-          : { roughness: 0.1 }),
-        emissive: emissiveColor,
-        emissiveIntensity: 0,
-      }),
-      new MeshStandardMaterial({
-        color: whiteColor,
-        map: picture2,
-        ...(number === bookPages.length - 1
-          ? { roughnessMap: pictureRoughness }
-          : { roughness: 0.1 }),
-        emissive: emissiveColor,
-        emissiveIntensity: 0,
-      }),
+      createPageFaceMaterial(picture),
+      createPageFaceMaterial(picture2),
     ];
     const mesh = new SkinnedMesh(pageGeometry, materials);
     mesh.castShadow = true;
@@ -166,13 +161,15 @@ const Page = ({
     mesh.add(skeleton.bones[0]);
     mesh.bind(skeleton);
     return mesh;
-  }, [backTexture, frontTexture, number, pictureRoughness]);
+  }, [backTexture, frontTexture, number]);
 
   useEffect(() => {
     const mesh = skinnedMeshRef.current;
     if (!mesh) return;
 
     const materials = mesh.material as MeshStandardMaterial[];
+    frontTexture.anisotropy = 8;
+    backTexture.anisotropy = 8;
     materials[4].map = frontTexture;
     materials[4].needsUpdate = true;
     materials[5].map = backTexture;
