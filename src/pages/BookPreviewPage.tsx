@@ -4,6 +4,8 @@ import { Loader } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { useAtom } from "jotai";
+import { motion, useReducedMotion } from "framer-motion";
+import { X } from "lucide-react";
 import { bookPages, PDF_PAGE_COUNT } from "@/components/book/bookPages";
 import { BookExperience } from "@/components/book/Experience";
 import { pageAtom } from "@/components/book/bookState";
@@ -21,6 +23,62 @@ const getPageLabel = (page: number) => {
   }
 
   return `Pages ${startPdf}–${endPdf} of ${PDF_PAGE_COUNT}`;
+};
+
+const MotionLink = motion.create(Link);
+
+const ExitPreviewLink = () => {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <MotionLink
+      to="/"
+      className={styles["exit-preview-link"]}
+      aria-label="Exit preview and return home"
+      initial={prefersReducedMotion ? false : { opacity: 0, x: 16 }}
+      animate="rest"
+      variants={
+        prefersReducedMotion
+          ? undefined
+          : {
+              rest: { opacity: 1, x: 0, scale: 1 },
+              hover: { scale: 1.03 },
+              tap: { scale: 0.97 },
+            }
+      }
+      whileHover={prefersReducedMotion ? undefined : "hover"}
+      whileTap={prefersReducedMotion ? undefined : "tap"}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.span
+        className={styles["exit-preview-link__icon"]}
+        aria-hidden="true"
+        variants={
+          prefersReducedMotion
+            ? undefined
+            : {
+                rest: { rotate: 0, scale: 1 },
+                hover: { rotate: 90, scale: 1.08 },
+              }
+        }
+      >
+        <X size={15} strokeWidth={2.4} />
+      </motion.span>
+      <motion.span
+        className={styles["exit-preview-link__label"]}
+        variants={
+          prefersReducedMotion
+            ? undefined
+            : {
+                rest: { x: 0 },
+                hover: { x: -2 },
+              }
+        }
+      >
+        Exit Preview
+      </motion.span>
+    </MotionLink>
+  );
 };
 
 export const BookPreviewPage = () => {
@@ -155,7 +213,7 @@ export const BookPreviewPage = () => {
               <span>Degrowth</span>
             </Link>
             <div className={styles["nav-actions"]}>
-              <Link to="/">Exit Preview</Link>
+              <ExitPreviewLink />
             </div>
           </nav>
 
