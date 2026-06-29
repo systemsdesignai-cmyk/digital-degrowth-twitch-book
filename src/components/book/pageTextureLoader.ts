@@ -103,8 +103,8 @@ export const reframePageContent = (sourceCanvas: HTMLCanvasElement): HTMLCanvasE
   context.fillStyle = PAPER_COLOR;
   context.fillRect(0, 0, output.width, output.height);
 
-  const maxWidth = RENDER_WIDTH * 0.88;
-  const maxHeight = RENDER_HEIGHT * 0.88;
+  const maxWidth = RENDER_WIDTH * 0.92;
+  const maxHeight = RENDER_HEIGHT * 0.92;
 
   if (!bounds) {
     drawCanvasContained(context, sourceCanvas, maxWidth, maxHeight);
@@ -190,9 +190,13 @@ export const darkenPageInk = (
 ) => {
   const imageData = context.getImageData(0, 0, width, height);
   const data = imageData.data;
-  const paperThreshold = 242;
-  const minInkLuminance = 15;
-  const inkCurve = 0.25;
+  const paperThreshold = 248;
+  const inkInputMax = 225;
+  const minInkLuminance = 10;
+  const maxInkLuminance = 36;
+  const paperRed = 255;
+  const paperGreen = 253;
+  const paperBlue = 249;
 
   for (let index = 0; index < data.length; index += 4) {
     const red = data[index];
@@ -200,13 +204,24 @@ export const darkenPageInk = (
     const blue = data[index + 2];
     const luminance = getLuminance(red, green, blue);
 
-    if (luminance >= paperThreshold) continue;
+    if (luminance >= paperThreshold) {
+      data[index] = paperRed;
+      data[index + 1] = paperGreen;
+      data[index + 2] = paperBlue;
+      continue;
+    }
 
-    const inkCoverage = Math.pow(1 - luminance / 255, inkCurve);
-    const newLuminance = Math.max(
-      minInkLuminance,
-      255 - inkCoverage * (255 - minInkLuminance)
-    );
+    if (luminance >= inkInputMax) {
+      const blend = (luminance - inkInputMax) / (paperThreshold - inkInputMax);
+      data[index] = Math.round(paperRed * blend + red * (1 - blend));
+      data[index + 1] = Math.round(paperGreen * blend + green * (1 - blend));
+      data[index + 2] = Math.round(paperBlue * blend + blue * (1 - blend));
+      continue;
+    }
+
+    const inkAmount = 1 - luminance / inkInputMax;
+    const newLuminance =
+      maxInkLuminance - inkAmount * inkAmount * (maxInkLuminance - minInkLuminance);
     const ratio = newLuminance / Math.max(luminance, 1);
 
     data[index] = Math.round(Math.min(255, red * ratio));

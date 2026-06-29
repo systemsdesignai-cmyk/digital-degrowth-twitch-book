@@ -128,7 +128,7 @@ export const BookPreviewPage = () => {
         <Loader />
         <Canvas
           shadows
-          gl={{ alpha: true, antialias: true, toneMappingExposure: 0.95 }}
+          gl={{ alpha: true, antialias: true, toneMappingExposure: 0.88 }}
           camera={{
             position: [-0.5, 1, window.innerWidth > 800 ? 4 : 7],
             fov: 45,

@@ -11,13 +11,7 @@ export const PDF_PAGE_COUNT = 14;
 
 export const PDF_PAGES = Array.from(
   { length: PDF_PAGE_COUNT },
-  (_, index) => {
-    const pageNumber = index + 1;
-    if (pageNumber === 11) {
-      return "/assets/dd-pages/11.jpg";
-    }
-    return `/assets/dd-pages/${pageNumber}.pdf`;
-  }
+  (_, index) => `/assets/dd-pages/${index + 1}.pdf`
 );
 
 export const bookPages: BookPageTextures[] = (() => {

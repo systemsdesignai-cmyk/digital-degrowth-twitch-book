@@ -75,19 +75,12 @@ pageGeometry.setAttribute(
 
 const pageEdgeColor = new Color("#f3efe6");
 const spineEdgeColor = new Color("#090d0a");
-const pagePaperColor = new Color("#ffffff");
-const pageHighlightEmissive = new Color("#8a6a43");
 
 const createPageFaceMaterial = (texture: Texture) => {
   texture.anisotropy = 8;
-  return new MeshStandardMaterial({
+  return new MeshBasicMaterial({
     map: texture,
-    color: pagePaperColor,
-    roughness: 0.92,
-    metalness: 0,
-    envMapIntensity: 0.08,
-    emissive: pageHighlightEmissive,
-    emissiveIntensity: 0,
+    toneMapped: false,
   });
 };
 
@@ -167,7 +160,7 @@ const Page = ({
     const mesh = skinnedMeshRef.current;
     if (!mesh) return;
 
-    const materials = mesh.material as MeshStandardMaterial[];
+    const materials = mesh.material as MeshBasicMaterial[];
     frontTexture.anisotropy = 8;
     backTexture.anisotropy = 8;
     materials[4].map = frontTexture;
@@ -180,14 +173,6 @@ const Page = ({
     if (!skinnedMeshRef.current || !group.current) {
       return;
     }
-
-    const emissiveIntensity = highlighted ? 0.22 : 0;
-    skinnedMeshRef.current.material[4].emissiveIntensity =
-      skinnedMeshRef.current.material[5].emissiveIntensity = MathUtils.lerp(
-        skinnedMeshRef.current.material[4].emissiveIntensity,
-        emissiveIntensity,
-        0.1
-      );
 
     if (lastOpened.current !== opened) {
       turnedAt.current = +new Date();
