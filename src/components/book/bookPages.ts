@@ -1,6 +1,3 @@
-import { spreads } from "@/data/spreads";
-import { createContentPageTexture } from "@/components/book/pageTextures";
-
 export interface BookPageTextures {
   front: string;
   back: string;
@@ -10,30 +7,42 @@ export const BOOK_COVER_FRONT = "/assets/book-cover/front.webp";
 export const BOOK_COVER_BACK = "/assets/book-cover/back.webp";
 export const BOOK_COVER_SIDE = "/assets/book-cover/side.webp";
 
-const contentTextures = spreads.flatMap((spread) => [
-  createContentPageTexture(spread.left),
-  createContentPageTexture(spread.right),
-]);
+export const PDF_PAGE_COUNT = 14;
+
+export const PDF_PAGES = Array.from(
+  { length: PDF_PAGE_COUNT },
+  (_, index) => {
+    const pageNumber = index + 1;
+    if (pageNumber === 11) {
+      return "/assets/dd-pages/11.jpg";
+    }
+    return `/assets/dd-pages/${pageNumber}.pdf`;
+  }
+);
 
 export const bookPages: BookPageTextures[] = (() => {
   const pages: BookPageTextures[] = [
     {
       front: BOOK_COVER_FRONT,
-      back: contentTextures[0],
+      back: PDF_PAGES[0],
     },
   ];
 
-  for (let index = 1; index < contentTextures.length - 1; index += 2) {
+  for (let index = 1; index < PDF_PAGES.length - 1; index += 2) {
     pages.push({
-      front: contentTextures[index],
-      back: contentTextures[index + 1],
+      front: PDF_PAGES[index],
+      back: PDF_PAGES[index + 1],
     });
   }
 
   pages.push({
-    front: contentTextures[contentTextures.length - 1],
+    front: PDF_PAGES[PDF_PAGES.length - 1],
     back: BOOK_COVER_BACK,
   });
 
   return pages;
 })();
+
+export const ALL_PAGE_URLS = [
+  ...new Set(bookPages.flatMap((page) => [page.front, page.back])),
+];

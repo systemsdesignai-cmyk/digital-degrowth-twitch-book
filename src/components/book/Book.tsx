@@ -1,7 +1,8 @@
-import { BOOK_COVER_BACK, BOOK_COVER_FRONT, BOOK_COVER_SIDE, bookPages } from "@/components/book/bookPages";
+import { ALL_PAGE_URLS, BOOK_COVER_SIDE, bookPages } from "@/components/book/bookPages";
 import { pageAtom } from "@/components/book/bookState";
+import { PageTextureLoader } from "@/components/book/pageTextureLoader";
 import { useCursor, useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import { easing } from "maath";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -18,6 +19,7 @@ import {
   Skeleton,
   SkinnedMesh,
   SRGBColorSpace,
+  Texture,
   Uint16BufferAttribute,
   Vector3,
 } from "three";
@@ -90,14 +92,13 @@ const createPageEdgeMaterials = (isCoverPage: boolean) => [
 ];
 
 useTexture.preload("/textures/book-cover-roughness.webp");
-useTexture.preload(BOOK_COVER_FRONT);
-useTexture.preload(BOOK_COVER_BACK);
 useTexture.preload(BOOK_COVER_SIDE);
+useLoader.preload(PageTextureLoader, ALL_PAGE_URLS);
 
 interface PageProps {
   number: number;
-  front: string;
-  back: string;
+  frontTexture: Texture;
+  backTexture: Texture;
   page: number;
   opened: boolean;
   bookClosed: boolean;
@@ -105,21 +106,16 @@ interface PageProps {
 
 const Page = ({
   number,
-  front,
-  back,
+  frontTexture,
+  backTexture,
   page,
   opened,
   bookClosed,
   ...props
 }: PageProps) => {
-  const [picture, picture2, pictureRoughness] = useTexture([
-    front,
-    back,
-    ...(number === 0 || number === bookPages.length - 1
-      ? ["/textures/book-cover-roughness.webp"]
-      : []),
-  ]);
-  picture.colorSpace = picture2.colorSpace = SRGBColorSpace;
+  const picture = frontTexture;
+  const picture2 = backTexture;
+  const [pictureRoughness] = useTexture(["/textures/book-cover-roughness.webp"]);
 
   const group = useRef<Group>(null);
   const turnedAt = useRef(0);
@@ -170,7 +166,18 @@ const Page = ({
     mesh.add(skeleton.bones[0]);
     mesh.bind(skeleton);
     return mesh;
-  }, []);
+  }, [backTexture, frontTexture, number, pictureRoughness]);
+
+  useEffect(() => {
+    const mesh = skinnedMeshRef.current;
+    if (!mesh) return;
+
+    const materials = mesh.material as MeshStandardMaterial[];
+    materials[4].map = frontTexture;
+    materials[4].needsUpdate = true;
+    materials[5].map = backTexture;
+    materials[5].needsUpdate = true;
+  }, [backTexture, frontTexture]);
 
   useFrame((_, delta) => {
     if (!skinnedMeshRef.current || !group.current) {
@@ -311,6 +318,15 @@ const BookSpine = ({ activePage }: { activePage: number }) => {
 export const Book = (props: JSX.IntrinsicElements["group"]) => {
   const [page] = useAtom(pageAtom);
   const [delayedPage, setDelayedPage] = useState(page);
+  const loadedTextures = useLoader(PageTextureLoader, ALL_PAGE_URLS);
+
+  const textureByUrl = useMemo(() => {
+    const map = new Map<string, Texture>();
+    ALL_PAGE_URLS.forEach((url, index) => {
+      map.set(url, loadedTextures[index]);
+    });
+    return map;
+  }, [loadedTextures]);
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
@@ -352,7 +368,8 @@ export const Book = (props: JSX.IntrinsicElements["group"]) => {
           number={index}
           opened={delayedPage > index}
           bookClosed={delayedPage === 0 || delayedPage === bookPages.length}
-          {...pageData}
+          frontTexture={textureByUrl.get(pageData.front)!}
+          backTexture={textureByUrl.get(pageData.back)!}
         />
       ))}
       <BookSpine activePage={delayedPage} />

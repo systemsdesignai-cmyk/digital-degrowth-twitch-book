@@ -4,16 +4,23 @@ import { Loader } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { useAtom } from "jotai";
-import { spreads } from "@/data/spreads";
-import { bookPages } from "@/components/book/bookPages";
+import { bookPages, PDF_PAGE_COUNT } from "@/components/book/bookPages";
 import { BookExperience } from "@/components/book/Experience";
 import { pageAtom } from "@/components/book/bookState";
 import styles from "./BookPreviewPage.module.css";
 
-const getSpreadIndex = (page: number) => {
-  if (page <= 0) return 0;
-  if (page >= bookPages.length) return spreads.length - 1;
-  return page - 1;
+const getPageLabel = (page: number) => {
+  if (page <= 0) return "Cover";
+  if (page >= bookPages.length) return "Back Cover";
+
+  const startPdf = page * 2 - 1;
+  const endPdf = Math.min(page * 2, PDF_PAGE_COUNT);
+
+  if (startPdf === endPdf) {
+    return `Page ${startPdf} of ${PDF_PAGE_COUNT}`;
+  }
+
+  return `Pages ${startPdf}–${endPdf} of ${PDF_PAGE_COUNT}`;
 };
 
 export const BookPreviewPage = () => {
@@ -51,10 +58,7 @@ export const BookPreviewPage = () => {
     };
   }, []);
 
-  const activeSpread = getSpreadIndex(page);
-  const currentSpread = spreads[activeSpread];
-  const totalSpreads = spreads.length;
-  const progressPercent = ((activeSpread + 1) / totalSpreads) * 100;
+  const progressPercent = (page / bookPages.length) * 100;
 
   const goToSpread = useCallback(
     (direction: number) => {
@@ -107,12 +111,7 @@ export const BookPreviewPage = () => {
     touchStartY.current = null;
   };
 
-  const chapterLabel =
-    page === 0
-      ? "Cover"
-      : page >= bookPages.length
-        ? "Back Cover"
-        : currentSpread.chapter;
+  const pageLabel = getPageLabel(page);
 
   return (
     <main
@@ -161,14 +160,8 @@ export const BookPreviewPage = () => {
           </nav>
 
           <div className={styles["book-meta"]} aria-live="polite">
-            <span id="page-label">
-              {page === 0
-                ? "Cover"
-                : page >= bookPages.length
-                  ? "Back Cover"
-                  : `Spread ${activeSpread + 1} of ${totalSpreads}`}
-            </span>
-            <span id="chapter-label">{chapterLabel}</span>
+            <span id="page-label">{pageLabel}</span>
+            <span id="chapter-label">Digital Degrowth</span>
           </div>
         </div>
 
@@ -178,7 +171,7 @@ export const BookPreviewPage = () => {
             className={styles["icon-button"]}
             data-action="prev"
             onClick={() => goToSpread(-1)}
-            aria-label="Previous spread"
+            aria-label="Previous page"
             disabled={page <= 0}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -198,7 +191,7 @@ export const BookPreviewPage = () => {
             className={styles["icon-button"]}
             data-action="next"
             onClick={() => goToSpread(1)}
-            aria-label="Next spread"
+            aria-label="Next page"
             disabled={page >= bookPages.length}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
