@@ -1,8 +1,16 @@
-import { ALL_PAGE_URLS, BOOK_COVER_SIDE, bookPages } from "@/components/book/bookPages";
+import {
+  ALL_PAGE_URLS,
+  BOOK_COVER_SIDE,
+  COVER_BOOK_URLS,
+  bookPages,
+  getStaticBookPageTextures,
+} from "@/components/book/bookPages";
+import type { BookPageTextures } from "@/components/book/bookPages";
 import { pageAtom } from "@/components/book/bookState";
 import { PageTextureLoader } from "@/components/book/pageTextureLoader";
 import { useCursor, useTexture } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
+import type { ThreeElements } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import { easing } from "maath";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -13,7 +21,6 @@ import {
   Color,
   Float32BufferAttribute,
   Group,
-  MathUtils,
   MeshBasicMaterial,
   MeshStandardMaterial,
   Skeleton,
@@ -107,6 +114,7 @@ interface PageProps {
   page: number;
   opened: boolean;
   bookClosed: boolean;
+  interactive: boolean;
 }
 
 const Page = ({
@@ -116,6 +124,7 @@ const Page = ({
   page,
   opened,
   bookClosed,
+  interactive,
   ...props
 }: PageProps) => {
   const picture = frontTexture;
@@ -232,36 +241,56 @@ const Page = ({
 
   const [, setPage] = useAtom(pageAtom);
   const [highlighted, setHighlighted] = useState(false);
-  useCursor(highlighted);
+  useCursor(interactive && highlighted);
 
   return (
     <group
       {...props}
       ref={group}
-      onPointerEnter={(event) => {
-        event.stopPropagation();
-        setHighlighted(true);
-      }}
-      onPointerLeave={(event) => {
-        event.stopPropagation();
-        setHighlighted(false);
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        setPage(opened ? number : number + 1);
-        setHighlighted(false);
-      }}
+      raycast={interactive ? undefined : () => null}
+      onPointerEnter={
+        interactive
+          ? (event) => {
+              event.stopPropagation();
+              setHighlighted(true);
+            }
+          : undefined
+      }
+      onPointerLeave={
+        interactive
+          ? (event) => {
+              event.stopPropagation();
+              setHighlighted(false);
+            }
+          : undefined
+      }
+      onClick={
+        interactive
+          ? (event) => {
+              event.stopPropagation();
+              setPage(opened ? number : number + 1);
+              setHighlighted(false);
+            }
+          : undefined
+      }
     >
       <primitive
         object={manualSkinnedMesh}
         ref={skinnedMeshRef}
         position-z={-number * PAGE_DEPTH + page * PAGE_DEPTH}
+        raycast={interactive ? undefined : () => null}
       />
     </group>
   );
 };
 
-const BookSpine = ({ activePage }: { activePage: number }) => {
+const BookSpine = ({
+  activePage,
+  interactive = true,
+}: {
+  activePage: number;
+  interactive?: boolean;
+}) => {
   const sideTexture = useTexture(BOOK_COVER_SIDE);
 
   const stackCenterZ =
@@ -291,26 +320,46 @@ const BookSpine = ({ activePage }: { activePage: number }) => {
       receiveShadow
       renderOrder={10}
       material={spineMaterials}
+      raycast={interactive ? undefined : () => null}
     >
       <boxGeometry args={[BOOK_SPINE_THICKNESS, PAGE_HEIGHT, STACK_DEPTH]} />
     </mesh>
   );
 };
 
-export const Book = (props: JSX.IntrinsicElements["group"]) => {
-  const [page] = useAtom(pageAtom);
+export type BookProps = ThreeElements["group"] & {
+  interactive?: boolean;
+  fixedPage?: number;
+  textureUrls?: string[];
+  pageTextureData?: BookPageTextures[];
+};
+
+export const Book = ({
+  interactive = true,
+  fixedPage = 0,
+  textureUrls = ALL_PAGE_URLS,
+  pageTextureData = bookPages,
+  ...props
+}: BookProps) => {
+  const [pageFromAtom] = useAtom(pageAtom);
+  const page = interactive ? pageFromAtom : fixedPage;
   const [delayedPage, setDelayedPage] = useState(page);
-  const loadedTextures = useLoader(PageTextureLoader, ALL_PAGE_URLS);
+  const loadedTextures = useLoader(PageTextureLoader, textureUrls);
 
   const textureByUrl = useMemo(() => {
     const map = new Map<string, Texture>();
-    ALL_PAGE_URLS.forEach((url, index) => {
+    textureUrls.forEach((url, index) => {
       map.set(url, loadedTextures[index]);
     });
     return map;
-  }, [loadedTextures]);
+  }, [loadedTextures, textureUrls]);
 
   useEffect(() => {
+    if (!interactive) {
+      setDelayedPage(fixedPage);
+      return;
+    }
+
     let timeout: ReturnType<typeof setTimeout>;
     const goToPage = () => {
       setDelayedPage((currentDelayedPage) => {
@@ -339,22 +388,37 @@ export const Book = (props: JSX.IntrinsicElements["group"]) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [page]);
+  }, [fixedPage, interactive, page]);
+
+  const activePage = interactive ? delayedPage : fixedPage;
 
   return (
     <group {...props} rotation-y={-Math.PI / 2}>
-      {bookPages.map((pageData, index) => (
+      {pageTextureData.map((pageData, index) => (
         <Page
           key={index}
-          page={delayedPage}
+          page={activePage}
           number={index}
-          opened={delayedPage > index}
-          bookClosed={delayedPage === 0 || delayedPage === bookPages.length}
+          opened={activePage > index}
+          bookClosed={activePage === 0 || activePage === bookPages.length}
+          interactive={interactive}
           frontTexture={textureByUrl.get(pageData.front)!}
           backTexture={textureByUrl.get(pageData.back)!}
         />
       ))}
-      <BookSpine activePage={delayedPage} />
+      <BookSpine activePage={activePage} interactive={interactive} />
     </group>
   );
 };
+
+export const StaticBook = (
+  props: Omit<BookProps, "interactive" | "fixedPage">
+) => (
+  <Book
+    {...props}
+    interactive={false}
+    fixedPage={0}
+    textureUrls={props.textureUrls ?? COVER_BOOK_URLS}
+    pageTextureData={props.pageTextureData ?? getStaticBookPageTextures()}
+  />
+);

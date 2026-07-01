@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BuySection } from "@/components/common/BuySection";
+import { HeroBookCanvas } from "@/components/book/HeroBookCanvas";
 import { SEO } from "@/components/common/SEO";
 import { useArticles } from "@/hooks/useArticles";
 import { useCitations } from "@/hooks/useCitations";
@@ -113,11 +114,7 @@ export const HomePage = () => {
           </div>
 
           <div className="flex flex-col items-center gap-8">
-            <img
-              src="/assets/book_logo.png"
-              alt="Digital Degrowth Book Cover"
-              className="book-cover w-64 h-96 md:w-80 md:h-[480px] justify-self-center"
-            />
+            <HeroBookCanvas className="w-72 h-[26rem] md:w-96 md:h-[540px] justify-self-center" />
             <div className="md:hidden w-full">
               <BuySection />
             </div>

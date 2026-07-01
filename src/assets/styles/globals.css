@@ -431,6 +431,26 @@
     filter: drop-shadow(0 28px 32px rgba(23, 36, 54, 0.22));
   }
 
+  .book-cover-3d {
+    position: relative;
+    overflow: visible;
+    touch-action: none;
+    cursor: default;
+    filter: drop-shadow(0 24px 28px rgba(23, 36, 54, 0.18));
+    transition: filter 300ms ease;
+  }
+
+  .book-cover-3d:hover {
+    filter: drop-shadow(0 28px 32px rgba(23, 36, 54, 0.22));
+  }
+
+  .book-cover-3d canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+  }
+
   .blog-mini-note {
     @apply inline-flex flex-col rounded-xl px-4 py-3;
     min-width: 13rem;

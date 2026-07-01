@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -9,6 +9,7 @@ import { X } from "lucide-react";
 import { bookPages, PDF_PAGE_COUNT } from "@/components/book/bookPages";
 import { BookExperience } from "@/components/book/Experience";
 import { pageAtom } from "@/components/book/bookState";
+import { usePageFlipSound } from "@/components/book/usePageFlipSound";
 import styles from "./BookPreviewPage.module.css";
 
 const getPageLabel = (page: number) => {
@@ -83,11 +84,16 @@ const ExitPreviewLink = () => {
 
 export const BookPreviewPage = () => {
   const [page, setPage] = useAtom(pageAtom);
+  const [pageFlipAudioReady, setPageFlipAudioReady] = useState(false);
+
+  usePageFlipSound(page, pageFlipAudioReady);
 
   useEffect(() => {
     setPage(0);
+    setPageFlipAudioReady(true);
     return () => {
       setPage(0);
+      setPageFlipAudioReady(false);
     };
   }, [setPage]);
 
